@@ -36,6 +36,12 @@ import {
   healthFitnessProcess,
   homeActivityProcess
 } from './HomeAutomationModel';
+import {
+  corporateTaxPlanningProcess,
+  individualTaxPlanningProcess,
+  automatedTaxFilingProcess,
+  taxComplianceMonitoringProcess
+} from './TaxPlanningModel';
 import { Logger } from '../utils/Logger';
 
 export enum BusinessDomain {
@@ -43,7 +49,8 @@ export enum BusinessDomain {
   FINANCE = 'finance',
   OPERATIONS = 'operations',
   HR = 'human_resources',
-  HOME_AUTOMATION = 'home_automation'
+  HOME_AUTOMATION = 'home_automation',
+  TAX_PLANNING = 'tax_planning'
 }
 
 export enum SalesProcessType {
@@ -79,6 +86,13 @@ export enum HomeAutomationProcessType {
   HOME_FINANCE = 'home-finance-process',
   HEALTH_FITNESS = 'health-fitness-process',
   HOME_ACTIVITY = 'home-activity-process'
+}
+
+export enum TaxPlanningProcessType {
+  CORPORATE_TAX_PLANNING = 'corporate-tax-planning-process',
+  INDIVIDUAL_TAX_PLANNING = 'individual-tax-planning-process',
+  AUTOMATED_TAX_FILING = 'automated-tax-filing-process',
+  TAX_COMPLIANCE_MONITORING = 'tax-compliance-monitoring-process'
 }
 
 export interface BusinessProcessExecutionOptions {
@@ -136,6 +150,13 @@ export class BusinessProcessManager {
           homeFinanceProcess,
           healthFitnessProcess,
           homeActivityProcess
+        ];
+      case BusinessDomain.TAX_PLANNING:
+        return [
+          corporateTaxPlanningProcess,
+          individualTaxPlanningProcess,
+          automatedTaxFilingProcess,
+          taxComplianceMonitoringProcess
         ];
       default:
         return [];
@@ -343,6 +364,47 @@ export class BusinessProcessManager {
       return await this.workflowEngine.execute(processDefinition, options.inputData || {}, allTools);
     } catch (error) {
       Logger.error(`Error executing home automation process ${processType}`, { error: (error as Error).message, processId: options.processId });
+      throw error;
+    }
+  }
+
+  /**
+   * Execute tax planning business process
+   */
+  public async executeTaxPlanningProcess(
+    processType: TaxPlanningProcessType,
+    options: BusinessProcessExecutionOptions
+  ): Promise<any> {
+    try {
+      Logger.info(`Executing tax planning process: ${processType}`, { processId: options.processId });
+      
+      let processDefinition;
+      switch (processType) {
+        case TaxPlanningProcessType.CORPORATE_TAX_PLANNING:
+          processDefinition = corporateTaxPlanningProcess;
+          break;
+        case TaxPlanningProcessType.INDIVIDUAL_TAX_PLANNING:
+          processDefinition = individualTaxPlanningProcess;
+          break;
+        case TaxPlanningProcessType.AUTOMATED_TAX_FILING:
+          processDefinition = automatedTaxFilingProcess;
+          break;
+        case TaxPlanningProcessType.TAX_COMPLIANCE_MONITORING:
+          processDefinition = taxComplianceMonitoringProcess;
+          break;
+        default:
+          throw new Error(`Unknown tax planning process type: ${processType}`);
+      }
+
+      // Get all available tools from skill manager
+      const allTools = new Map<string, any>();
+      this.skillManager.getAllTools().forEach(tool => {
+        allTools.set(tool.name, tool);
+      });
+      
+      return await this.workflowEngine.execute(processDefinition, options.inputData || {}, allTools);
+    } catch (error) {
+      Logger.error(`Error executing tax planning process ${processType}`, { error: (error as Error).message, processId: options.processId });
       throw error;
     }
   }

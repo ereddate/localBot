@@ -160,6 +160,9 @@ import { CalendarEventTool } from './CalendarEventTool';
 import { ReminderTodoTool } from './ReminderTodoTool';
 import { ImageProcessingTool } from './ImageProcessingTool';
 import { AudioProcessingTool } from './AudioProcessingTool';
+import { TaxCalculationTool } from './TaxCalculationTool';
+import { TaxSoftwareIntegrationTool } from './TaxSoftwareIntegrationTool';
+import { IRSEfileSystemTool } from './IRSEfileSystemTool';
 
 export class SkillManager {
   private skills: Map<string, Skill> = new Map();
@@ -899,6 +902,44 @@ export class SkillManager {
     this.registerSkill(reminderTodoSkill);
     this.registerSkill(imageProcessingSkill);
     this.registerSkill(audioProcessingSkill);
+    
+    // Register tax-related tools
+    const taxCalculationTool = new TaxCalculationTool();
+    const taxSoftwareIntegrationTool = new TaxSoftwareIntegrationTool();
+    const irsEfileSystemTool = new IRSEfileSystemTool();
+    
+    this.registerTool(taxCalculationTool);
+    this.registerTool(taxSoftwareIntegrationTool);
+    this.registerTool(irsEfileSystemTool);
+    
+    // Tax-related skills
+    const taxCalculationSkill: Skill = {
+      name: 'tax-calculation-tools',
+      description: 'Tax calculation and planning tools for individuals and businesses',
+      tools: [taxCalculationTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const taxSoftwareSkill: Skill = {
+      name: 'tax-software-tools',
+      description: 'Tax software integration tools for preparing and filing returns',
+      tools: [taxSoftwareIntegrationTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const irsEfileSkill: Skill = {
+      name: 'irs-efile-tools',
+      description: 'IRS electronic filing system integration tools',
+      tools: [irsEfileSystemTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    this.registerSkill(taxCalculationSkill);
+    this.registerSkill(taxSoftwareSkill);
+    this.registerSkill(irsEfileSkill);
   }
 
   registerTool(tool: Tool): void {
