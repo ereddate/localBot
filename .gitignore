@@ -1,4 +1,10 @@
 node_modules/
+# 忽略数据目录，因为这些是动态生成的数据文件
+data/
+# 忽略会话文件
+sessions/
+# 忽略内存文件
+memory/
 dist/
 .env
 *.log
