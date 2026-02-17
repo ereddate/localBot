@@ -2,6 +2,7 @@ import { Tool, ToolResult } from '../types';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 import { Logger } from '../utils/Logger';
+import { ConsoleLogger } from '../utils/ConsoleLogger';
 
 export class FileTool implements Tool {
   name = 'file_read';
@@ -10,6 +11,7 @@ export class FileTool implements Tool {
 
   async execute(params: Record<string, unknown>): Promise<ToolResult> {
     try {
+      ConsoleLogger.logSkillCall(this.name, params);
       const filePath = params.filePath as string;
       if (!filePath) {
         return { success: false, error: 'filePath is required' };
@@ -17,8 +19,10 @@ export class FileTool implements Tool {
 
       Logger.info(`Reading file: ${filePath}`);
       const content = await fs.readFile(filePath, 'utf-8');
+      ConsoleLogger.logSkillSuccess(this.name, { fileSize: content.length });
       return { success: true, data: content };
     } catch (error) {
+      ConsoleLogger.logSkillError(this.name, (error as Error).message);
       Logger.error(`Error reading file`, { error: (error as Error).message });
       return { success: false, error: (error as Error).message };
     }

@@ -171,6 +171,7 @@ export class BusinessProcessManager {
     options: BusinessProcessExecutionOptions
   ): Promise<any> {
     try {
+      console.log(`🔄 开始执行销售流程: ${processType}`);
       Logger.info(`Executing sales process: ${processType}`, { processId: options.processId });
       
       let processDefinition;
@@ -192,10 +193,16 @@ export class BusinessProcessManager {
       const allTools = new Map<string, any>();
       this.skillManager.getAllTools().forEach(tool => {
         allTools.set(tool.name, tool);
+        console.log(`🔧 注册工具: ${tool.name} (${tool.category})`);
       });
       
-      return await this.workflowEngine.execute(processDefinition, options.inputData || {}, allTools);
+      console.log(`🚀 启动工作流执行: ${processDefinition.name}`);
+      const result = await this.workflowEngine.execute(processDefinition, options.inputData || {}, allTools);
+      console.log(`✅ 销售流程完成: ${processType}`);
+      
+      return result;
     } catch (error) {
+      console.log(`💥 销售流程执行失败: ${processType}`, { error: (error as Error).message });
       Logger.error(`Error executing sales process ${processType}`, { error: (error as Error).message, processId: options.processId });
       throw error;
     }
@@ -416,12 +423,16 @@ export class BusinessProcessManager {
     requirement: string,
     options: BusinessProcessExecutionOptions
   ): Promise<any> {
+    console.log(`🤖 分析业务需求: "${requirement}"`);
+    Logger.info('Analyzing business requirement', { requirement });
+    
     // 简单的关键词匹配来确定业务领域和流程类型
     const requirementLower = requirement.toLowerCase();
     
     // 销售相关
     if (requirementLower.includes('sale') || requirementLower.includes('customer') || 
         requirementLower.includes('lead') || requirementLower.includes('opportunity')) {
+      console.log(`📊 匹配到销售相关需求，执行销售流程`);
       if (requirementLower.includes('develop') || requirementLower.includes('prospect')) {
         return await this.executeSalesProcess(SalesProcessType.CUSTOMER_DEVELOPMENT, options);
       } else if (requirementLower.includes('manage') || requirementLower.includes('opportunity')) {

@@ -1,6 +1,7 @@
 import { Tool, ToolResult } from '../types';
 import { MemorySystem } from '../memory/MemorySystem';
 import { Logger } from '../utils/Logger';
+import { ConsoleLogger } from '../utils/ConsoleLogger';
 
 export class MemoryTool implements Tool {
   name = 'memory_add';
@@ -14,6 +15,7 @@ export class MemoryTool implements Tool {
 
   async execute(params: Record<string, unknown>): Promise<ToolResult> {
     try {
+      ConsoleLogger.logSkillCall(this.name, params);
       const content = params.content as string;
       const tags = (params.tags as string[]) || [];
       const importance = (params.importance as number) || 1;
@@ -24,8 +26,10 @@ export class MemoryTool implements Tool {
 
       const entry = await this.memorySystem.addEntry(content, tags, importance);
       Logger.info(`Memory entry added`, { id: entry.id, tags });
+      ConsoleLogger.logSkillSuccess(this.name, { id: entry.id, tags });
       return { success: true, data: entry };
     } catch (error) {
+      ConsoleLogger.logSkillError(this.name, (error as Error).message);
       Logger.error(`Error adding memory`, { error: (error as Error).message });
       return { success: false, error: (error as Error).message };
     }

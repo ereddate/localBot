@@ -1,5 +1,6 @@
 import { Tool, ToolResult } from '../types';
 import { Logger } from '../utils/Logger';
+import { ConsoleLogger } from '../utils/ConsoleLogger';
 import * as fs from 'fs/promises';
 import * as path from 'path';
 
@@ -10,6 +11,7 @@ export class FinancialCalculatorTool implements Tool {
 
   async execute(params: Record<string, unknown>): Promise<ToolResult> {
     try {
+      ConsoleLogger.logSkillCall(this.name, params);
       const operation = params.operation as string;
       const principal = params.principal as number;
       const rate = params.rate as number;
@@ -26,31 +28,37 @@ export class FinancialCalculatorTool implements Tool {
           if (principal === undefined || rate === undefined || time === undefined) {
             return { success: false, error: 'principal, rate, and time are required for simple interest calculation' };
           }
+          console.log(`🧮 执行简单利息计算: P=${principal}, R=${rate}, T=${time}`);
           return this.calculateSimpleInterest(principal, rate, time);
         case 'compound_interest':
           if (principal === undefined || rate === undefined || time === undefined) {
             return { success: false, error: 'principal, rate, and time are required for compound interest calculation' };
           }
+          console.log(`🧮 执行复利计算: P=${principal}, R=${rate}, T=${time}`);
           return this.calculateCompoundInterest(principal, rate, time);
         case 'npv':
           if (!cashFlows || cashFlows.length === 0 || discountRate === undefined) {
             return { success: false, error: 'cashFlows array and discountRate are required for NPV calculation' };
           }
+          console.log(`🧮 执行净现值计算: CFs=[${cashFlows.slice(0, 3).join(', ')}${cashFlows.length > 3 ? '...' : ''}], DR=${discountRate}`);
           return this.calculateNPV(cashFlows, discountRate);
         case 'roi':
           if (principal === undefined || rate === undefined) {
             return { success: false, error: 'initialInvestment and finalValue are required for ROI calculation' };
           }
+          console.log(`🧮 执行投资回报率计算: IV=${principal}, FV=${rate}`);
           return this.calculateROI(principal, rate); // Note: using principal as initialInvestment and rate as finalValue for this case
         case 'future_value':
           if (principal === undefined || rate === undefined || time === undefined) {
             return { success: false, error: 'presentValue, rate, and time are required for future value calculation' };
           }
+          console.log(`🧮 执行终值计算: PV=${principal}, R=${rate}, T=${time}`);
           return this.calculateFutureValue(principal, rate, time);
         default:
           return { success: false, error: 'Invalid operation. Use: simple_interest, compound_interest, npv, roi, future_value' };
       }
     } catch (error) {
+      ConsoleLogger.logSkillError(this.name, (error as Error).message);
       Logger.error(`Financial calculation failed`, { error: (error as Error).message });
       return { success: false, error: (error as Error).message };
     }

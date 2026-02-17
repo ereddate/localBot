@@ -119,6 +119,8 @@ export class MultiAIRouter {
     let bestProvider = this.currentProvider;
     let bestScore = 0;
 
+    console.log(`🔄 选择AI提供商: 任务类型=${taskType}, 语言=${language}`);
+
     for (const [provider, config] of this.providers.entries()) {
       let score = 0;
 
@@ -146,6 +148,7 @@ export class MultiAIRouter {
       }
     }
 
+    console.log(`✅ 选择AI提供商: ${bestProvider} (分数: ${bestScore})`);
     return bestProvider;
   }
 

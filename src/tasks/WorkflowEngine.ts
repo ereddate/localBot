@@ -184,6 +184,7 @@ export class WorkflowEngine {
    */
   private async executeStep(step: WorkflowStep, execution: WorkflowExecution): Promise<{ success: boolean; result?: unknown; error?: string }> {
     try {
+      console.log(`🔄 执行工作流步骤: ${step.name} (${step.id}) [工作流: ${execution.workflowId}]`);
       Logger.info(`Executing workflow step: ${step.name}`, { 
         stepId: step.id, 
         workflowId: execution.workflowId 
@@ -192,12 +193,15 @@ export class WorkflowEngine {
       // Prepare parameters, potentially using values from context
       const preparedParams = this.prepareParameters(step.params, execution.context);
       
+      console.log(`🔧 调用工具: ${step.tool.name}`, { params: preparedParams });
       const result = await step.tool.execute(preparedParams);
+      console.log(`✅ 工具执行完成: ${step.tool.name}`, { success: result.success });
       
       if (result.success) {
         // Update context with result if needed
         this.updateContextWithResult(step.id, result.data, execution);
         
+        console.log(`✅ 工作流步骤完成: ${step.name} (${step.id})`);
         Logger.info(`Workflow step completed: ${step.name}`, { 
           stepId: step.id, 
           workflowId: execution.workflowId 
@@ -205,6 +209,7 @@ export class WorkflowEngine {
         
         return { success: true, result: result.data };
       } else {
+        console.log(`❌ 工作流步骤失败: ${step.name} (${step.id})`, { error: result.error });
         Logger.error(`Workflow step failed: ${step.name}`, { 
           stepId: step.id, 
           workflowId: execution.workflowId,
@@ -214,6 +219,7 @@ export class WorkflowEngine {
         return { success: false, error: result.error };
       }
     } catch (error) {
+      console.log(`💥 执行工作流步骤时发生错误: ${step.name} (${step.id})`, { error: (error as Error).message });
       Logger.error(`Error executing workflow step: ${step.name}`, { 
         stepId: step.id, 
         workflowId: execution.workflowId,
