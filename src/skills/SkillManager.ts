@@ -155,6 +155,11 @@ import { NewsAggregatorTool } from './NewsAggregatorTool';
 import { TranslationTool } from './TranslationTool';
 import { CalculatorTool } from './CalculatorTool';
 import { PasswordGeneratorTool } from './PasswordGeneratorTool';
+import { MapLocationTool } from './MapLocationTool';
+import { CalendarEventTool } from './CalendarEventTool';
+import { ReminderTodoTool } from './ReminderTodoTool';
+import { ImageProcessingTool } from './ImageProcessingTool';
+import { AudioProcessingTool } from './AudioProcessingTool';
 
 export class SkillManager {
   private skills: Map<string, Skill> = new Map();
@@ -834,6 +839,66 @@ export class SkillManager {
     this.registerSkill(translationSkill);
     this.registerSkill(calculatorSkill);
     this.registerSkill(passwordSkill);
+    
+    // Register additional utility tools
+    const mapLocationTool = new MapLocationTool();
+    const calendarEventTool = new CalendarEventTool();
+    const reminderTodoTool = new ReminderTodoTool();
+    const imageProcessingTool = new ImageProcessingTool();
+    const audioProcessingTool = new AudioProcessingTool();
+    
+    this.registerTool(mapLocationTool);
+    this.registerTool(calendarEventTool);
+    this.registerTool(reminderTodoTool);
+    this.registerTool(imageProcessingTool);
+    this.registerTool(audioProcessingTool);
+    
+    // Additional utility skills
+    const mapLocationSkill: Skill = {
+      name: 'map-location-tools',
+      description: 'Map and location services including geocoding, directions, and distance calculation',
+      tools: [mapLocationTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const calendarEventSkill: Skill = {
+      name: 'calendar-event-tools',
+      description: 'Calendar and event management tools for scheduling and organizing events',
+      tools: [calendarEventTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const reminderTodoSkill: Skill = {
+      name: 'reminder-todo-tools',
+      description: 'Reminder and to-do list management tools for task organization',
+      tools: [reminderTodoTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const imageProcessingSkill: Skill = {
+      name: 'image-processing-tools',
+      description: 'Image processing tools for resizing, converting, and manipulating images',
+      tools: [imageProcessingTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const audioProcessingSkill: Skill = {
+      name: 'audio-processing-tools',
+      description: 'Audio processing tools for trimming, adjusting, and manipulating audio files',
+      tools: [audioProcessingTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    this.registerSkill(mapLocationSkill);
+    this.registerSkill(calendarEventSkill);
+    this.registerSkill(reminderTodoSkill);
+    this.registerSkill(imageProcessingSkill);
+    this.registerSkill(audioProcessingSkill);
   }
 
   registerTool(tool: Tool): void {
