@@ -15,6 +15,8 @@
 - **自动化系统**: 任务调度、工作流引擎、监控系统
 - **商业工具套件**: 财务计算、CRM、ERP、商业智能、库存管理、销售分析、项目管理、合规性检查等
 - **家庭自动化模型**: 智能家居控制、维护调度、财务管理、健康追踪和活动规划
+- **税务规划自动化**: 企业和个人税务规划、优化和自动申报流程
+- **综合技能系统**: 超过80+种工具涵盖文件操作、系统监控、数据处理、商业工具、AI工具、安全、网络等多个类别
 
 ## 技术栈
 
@@ -176,10 +178,71 @@ npm run build
 | **文本和数据处理** | `text_analysis` | 文本分析 |
 | | `math_calculations` | 数学计算 |
 | | `unit_conversion` | 单位转换 |
+| **AI和机器学习工具** | `ai_model_tool` | AI模型操作 |
+| | `image_generation` | 从文本生成图像 |
+| | `embedding_tool` | 文本嵌入操作 |
+| **图像处理** | `image_resize` | 调整图像大小 |
+| | `image_format_converter` | 图像格式转换 |
+| | `image_metadata` | 提取图像元数据 |
+| **PDF工具** | `pdf_reader` | 读取PDF文档 |
+| | `pdf_writer` | 写入PDF文档 |
+| | `pdf_merge` | 合并PDF文件 |
+| **日志和配置** | `log_management` | 管理日志文件 |
+| | `config_management` | 配置管理 |
+| **通信和代码** | `email_operations` | 邮件操作 |
+| | `code_analysis` | 代码分析工具 |
+| **压缩** | `compress_files` | 压缩文件 |
+| | `decompress_files` | 解压文件 |
+| | `zip/unzip` | ZIP归档操作 |
+| **网络** | `network_operations` | 网络操作 |
+| | `dns_lookup` | DNS查询 |
+| | `whois_lookup` | WHOIS查询 |
+| **日期和时间** | `datetime_operations` | 日期和时间操作 |
+| | `timezone_converter` | 时区转换 |
+| | `calendar_operations` | 日历操作 |
+| **对话** | `conversation_history` | 管理对话历史 |
+| | `context_management` | 上下文管理 |
+| | `summarize_conversation` | 总结对话 |
+| **实用工具** | `workflow_approval` | 工作流审批操作 |
+| | `document_generator` | 文档生成 |
+| | `validation_check` | 验证和合规性检查 |
+| | `notification_send` | 发送通知 |
+| | `document_generation` | 高级文档生成 |
+| | `hr_system` | 人力资源系统操作 |
+| | `analytics_engine` | 分析和策略生成 |
+| | `report_generator` | 报告生成 |
+| **财务和商业** | `spreadsheet_operations` | 电子表格操作 |
+| | `accounting_system` | 会计系统操作 |
+| | `payment_gateway` | 支付处理 |
+| | `tax_calculator` | 税务计算 |
+| | `inventory_management_extended` | 扩展库存管理 |
+| **项目和运营** | `time_tracking_extended` | 扩展时间跟踪 |
+| | `project_management_extended` | 扩展项目管理 |
+| | `quality_management` | 质量管理 |
+| | `workflow_system` | 工作流系统操作 |
+| **家庭自动化** | `iot_device_control` | 物联网设备控制 |
+| | `maintenance_scheduler` | 维护调度 |
+| | `finance_tracker` | 个人财务管理 |
+| | `health_tracker` | 健康跟踪 |
+| | `calendar_scheduler` | 日历调度 |
+| **中文AI工具** | `chinese_ai_local` | 本地中文AI模型 |
+| **通用实用工具** | `weather_tool` | 天气信息 |
+| | `news_aggregator` | 新闻聚合 |
+| | `translation_tool` | 文本翻译 |
+| | `calculator_tool` | 高级计算器 |
+| | `password_generator` | 密码生成 |
+| | `map_location` | 地图和位置服务 |
+| | `calendar_event` | 日历事件管理 |
+| | `reminder_todo` | 提醒和待办事项 |
+| | `image_processing` | 图像处理操作 |
+| | `audio_processing` | 音频处理操作 |
+| **税务工具** | `tax_calculation` | 税务计算和规划 |
+| | `tax_software_integration` | 税务软件集成 |
+| | `irs_efile_system` | IRS电子申报系统 |
 
 ## 业务流程模型
 
-系统包含跨五个领域的综合业务流程模型：
+系统包含跨七个领域的综合业务流程模型：
 
 ### 销售流程
 - **客户开发流程**：从潜在客户到成交客户的端到端流程
@@ -210,6 +273,18 @@ npm run build
 - **家庭财务管理流程**：个人和家庭财务管理，包括预算和储蓄
 - **健康与健身流程**：家庭健康监测、健身目标和营养计划
 - **家庭活动流程**：家庭活动策划、假期安排和活动协调
+
+### 税务规划流程
+- **企业税务规划流程**：全面的企业税务规划和优化建议
+- **个人税务规划流程**：个人税务规划和优化策略
+- **自动化税务申报流程**：完整的自动化税务申报和缴款工作流程
+- **税务合规监控流程**：税务合规状态的持续监控和警报
+
+### 其他业务流程
+- **供应链管理流程**：从供应商到交付的完整供应链工作流程
+- **生产计划流程**：从需求预测到生产执行的完整流程
+- **质量管理流程**：完整的质量控制工作流程
+- **库存控制流程**：从库存监控到补货的完整流程
 
 ## 架构
 

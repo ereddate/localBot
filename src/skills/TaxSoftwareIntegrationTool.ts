@@ -263,7 +263,7 @@ export class TaxSoftwareIntegrationTool implements Tool {
 
   private performBasicValidation(data: Record<string, any>): any {
     // 基本验证
-    const issues = [];
+    const issues: any[] = [];
     
     if (!data.taxYear || data.taxYear < 2020 || data.taxYear > new Date().getFullYear() + 1) {
       issues.push('Invalid tax year');
@@ -329,7 +329,7 @@ export class TaxSoftwareIntegrationTool implements Tool {
 
   private checkCompliance(data: Record<string, any>): any {
     // 合规性检查
-    const issues = [];
+    const issues: any[] = [];
     
     // 检查合规性规则
     if (data.amtCalculation && data.regularTaxCalculation) {

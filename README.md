@@ -15,6 +15,8 @@ An advanced local AI personal assistant with multi-provider support including Ch
 - **Automation System**: Task scheduling, workflow engine, monitoring system
 - **Business Tool Suite**: Financial calculators, CRM, ERP, Business Intelligence, Inventory Management, Sales Analytics, Project Management, Compliance Checking, etc.
 - **Home Automation Models**: Smart home control, maintenance scheduling, finance management, health tracking, and activity planning
+- **Tax Planning Automation**: Corporate and individual tax planning, optimization, and automated filing processes
+- **Comprehensive Skill System**: Over 80+ tools across multiple categories including file operations, system monitoring, data processing, business tools, AI tools, security, networking, and more
 
 ## Technology Stack
 
@@ -181,10 +183,71 @@ Once the assistant is running, you can use these commands:
 | **Text & Data Processing** | `text_analysis` | Text analysis |
 | | `math_calculations` | Mathematical calculations |
 | | `unit_conversion` | Unit conversions |
+| **AI & ML Tools** | `ai_model_tool` | AI model operations |
+| | `image_generation` | Generate images from text |
+| | `embedding_tool` | Text embedding operations |
+| **Image Processing** | `image_resize` | Resize images |
+| | `image_format_converter` | Convert image formats |
+| | `image_metadata` | Extract image metadata |
+| **PDF Tools** | `pdf_reader` | Read PDF documents |
+| | `pdf_writer` | Write PDF documents |
+| | `pdf_merge` | Merge PDF files |
+| **Logging & Configuration** | `log_management` | Manage log files |
+| | `config_management` | Configuration management |
+| **Communication & Code** | `email_operations` | Email operations |
+| | `code_analysis` | Code analysis tools |
+| **Compression** | `compress_files` | Compress files |
+| | `decompress_files` | Decompress files |
+| | `zip/unzip` | ZIP archive operations |
+| **Networking** | `network_operations` | Network operations |
+| | `dns_lookup` | DNS lookup |
+| | `whois_lookup` | WHOIS lookup |
+| **Date & Time** | `datetime_operations` | Date and time operations |
+| | `timezone_converter` | Timezone conversion |
+| | `calendar_operations` | Calendar operations |
+| **Conversations** | `conversation_history` | Manage conversation history |
+| | `context_management` | Context management |
+| | `summarize_conversation` | Summarize conversations |
+| **Utilities** | `workflow_approval` | Workflow approval operations |
+| | `document_generator` | Document generation |
+| | `validation_check` | Validation and compliance checking |
+| | `notification_send` | Send notifications |
+| | `document_generation` | Advanced document generation |
+| | `hr_system` | Human resources system operations |
+| | `analytics_engine` | Analytics and strategy generation |
+| | `report_generator` | Report generation |
+| **Financial & Business** | `spreadsheet_operations` | Spreadsheet operations |
+| | `accounting_system` | Accounting system operations |
+| | `payment_gateway` | Payment processing |
+| | `tax_calculator` | Tax calculations |
+| | `inventory_management_extended` | Extended inventory management |
+| **Project & Operations** | `time_tracking_extended` | Extended time tracking |
+| | `project_management_extended` | Extended project management |
+| | `quality_management` | Quality management |
+| | `workflow_system` | Workflow system operations |
+| **Home Automation** | `iot_device_control` | IoT device control |
+| | `maintenance_scheduler` | Maintenance scheduling |
+| | `finance_tracker` | Personal finance tracking |
+| | `health_tracker` | Health tracking |
+| | `calendar_scheduler` | Calendar scheduling |
+| **Chinese AI Tools** | `chinese_ai_local` | Local Chinese AI models |
+| **General Utilities** | `weather_tool` | Weather information |
+| | `news_aggregator` | News aggregation |
+| | `translation_tool` | Text translation |
+| | `calculator_tool` | Advanced calculator |
+| | `password_generator` | Password generation |
+| | `map_location` | Map and location services |
+| | `calendar_event` | Calendar event management |
+| | `reminder_todo` | Reminders and to-do lists |
+| | `image_processing` | Image processing operations |
+| | `audio_processing` | Audio processing operations |
+| **Tax Tools** | `tax_calculation` | Tax calculation and planning |
+| | `tax_software_integration` | Tax software integration |
+| | `irs_efile_system` | IRS electronic filing system |
 
 ## Business Process Models
 
-The system includes comprehensive business process models across five domains:
+The system includes comprehensive business process models across seven domains:
 
 ### Sales Processes
 - **Lead Generation Process**: End-to-end process from prospect to customer
@@ -215,6 +278,18 @@ The system includes comprehensive business process models across five domains:
 - **Home Finance Process**: Personal and family financial management including budgeting and savings
 - **Health & Fitness Process**: Family health monitoring, fitness goals, and nutrition planning
 - **Home Activity Process**: Family event planning, vacation scheduling, and activity coordination
+
+### Tax Planning Processes
+- **Corporate Tax Planning Process**: Comprehensive corporate tax planning and optimization recommendations
+- **Individual Tax Planning Process**: Personal tax planning and optimization strategies
+- **Automated Tax Filing Process**: Complete automated tax filing and payment workflow
+- **Tax Compliance Monitoring Process**: Continuous monitoring of tax compliance status and alerts
+
+### Additional Business Processes
+- **Supply Chain Management Process**: Complete supply chain workflow from vendor to delivery
+- **Production Planning Process**: From demand forecasting to production execution
+- **Quality Management Process**: Complete quality control workflow
+- **Inventory Control Process**: Complete inventory monitoring and replenishment workflow
 
 ## Architecture
 

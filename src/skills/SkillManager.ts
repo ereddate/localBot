@@ -122,13 +122,14 @@ import {
   WorkflowApprovalTool, 
   DocumentGeneratorTool, 
   ValidationCheckTool, 
-  NotificationSendTool 
+  NotificationSendTool,
+  DocumentGenerationTool 
 } from './UtilityTools';
 import { 
   HrSystemTool, 
   DocumentManagementTool, 
   AnalyticsEngineTool, 
-  ReportGeneratorTool 
+  ReportGeneratorTool
 } from './AnalyticsTools';
 import { 
   InventoryManagementToolExtended, 
@@ -385,11 +386,13 @@ export class SkillManager {
     const documentManagementTool = new DocumentManagementTool();
     const analyticsEngineTool = new AnalyticsEngineTool();
     const reportGeneratorTool = new ReportGeneratorTool();
+    const documentGenerationTool = new DocumentGenerationTool(); // 新增文档生成工具
 
     this.registerTool(hrSystemTool);
     this.registerTool(documentManagementTool);
     this.registerTool(analyticsEngineTool);
     this.registerTool(reportGeneratorTool);
+    this.registerTool(documentGenerationTool); // 注册新增工具
 
     // Register financial tools
     const accountingSystemTool = new AccountingSystemTool();
@@ -987,6 +990,51 @@ export class SkillManager {
     const skill = this.skills.get(name);
     if (skill) {
       skill.enabled = false;
+    }
+  }
+  
+  // 初始化额外的技能用于工作流完成
+  initializeAdditionalSkills(): void {
+    // 获取已注册的工具实例
+    const validationCheckTool = this.getTool('validation_check');
+    const analyticsEngineTool = this.getTool('analytics_engine');
+    const documentGenerationTool = this.getTool('document_generation');
+    
+    // 只有当工具存在且尚未注册对应的技能时才注册
+    if (validationCheckTool && !this.skills.has('validation-check-tools')) {
+      const validationCheckSkill: Skill = {
+        name: 'validation-check-tools',
+        description: 'Validation and compliance checking tools',
+        tools: [validationCheckTool],
+        enabled: true,
+        permissions: [],
+      };
+      
+      this.registerSkill(validationCheckSkill);
+    }
+    
+    if (analyticsEngineTool && !this.skills.has('analytics-engine-tools')) {
+      const analyticsEngineSkill: Skill = {
+        name: 'analytics-engine-tools',
+        description: 'Analytics and strategy generation tools',
+        tools: [analyticsEngineTool],
+        enabled: true,
+        permissions: [],
+      };
+      
+      this.registerSkill(analyticsEngineSkill);
+    }
+    
+    if (documentGenerationTool && !this.skills.has('document-generation-tools')) {
+      const documentGenerationSkill: Skill = {
+        name: 'document-generation-tools',
+        description: 'Document and report generation tools',
+        tools: [documentGenerationTool],
+        enabled: true,
+        permissions: [],
+      };
+      
+      this.registerSkill(documentGenerationSkill);
     }
   }
 }
