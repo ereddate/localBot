@@ -1,7 +1,7 @@
 {
   "name": "localbot",
   "version": "1.0.0",
-  "description": "Local AI Personal Assistant inspired by Clawdbot",
+  "description": "Advanced Local AI Personal Assistant with support for multiple AI providers including Chinese domestic models (Baidu ERNIE Bot, Tencent HunYuan, Zhipu ChatGLM, etc.)",
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",

@@ -1,6 +1,6 @@
 # LocalBot
 
-A local AI personal assistant inspired by Clawdbot, built with TypeScript and Node.js.
+An advanced local AI personal assistant with multi-provider support including Chinese domestic models, built with TypeScript and Node.js.
 
 ## Features
 
@@ -10,9 +10,11 @@ A local AI personal assistant inspired by Clawdbot, built with TypeScript and No
 - File system operations (read, write, list, delete)
 - Shell command execution
 - CLI interface for interaction
-- **Multi-LLM support**: OpenAI GPT, Aliyun 通义千问, Anthropic Claude
+- **Multi-LLM support**: OpenAI GPT, Aliyun 通义千问, Anthropic Claude, Baidu 文心一言, Tencent 混元, Zhipu 智谱AI, SiliconCloud
+- **Intelligent AI Routing**: Automatic selection of optimal AI provider based on task requirements and language
 - **Automation System**: Task scheduling, workflow engine, monitoring system
 - **Business Tool Suite**: Financial calculators, CRM, ERP, Business Intelligence, Inventory Management, Sales Analytics, Project Management, Compliance Checking, etc.
+- **Home Automation Models**: Smart home control, maintenance scheduling, finance management, health tracking, and activity planning
 
 ## Technology Stack
 
