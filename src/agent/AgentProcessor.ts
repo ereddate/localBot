@@ -52,6 +52,30 @@ export class AgentProcessor {
           apiKey: config.anthropicApiKey,
           baseURL: 'https://api.anthropic.com/v1',
         });
+      case 'baidu':
+        // For Baidu ERNIE Bot, we use a compatible OpenAI-style client
+        return new OpenAI({
+          apiKey: config.baiduApiKey,
+          baseURL: 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat',
+        });
+      case 'tencent':
+        // For Tencent HunYuan, we use a compatible OpenAI-style client
+        return new OpenAI({
+          apiKey: config.tencentApiKey,
+          baseURL: 'https://hunyuan.cloud.tencent.com/v1',
+        });
+      case 'zhipu':
+        // For Zhipu ChatGLM, we use a compatible OpenAI-style client
+        return new OpenAI({
+          apiKey: config.zhipuApiKey,
+          baseURL: 'https://open.bigmodel.cn/api/paas/v4/',
+        });
+      case 'siliconcloud':
+        // For SiliconCloud, we use a compatible OpenAI-style client
+        return new OpenAI({
+          apiKey: config.siliconcloudApiKey,
+          baseURL: 'https://api.siliconflow.cn/v1',
+        });
       default:
         return new OpenAI({
           apiKey: config.openaiApiKey,
@@ -67,6 +91,14 @@ export class AgentProcessor {
         return 'gpt-4';
       case 'anthropic':
         return 'claude-3-opus-20240229';
+      case 'baidu':
+        return 'ernie-4.5-8k';  // Using ERNIE Bot 4.5 as default
+      case 'tencent':
+        return 'hunyuan-pro';   // Using HunYuan Pro as default
+      case 'zhipu':
+        return 'glm-4';         // Using GLM-4 as default
+      case 'siliconcloud':
+        return 'Qwen/Qwen2-72B-Instruct';  // Using Qwen2-72B as default
       default:
         return 'gpt-4';
     }

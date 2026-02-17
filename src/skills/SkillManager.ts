@@ -149,6 +149,7 @@ import {
   HealthTrackerTool,
   CalendarSchedulerTool
 } from './HomeAutomationTools';
+import { ChineseAILocalTool } from './ChineseAITools';
 
 export class SkillManager {
   private skills: Map<string, Skill> = new Map();
@@ -753,6 +754,21 @@ export class SkillManager {
     this.registerSkill(homeFinanceSkill);
     this.registerSkill(healthTrackingSkill);
     this.registerSkill(calendarSchedulingSkill);
+    
+    // Register Chinese AI tools
+    const chineseAILocalTool = new ChineseAILocalTool();
+    this.registerTool(chineseAILocalTool);
+    
+    // Chinese AI skills
+    const chineseAISkill: Skill = {
+      name: 'chinese-ai-tools',
+      description: 'Chinese AI models and local deployment tools',
+      tools: [chineseAILocalTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    this.registerSkill(chineseAISkill);
   }
 
   registerTool(tool: Tool): void {

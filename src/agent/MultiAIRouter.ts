@@ -52,6 +52,46 @@ export class MultiAIRouter {
       latency: 3000,
     });
 
+    this.providers.set('baidu', {
+      name: 'baidu',
+      displayName: 'Baidu ERNIE Bot',
+      priority: 4,
+      capabilities: ['chinese', 'reasoning', 'search'],
+      costPerToken: 0.000018,
+      maxTokens: 4096,
+      latency: 1800,
+    });
+
+    this.providers.set('tencent', {
+      name: 'tencent',
+      displayName: 'Tencent HunYuan',
+      priority: 5,
+      capabilities: ['chinese', 'reasoning', 'multimodal'],
+      costPerToken: 0.00002,
+      maxTokens: 32768,
+      latency: 2200,
+    });
+
+    this.providers.set('zhipu', {
+      name: 'zhipu',
+      displayName: 'Zhipu ChatGLM',
+      priority: 6,
+      capabilities: ['chinese', 'reasoning', 'coding'],
+      costPerToken: 0.000015,
+      maxTokens: 8192,
+      latency: 2000,
+    });
+
+    this.providers.set('siliconcloud', {
+      name: 'siliconcloud',
+      displayName: 'SiliconCloud',
+      priority: 7,
+      capabilities: ['chinese', 'reasoning', 'cost-effective'],
+      costPerToken: 0.000012,
+      maxTokens: 32768,
+      latency: 1600,
+    });
+
     this.providers.forEach((_, provider) => {
       this.usageStats.set(provider, { calls: 0, errors: 0 });
     });

@@ -28,6 +28,10 @@ A local AI personal assistant inspired by Clawdbot, built with TypeScript and No
 | **OpenAI** | GPT-4, GPT-3.5-turbo |
 | **Aliyun (通义千问)** | qwen-plus, qwen-turbo, qwen-max |
 | **Anthropic** | Claude-3-opus, Claude-3-sonnet |
+| **Baidu (文心一言)** | ERNIE-Bot series |
+| **Tencent (混元)** | HunYuan series |
+| **Zhipu (智谱AI)** | ChatGLM series |
+| **SiliconCloud** | Various open-source models including Qwen |
 
 ## New Business Capabilities
 

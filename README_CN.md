@@ -28,6 +28,10 @@
 | **OpenAI** | GPT-4, GPT-3.5-turbo |
 | **阿里云 (通义千问)** | qwen-plus, qwen-turbo, qwen-max |
 | **Anthropic** | Claude-3-opus, Claude-3-sonnet |
+| **百度 (文心一言)** | ERNIE-Bot系列 |
+| **腾讯 (混元)** | HunYuan系列 |
+| **智谱AI (ChatGLM)** | ChatGLM系列 |
+| **硅基流动 (SiliconCloud)** | 各种开源模型包括Qwen |
 
 ## 新增商业功能
 
