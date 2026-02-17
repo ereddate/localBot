@@ -115,6 +115,21 @@ export class AgentProcessor {
   }
 
   async process(context: AgentContext): Promise<string> {
+    // 检查是否有位置相关查询，如果是，提前处理
+    const lastUserMessage = context.messages
+      .slice()
+      .reverse()
+      .find(msg => msg.role === 'user');
+    
+    if (lastUserMessage) {
+      // 检查是否为位置查询
+      const locationQuery = this.isLocationQuery(lastUserMessage.content);
+      if (locationQuery) {
+        // 直接使用定位工具处理位置查询
+        return await this.handleLocationQuery(context);
+      }
+    }
+    
     const systemPrompt = this.buildSystemPrompt(context);
     const messages = this.buildMessages(context, systemPrompt);
     const currentProvider = this.router.getCurrentProvider();
@@ -292,6 +307,62 @@ You have access to a memory system where you can:
       } else {
         Logger.warn(`Tool ${toolName} not found`);
       }
+    }
+  }
+
+  private isLocationQuery(query: string): boolean {
+    const locationKeywords = [
+      '我在哪', '我的位置', '我在哪里', '当前位置', 'location', 'where am i',
+      '定位', '坐标', '经纬度', '附近', '周围', '地理', '地址', 'place',
+      '位置'
+    ];
+    
+    const normalizedQuery = query.toLowerCase().trim();
+    return locationKeywords.some(keyword => 
+      normalizedQuery.includes(keyword.toLowerCase())
+    );
+  }
+
+  private async handleLocationQuery(context: AgentContext): Promise<string> {
+    // 寻找定位工具
+    const locationTool = context.availableTools.find(
+      tool => tool.name === 'advanced_location_service'
+    );
+    
+    if (locationTool) {
+      try {
+        Logger.info('Handling location query with advanced location service');
+        const result = await locationTool.execute({ operation: 'get_current_gps' });
+        
+        if (result.success && result.data) {
+          const { latitude, longitude, accuracy, provider, timestamp } = result.data as any;
+          
+          const response = `
+根据定位服务，您当前的位置大约在：
+- 纬度: ${latitude.toFixed(6)}°
+- 经度: ${longitude.toFixed(6)}°
+
+这是一个基于${provider}的估算位置，精确度约为${accuracy}米。
+请注意，实际位置可能会有几米到几十米的误差。
+
+您还可以使用以下功能：
+- 查询附近的地点（如"附近有什么餐厅"）
+- 设置位置提醒（如"当我到达公司时提醒我"）
+- 查看位置历史记录
+          `.trim();
+          
+          return response;
+        } else {
+          Logger.warn('Location tool execution failed or returned no data');
+          return '抱歉，暂时无法获取您的精确位置信息。您可以手动输入您所在的城市或地区，我可以为您提供相关服务。';
+        }
+      } catch (error) {
+        Logger.error('Error handling location query', { error: (error as Error).message });
+        return '抱歉，获取位置信息时出现了一些问题。您可以尝试重新询问，或者手动提供您所在的大致位置，我可以为您提供帮助。';
+      }
+    } else {
+      Logger.warn('Advanced location service tool not found in available tools');
+      return '抱歉，系统中没有可用的定位服务。请稍后再试或联系管理员。';
     }
   }
 
