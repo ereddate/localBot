@@ -150,6 +150,11 @@ import {
   CalendarSchedulerTool
 } from './HomeAutomationTools';
 import { ChineseAILocalTool } from './ChineseAITools';
+import { WeatherTool } from './WeatherTool';
+import { NewsAggregatorTool } from './NewsAggregatorTool';
+import { TranslationTool } from './TranslationTool';
+import { CalculatorTool } from './CalculatorTool';
+import { PasswordGeneratorTool } from './PasswordGeneratorTool';
 
 export class SkillManager {
   private skills: Map<string, Skill> = new Map();
@@ -769,6 +774,66 @@ export class SkillManager {
     };
     
     this.registerSkill(chineseAISkill);
+    
+    // Register new utility tools
+    const weatherTool = new WeatherTool();
+    const newsAggregatorTool = new NewsAggregatorTool();
+    const translationTool = new TranslationTool();
+    const calculatorTool = new CalculatorTool();
+    const passwordGeneratorTool = new PasswordGeneratorTool();
+    
+    this.registerTool(weatherTool);
+    this.registerTool(newsAggregatorTool);
+    this.registerTool(translationTool);
+    this.registerTool(calculatorTool);
+    this.registerTool(passwordGeneratorTool);
+    
+    // New utility skills
+    const weatherSkill: Skill = {
+      name: 'weather-tools',
+      description: 'Weather information and forecasting tools',
+      tools: [weatherTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const newsSkill: Skill = {
+      name: 'news-tools',
+      description: 'News aggregation and information retrieval tools',
+      tools: [newsAggregatorTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const translationSkill: Skill = {
+      name: 'translation-tools',
+      description: 'Text translation and language processing tools',
+      tools: [translationTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const calculatorSkill: Skill = {
+      name: 'calculator-tools',
+      description: 'Mathematical calculation and expression evaluation tools',
+      tools: [calculatorTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const passwordSkill: Skill = {
+      name: 'password-tools',
+      description: 'Secure password generation and management tools',
+      tools: [passwordGeneratorTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    this.registerSkill(weatherSkill);
+    this.registerSkill(newsSkill);
+    this.registerSkill(translationSkill);
+    this.registerSkill(calculatorSkill);
+    this.registerSkill(passwordSkill);
   }
 
   registerTool(tool: Tool): void {
