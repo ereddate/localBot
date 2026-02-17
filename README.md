@@ -1,4 +1,4 @@
-# Local AI Assistant
+# LocalBot
 
 A local AI personal assistant inspired by Clawdbot, built with TypeScript and Node.js.
 

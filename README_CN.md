@@ -1,4 +1,4 @@
-# 本地AI助手 (Local AI Assistant)
+# LocalBot
 
 一个受Clawdbot启发的本地AI个人助手，使用TypeScript和Node.js构建。
 

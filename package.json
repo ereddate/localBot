@@ -1,5 +1,5 @@
 {
-  "name": "local-agent",
+  "name": "localbot",
   "version": "1.0.0",
   "description": "Local AI Personal Assistant inspired by Clawdbot",
   "main": "dist/index.js",
