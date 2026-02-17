@@ -11,6 +11,19 @@ export interface WorkflowStep {
   onError?: string[]; // IDs of steps to run on error
 }
 
+export interface WorkflowDefinition {
+  id: string;
+  name: string;
+  description: string;
+  steps: Array<{
+    id: string;
+    tool: string; // Tool name as string since we resolve it during execution
+    params: Record<string, unknown>;
+    description?: string;
+    dependsOn?: string[];
+  }>;
+}
+
 export interface Workflow {
   id: string;
   name: string;
@@ -302,5 +315,45 @@ export class WorkflowEngine {
    */
   getWorkflows(): Workflow[] {
     return Array.from(this.workflows.values());
+  }
+
+  /**
+   * Execute a workflow definition directly
+   */
+  async execute(definition: WorkflowDefinition, initialContext: Record<string, unknown> = {}, availableTools: Map<string, any> = new Map()): Promise<unknown> {
+    // Register the workflow temporarily
+    const tempWorkflowId = `temp_${definition.id}_${Date.now()}`;
+    
+    // Convert definition to workflow format
+    const workflow: Workflow = {
+      id: tempWorkflowId,
+      name: definition.name,
+      description: definition.description,
+      steps: definition.steps.map(step => ({
+        id: step.id,
+        name: step.description || step.id,
+        tool: availableTools.get(step.tool) || { 
+          name: step.tool,
+          description: '',
+          category: 'system',
+          execute: async () => ({ success: true, data: null }) // Placeholder - will be replaced
+        },
+        params: step.params,
+        dependsOn: step.dependsOn
+      })),
+      active: true
+    };
+
+    // Register the temporary workflow
+    this.workflows.set(tempWorkflowId, workflow);
+
+    try {
+      // Execute the workflow
+      const execution = await this.executeWorkflow(tempWorkflowId, initialContext);
+      return execution;
+    } finally {
+      // Clean up the temporary workflow
+      this.workflows.delete(tempWorkflowId);
+    }
   }
 }
