@@ -16,6 +16,11 @@ An advanced local AI personal assistant with multi-provider support including Ch
 - **Business Tool Suite**: Financial calculators, CRM, ERP, Business Intelligence, Inventory Management, Sales Analytics, Project Management, Compliance Checking, etc.
 - **Home Automation Models**: Smart home control, maintenance scheduling, finance management, health tracking, and activity planning
 - **Tax Planning Automation**: Corporate and individual tax planning, optimization, and automated filing processes
+- **Project Management Automation**: Project initiation, planning, execution monitoring, and closure processes
+- **Customer Relationship Management (CRM)**: Customer acquisition, relationship management, satisfaction improvement, and loyalty management processes
+- **Marketing Automation**: Market research, campaign management, brand management, and analytics processes
+- **Legal Compliance Automation**: Regulatory monitoring, compliance assessment, risk management, and reporting processes
+- **Data Analytics & Reporting**: Data collection, analysis, visualization, and reporting automation
 - **Comprehensive Skill System**: Over 80+ tools across multiple categories including file operations, system monitoring, data processing, business tools, AI tools, security, networking, and more
 - **Unified API Interface**: Standardized RESTful API endpoints for external integrations
 - **API Documentation**: Comprehensive API specification with standardized responses and error handling
