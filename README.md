@@ -11,6 +11,8 @@ A local AI personal assistant inspired by Clawdbot, built with TypeScript and No
 - Shell command execution
 - CLI interface for interaction
 - **Multi-LLM support**: OpenAI GPT, Aliyun 通义千问, Anthropic Claude
+- **Automation System**: Task scheduling, workflow engine, monitoring system
+- **Business Tool Suite**: Financial calculators, CRM, ERP, Business Intelligence, Inventory Management, Sales Analytics, Project Management, Compliance Checking, etc.
 
 ## Technology Stack
 
@@ -26,6 +28,39 @@ A local AI personal assistant inspired by Clawdbot, built with TypeScript and No
 | **OpenAI** | GPT-4, GPT-3.5-turbo |
 | **Aliyun (通义千问)** | qwen-plus, qwen-turbo, qwen-max |
 | **Anthropic** | Claude-3-opus, Claude-3-sonnet |
+
+## New Business Capabilities
+
+### Financial Tools
+- Financial Calculator: NPV, ROI, cash flow calculations
+- Interest Calculations: Simple and compound interest
+- Future Value Calculations
+
+### CRM and ERP Tools
+- Customer Relationship Management: Create/update customers, record interactions, opportunity management
+- Enterprise Resource Planning: Inventory management, order management, supplier management, financial management, human resources management
+
+### Business Intelligence and Analytics
+- Business report generation
+- Data analysis and insights
+- Dashboard creation
+- Sales forecasting
+
+### Inventory and Sales Management
+- Inventory tracking and management
+- Sales data analysis and reporting
+- Trend identification and performance prediction
+
+### Project and Time Management
+- Project tracking and management
+- Task assignment and progress tracking
+- Employee time tracking
+- Productivity analysis
+
+### Compliance Tools
+- Compliance checking
+- Risk assessment
+- Regulatory monitoring
 
 ## Installation
 
