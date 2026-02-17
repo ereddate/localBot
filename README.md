@@ -18,6 +18,7 @@ An advanced local AI personal assistant with multi-provider support including Ch
 - **Tax Planning Automation**: Corporate and individual tax planning, optimization, and automated filing processes
 - **Comprehensive Skill System**: Over 80+ tools across multiple categories including file operations, system monitoring, data processing, business tools, AI tools, security, networking, and more
 - **Unified API Interface**: Standardized RESTful API endpoints for external integrations
+- **API Documentation**: Comprehensive API specification with standardized responses and error handling
 
 ## Technology Stack
 
