@@ -20,6 +20,29 @@ export const smartHomeControlProcess: WorkflowDefinition = {
   description: '自动化控制家庭设备，包括照明、温度、安防等',
   steps: [
     {
+      id: 'environmental-monitoring',
+      tool: 'iot_sensor_integration',
+      params: {
+        operation: 'monitor_environment',
+        sensors: ['temperature', 'humidity', 'air_quality', 'light_levels', 'occupancy'],
+        frequency: 'continuous',
+        thresholdAlerts: true
+      },
+      description: '环境监测'
+    },
+    {
+      id: 'occupancy-detection',
+      tool: 'iot_sensor_integration',
+      params: {
+        operation: 'detect_occupancy',
+        detectionMethods: ['motion_sensors', 'mobile_devices', 'voice_commands'],
+        roomWiseTracking: true,
+        guestDetection: true
+      },
+      description: '占用检测',
+      dependsOn: ['environmental-monitoring']
+    },
+    {
       id: 'morning-routine',
       tool: 'iot_device_control',
       params: {
@@ -28,11 +51,31 @@ export const smartHomeControlProcess: WorkflowDefinition = {
         devices: {
           lights: { action: 'turn_on', brightness: 80 },
           thermostat: { action: 'adjust_temperature', target: 22 },
-          curtains: { action: 'open' }
+          curtains: { action: 'open' },
+          coffeeMaker: { action: 'start_brewing' },
+          news: { action: 'play', source: 'preferred_news_channel' }
+        },
+        basedOn: {
+          weather: '{{environmental-monitoring.result.weather_data}}',
+          occupancy: '{{occupancy-detection.result.current_occupancy}}',
+          calendar: '{{calendar_integration.result.morning_schedule}}'
         }
       },
       description: '早晨例行公事',
-      dependsOn: []
+      dependsOn: ['occupancy-detection']
+    },
+    {
+      id: 'energy-optimization',
+      tool: 'analytics_engine',
+      params: {
+        operation: 'optimize_energy_consumption',
+        currentUsage: '{{environmental-monitoring.result.energy_usage}}',
+        peakHours: '{{utility_company.result.peak_hours}}',
+        renewableEnergy: '{{solar_panels.result.production}}',
+        costOptimization: true
+      },
+      description: '能源优化',
+      dependsOn: ['morning-routine']
     },
     {
       id: 'away-mode',
@@ -43,11 +86,28 @@ export const smartHomeControlProcess: WorkflowDefinition = {
         devices: {
           lights: { action: 'turn_off' },
           thermostat: { action: 'eco_mode' },
-          security: { action: 'activate' }
+          security: { action: 'activate' },
+          powerOutlets: { action: 'power_save_mode' }
+        },
+        basedOn: {
+          duration: '{{calendar_integration.result.absence_duration}}',
+          energySavingsTarget: '{{energy-optimization.result.savings_target}}'
         }
       },
       description: '外出模式',
-      dependsOn: []
+      dependsOn: ['energy-optimization']
+    },
+    {
+      id: 'security-monitoring',
+      tool: 'iot_device_control',
+      params: {
+        operation: 'continuous_security_monitoring',
+        devices: ['cameras', 'motion_detectors', 'door_sensors', 'window_sensors'],
+        alertRecipients: ['homeowner', 'trusted_contacts'],
+        emergencyServices: true
+      },
+      description: '安全监控',
+      dependsOn: ['away-mode']
     },
     {
       id: 'evening-relax',
@@ -58,11 +118,16 @@ export const smartHomeControlProcess: WorkflowDefinition = {
         devices: {
           lights: { action: 'warm_light', brightness: 40 },
           music: { action: 'play', genre: 'relaxing' },
-          thermostat: { action: 'adjust_temperature', target: 24 }
+          thermostat: { action: 'adjust_temperature', target: 24 },
+          aromatherapy: { action: 'activate', scent: 'lavender' }
+        },
+        basedOn: {
+          familyMood: '{{mood_detection.result.family_wellbeing}}',
+          dayStressLevel: '{{calendar_integration.result.daily_activities.stress_level}}'
         }
       },
       description: '晚间放松模式',
-      dependsOn: []
+      dependsOn: ['security-monitoring']
     },
     {
       id: 'bedtime',
@@ -73,11 +138,58 @@ export const smartHomeControlProcess: WorkflowDefinition = {
         devices: {
           lights: { action: 'turn_off' },
           thermostat: { action: 'night_mode', target: 20 },
-          security: { action: 'activate_night' }
+          security: { action: 'activate_night' },
+          airPurifier: { action: 'activate' },
+          whiteNoise: { action: 'play', sound: 'rain' }
+        },
+        basedOn: {
+          sleepSchedule: '{{health_monitoring.result.sleep_patterns}}',
+          familyMembers: '{{occupancy-detection.result.sleeping_occupants}}'
         }
       },
       description: '就寝模式',
-      dependsOn: []
+      dependsOn: ['evening-relax']
+    },
+    {
+      id: 'sleep-monitoring',
+      tool: 'health_monitoring',
+      params: {
+        operation: 'monitor_sleep_quality',
+        devices: ['sleep_trackers', 'environmental_sensors'],
+        metrics: ['sleep_duration', 'sleep_quality', 'room_conditions'],
+        alerts: ['sleep_disturbances', 'environmental_issues']
+      },
+      description: '睡眠监测',
+      dependsOn: ['bedtime']
+    },
+    {
+      id: 'weather-adaptive-control',
+      tool: 'iot_device_control',
+      params: {
+        operation: 'adaptive_home_control',
+        weatherData: '{{weather_api.result.current_weather}}',
+        forecast: '{{weather_api.result.forecast}}',
+        actions: {
+          beforeStorm: { action: 'secure_windows', irrigation: 'pause' },
+          highPollution: { action: 'activate_air_purifiers', ventilation: 'reduce' },
+          extremeTemperature: { action: 'optimize_insulation', hvac: 'adjust' }
+        }
+      },
+      description: '天气自适应控制',
+      dependsOn: ['sleep-monitoring']
+    },
+    {
+      id: 'maintenance-alerts',
+      tool: 'iot_device_control',
+      params: {
+        operation: 'predictive_maintenance',
+        devices: '{{iot_inventory.result.all_connected_devices}}',
+        maintenanceSchedule: true,
+        failurePrediction: true,
+        serviceProviderNotification: true
+      },
+      description: '维护提醒',
+      dependsOn: ['weather-adaptive-control']
     }
   ]
 };

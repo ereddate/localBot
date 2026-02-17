@@ -114,15 +114,27 @@ export const expenseReimbursementProcess: WorkflowDefinition = {
       description: '费用录入'
     },
     {
-      id: 'expense-validation',
+      id: 'policy-compliance-check',
       tool: 'validation_check',
       params: {
         ruleSet: 'expense_policy',
         expenseId: '{{expense-entry.result.expense_id}}',
-        validationChecks: ['policy_compliance', 'receipt_quality', 'amount_limits']
+        validationChecks: ['policy_compliance', 'receipt_quality', 'amount_limits', 'duplicate_check']
       },
-      description: '费用验证',
+      description: '政策合规检查',
       dependsOn: ['expense-entry']
+    },
+    {
+      id: 'fraud-detection',
+      tool: 'analytics_engine',
+      params: {
+        operation: 'fraud_detection',
+        expensePattern: '{{expense-entry.result.expense_pattern}}',
+        employeeHistory: '{{expense-entry.result.employee_expense_history}}',
+        anomalyDetection: true
+      },
+      description: '欺诈检测',
+      dependsOn: ['policy-compliance-check']
     },
     {
       id: 'manager-approval',
@@ -131,10 +143,25 @@ export const expenseReimbursementProcess: WorkflowDefinition = {
         type: 'workflow_task',
         recipient: '{{expense-entry.result.employee_manager}}',
         task: 'approve_expense',
-        expenseDetails: '{{expense-validation.result.validated_expense}}'
+        expenseDetails: '{{fraud-detection.result.validated_expense}}',
+        riskLevel: '{{fraud-detection.result.risk_level}}'
       },
       description: '经理审批',
-      dependsOn: ['expense-validation']
+      dependsOn: ['fraud-detection']
+    },
+    {
+      id: 'budget-availability-check',
+      tool: 'financial_calculator',
+      params: {
+        operation: 'check_budget_availability',
+        department: '{{expense-entry.result.employee_department}}',
+        expenseCategory: '{{expense-entry.result.expense_category}}',
+        expenseAmount: '{{expense-entry.result.amount}}',
+        currentSpending: true,
+        budgetAllocation: true
+      },
+      description: '预算可用性检查',
+      dependsOn: ['manager-approval']
     },
     {
       id: 'finance-review',
@@ -142,22 +169,39 @@ export const expenseReimbursementProcess: WorkflowDefinition = {
       params: {
         expenseId: '{{manager-approval.result.approved_expense_id}}',
         accountingCodes: true,
-        taxImplications: true
+        taxImplications: true,
+        budgetImpact: '{{budget-availability-check.result.budget_status}}'
       },
       description: '财务审核',
-      dependsOn: ['manager-approval']
+      dependsOn: ['budget-availability-check']
+    },
+    {
+      id: 'multi-level-approval',
+      tool: 'workflow_approve',
+      params: {
+        document: '{{finance-review.result.expense_document}}',
+        approvalThreshold: '{{expense-entry.result.amount}}',
+        requiredApprovers: [
+          '{{expense-entry.result.department_head}}',
+          '{{expense-entry.result.division_manager}}'
+        ],
+        escalationRules: true
+      },
+      description: '多级审批',
+      dependsOn: ['finance-review']
     },
     {
       id: 'payment-processing',
       tool: 'payment_gateway',
       params: {
         operation: 'process_payment',
-        amount: '{{finance-review.result.validated_amount}}',
+        amount: '{{multi-level-approval.result.approved_amount}}',
         payee: '{{expense-entry.result.employee_id}}',
-        paymentMethod: 'direct_deposit'
+        paymentMethod: 'direct_deposit',
+        paymentReference: '{{multi-level-approval.result.approval_id}}'
       },
       description: '付款处理',
-      dependsOn: ['finance-review']
+      dependsOn: ['multi-level-approval']
     },
     {
       id: 'accounting-posting',
@@ -166,10 +210,24 @@ export const expenseReimbursementProcess: WorkflowDefinition = {
         operation: 'post_transaction',
         debitAccount: '{{expense-entry.result.expense_category}}',
         creditAccount: 'cash_or_bank',
-        amount: '{{payment-processing.result.payment_amount}}'
+        amount: '{{payment-processing.result.payment_amount}}',
+        costCenter: '{{expense-entry.result.employee_cost_center}}'
       },
       description: '会计过账',
       dependsOn: ['payment-processing']
+    },
+    {
+      id: 'tax-implication-analysis',
+      tool: 'tax_calculator',
+      params: {
+        operation: 'analyze_tax_implications',
+        expenseType: '{{expense-entry.result.expense_category}}',
+        amount: '{{payment-processing.result.payment_amount}}',
+        jurisdiction: '{{expense-entry.result.employee_location}}',
+        taxDeductible: true
+      },
+      description: '税务影响分析',
+      dependsOn: ['accounting-posting']
     },
     {
       id: 'report-generation',
@@ -180,10 +238,29 @@ export const expenseReimbursementProcess: WorkflowDefinition = {
         filters: {
           department: '{{expense-entry.result.employee_department}}',
           category: '{{expense-entry.result.expense_category}}'
-        }
+        },
+        includeTaxAnalysis: true,
+        anomaliesReported: '{{fraud-detection.result.anomalies}}'
       },
       description: '报告生成',
-      dependsOn: ['accounting-posting']
+      dependsOn: ['tax-implication-analysis']
+    },
+    {
+      id: 'dashboard-update',
+      tool: 'analytics_engine',
+      params: {
+        operation: 'update_kpi_dashboard',
+        kpiType: 'expense_management',
+        metrics: [
+          'total_expenses',
+          'average_processing_time',
+          'approval_rates',
+          'policy_violations',
+          'cost_centers_spending'
+        ]
+      },
+      description: '仪表板更新',
+      dependsOn: ['report-generation']
     }
   ]
 };

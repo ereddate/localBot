@@ -28,10 +28,37 @@ export const corporateTaxPlanningProcess: WorkflowDefinition = {
         dataType: 'business_financials',
         requiredFields: [
           'revenue', 'expenses', 'assets', 'liabilities', 
-          'depreciation_schedule', 'payroll_costs', 'benefits'
+          'depreciation_schedule', 'payroll_costs', 'benefits',
+          'international_operations', 'transfer_pricing', 'subsidiary_structure'
         ]
       },
       description: '企业资料评估'
+    },
+    {
+      id: 'tax-jurisdiction-analysis',
+      tool: 'data_analysis',
+      params: {
+        operation: 'multi_jurisdiction_tax_analysis',
+        businessOperations: '{{business-profile-assessment.result.business_locations}}',
+        nexusStatus: true,
+        stateTaxObligations: true,
+        internationalTaxTreaties: '{{business-profile-assessment.result.international_operations}}'
+      },
+      description: '税务管辖区分析',
+      dependsOn: ['business-profile-assessment']
+    },
+    {
+      id: 'tax-compliance-audit',
+      tool: 'validation_check',
+      params: {
+        operation: 'compliance_audit',
+        previousYears: ['{{tax_year-1}}', '{{tax_year-2}}', '{{tax_year-3}}'],
+        complianceGaps: true,
+        penaltyExposure: true,
+        voluntaryDisclosureOpportunities: true
+      },
+      description: '税务合规审计',
+      dependsOn: ['tax-jurisdiction-analysis']
     },
     {
       id: 'tax-liability-analysis',
@@ -42,10 +69,25 @@ export const corporateTaxPlanningProcess: WorkflowDefinition = {
         income: '{{business-profile-assessment.result.revenue}}',
         deductions: '{{business-profile-assessment.result.allowable_deductions}}',
         taxYear: '{{business-profile-assessment.result.tax_year}}',
-        jurisdiction: 'federal_and_state'
+        jurisdiction: 'federal_and_state',
+        taxCredits: '{{business-profile-assessment.result.available_credits}}',
+        alternativeMinimumTax: true
       },
       description: '税务负债分析',
-      dependsOn: ['business-profile-assessment']
+      dependsOn: ['tax-compliance-audit']
+    },
+    {
+      id: 'international-tax-optimization',
+      tool: 'tax_calculator',
+      params: {
+        operation: 'international_tax_planning',
+        foreignIncome: '{{business-profile-assessment.result.foreign_source_income}}',
+        taxHavens: '{{business-profile-assessment.result.international_operations.jurisdictions}}',
+        transferPricing: '{{business-profile-assessment.result.transfer_pricing}}',
+        gdprAndPrivacyConsiderations: true
+      },
+      description: '国际税务优化',
+      dependsOn: ['tax-liability-analysis']
     },
     {
       id: 'deduction-opportunities',
@@ -60,11 +102,28 @@ export const corporateTaxPlanningProcess: WorkflowDefinition = {
           'work_opportunity_tax_credit',
           'charitable_contributions',
           'business_meal_expenses',
-          'home_office_deduction'
+          'home_office_deduction',
+          'section_199a_qbi_deduction',
+          'conservation_easement',
+          'opportunity_zone_investment',
+          'employee_retention_credit'
         ]
       },
       description: '扣除机会识别',
-      dependsOn: ['tax-liability-analysis']
+      dependsOn: ['international-tax-optimization']
+    },
+    {
+      id: 'tax-loss-harvesting',
+      tool: 'analytics_engine',
+      params: {
+        operation: 'tax_loss_harvesting_analysis',
+        investmentPortfolio: '{{business-profile-assessment.result.investment_holdings}}',
+        unrealizedGainsLosses: true,
+        washSaleRules: true,
+        offsettingOpportunities: true
+      },
+      description: '税务损失收割',
+      dependsOn: ['deduction-opportunities']
     },
     {
       id: 'tax-strategy-recommendation',
@@ -78,11 +137,27 @@ export const corporateTaxPlanningProcess: WorkflowDefinition = {
           'timing_deductions',
           'accelerate_expenses',
           'defer_income',
-          'investment_structure'
-        ]
+          'investment_structure',
+          'retirement_plan_optimization',
+          'estate_planning_integration'
+        ],
+        riskAssessment: '{{tax-compliance-audit.result.risk_assessment}}'
       },
       description: '税务策略推荐',
-      dependsOn: ['deduction-opportunities']
+      dependsOn: ['tax-loss-harvesting']
+    },
+    {
+      id: 'regulatory-impact-analysis',
+      tool: 'data_analysis',
+      params: {
+        operation: 'regulatory_change_impact',
+        upcomingLegislation: true,
+        taxLawChanges: '{{tax_year+1}}',
+        businessImpact: '{{tax-strategy-recommendation.result.proposed_strategies}}',
+        transitionPlanning: true
+      },
+      description: '法规影响分析',
+      dependsOn: ['tax-strategy-recommendation']
     },
     {
       id: 'implementation-plan',
@@ -91,23 +166,43 @@ export const corporateTaxPlanningProcess: WorkflowDefinition = {
         template: 'tax_strategy_implementation_plan',
         strategyDetails: '{{tax-strategy-recommendation.result.strategy}}',
         timeline: '12_months',
-        responsibleParties: ['business_owner', 'accountant', 'attorney']
+        responsibleParties: ['business_owner', 'accountant', 'attorney'],
+        complianceCheckpoints: '{{regulatory-impact-analysis.result.checkpoints}}',
+        auditTrail: true
       },
       description: '实施计划制定',
-      dependsOn: ['tax-strategy-recommendation']
+      dependsOn: ['regulatory-impact-analysis']
     },
     {
       id: 'quarterly-monitoring',
-      tool: 'financial_calculator',
+      tool: 'analytics_engine',
       params: {
-        operation: 'monitor_progress',
-        baselineLiability: '{{tax-liability-analysis.result.tax_amount}}',
-        targetSavings: '{{tax-strategy-recommendation.result.target_savings}}',
-        frequency: 'quarterly',
-        alerts: ['approaching_deadlines', 'missed_opportunities', 'regulatory_changes']
+        operation: 'monitor_tax_strategy',
+        strategyId: '{{implementation-plan.result.strategy_id}}',
+        quarter: '{{current_quarter}}',
+        keyMetrics: [
+          'estimated_tax_savings',
+          'compliance_adherence',
+          'cash_flow_impact',
+          'audit_risk_assessment'
+        ],
+        regulatoryUpdates: '{{regulatory-impact-analysis.result.updates}}'
       },
       description: '季度监控',
       dependsOn: ['implementation-plan']
+    },
+    {
+      id: 'automated-compliance-reporting',
+      tool: 'document_generation',
+      params: {
+        operation: 'generate_compliance_reports',
+        reportTypes: ['form_1120', 'state_returns', 'international_filings'],
+        deadlines: '{{tax_calendar.result.upcoming_deadlines}}',
+        stakeholders: ['management', 'board', 'external_auditors'],
+        recommendationsStatus: '{{quarterly-monitoring.result.performance_metrics}}'
+      },
+      description: '自动化合规报告',
+      dependsOn: ['quarterly-monitoring']
     }
   ]
 };

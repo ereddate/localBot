@@ -26,9 +26,24 @@ export const recruitmentProcess: WorkflowDefinition = {
       params: {
         document: 'position_requisition_form',
         approvers: ['manager', 'department_head', 'hr_business_partner', 'executive_approval'],
-        approvalCriteria: ['budget_availability', 'business_justification', 'succession_planning']
+        approvalCriteria: ['budget_availability', 'business_justification', 'succession_planning', 'diversity_requirements']
       },
       description: '职位申请审批'
+    },
+    {
+      id: 'market-analysis',
+      tool: 'data_analysis',
+      params: {
+        operation: 'talent_market_analysis',
+        positionType: '{{requisition-approval.result.position_type}}',
+        location: '{{requisition-approval.result.location}}',
+        requiredSkills: '{{requisition-approval.result.key_skills}}',
+        marketSupply: true,
+        salaryBenchmarks: true,
+        competitionLevel: true
+      },
+      description: '市场分析',
+      dependsOn: ['requisition-approval']
     },
     {
       id: 'job-description-creation',
@@ -39,11 +54,27 @@ export const recruitmentProcess: WorkflowDefinition = {
           positionTitle: '{{requisition-approval.result.position_title}}',
           responsibilities: '{{requisition-approval.result.role_requirements}}',
           qualifications: '{{requisition-approval.result.qualifications}}',
-          salaryRange: '{{compensation_database.result.salary_benchmark}}'
+          salaryRange: '{{compensation_database.result.salary_benchmark}}',
+          marketInsights: '{{market-analysis.result.market_data}}',
+          diversityInclusionStatement: true
         }
       },
       description: '职位描述创建',
-      dependsOn: ['requisition-approval']
+      dependsOn: ['market-analysis']
+    },
+    {
+      id: 'sourcing-strategy',
+      tool: 'analytics_engine',
+      params: {
+        operation: 'sourcing_strategy_optimization',
+        roleType: '{{job-description-creation.result.role_type}}',
+        requiredSkills: '{{job-description-creation.result.required_skills}}',
+        budgetConstraints: '{{requisition-approval.result.budget}}',
+        urgencyLevel: '{{requisition-approval.result.priority}}',
+        recommendedChannels: ['referrals', 'social_media', 'job_boards', 'university_partnerships']
+      },
+      description: '招聘策略制定',
+      dependsOn: ['job-description-creation']
     },
     {
       id: 'job-posting-distribution',
@@ -51,10 +82,11 @@ export const recruitmentProcess: WorkflowDefinition = {
       params: {
         jobDescription: '{{job-description-creation.result.job_desc_file}}',
         channels: ['company_website', 'linkedin', 'indeed', 'glassdoor', 'internal_board'],
-        distributionStrategy: 'targeted_audience'
+        distributionStrategy: 'targeted_audience',
+        sourcingPlan: '{{sourcing-strategy.result.optimized_channels}}'
       },
       description: '职位发布',
-      dependsOn: ['job-description-creation']
+      dependsOn: ['sourcing-strategy']
     },
     {
       id: 'candidate-screening',
@@ -63,22 +95,37 @@ export const recruitmentProcess: WorkflowDefinition = {
         screeningCriteria: '{{job-description-creation.result.qualifications}}',
         keywordMatching: true,
         experienceFilter: '{{job-description-creation.result.years_experience}}',
-        educationFilter: '{{job-description-creation.result.education_requirements}}'
+        educationFilter: '{{job-description-creation.result.education_requirements}}',
+        culturalFitIndicators: true,
+        biasReductionFilters: true
       },
       description: '候选人筛选',
       dependsOn: ['job-posting-distribution']
     },
     {
+      id: 'background-check-initial',
+      tool: 'validation_check',
+      params: {
+        operation: 'preliminary_background_check',
+        candidateId: '{{candidate-screening.result.candidate_id}}',
+        checkTypes: ['employment_verification', 'education_verification', 'criminal_background_limited'],
+        consentObtained: true
+      },
+      description: '初步背景调查',
+      dependsOn: ['candidate-screening']
+    },
+    {
       id: 'initial-interview-scheduling',
       tool: 'calendar_integration',
       params: {
-        candidates: '{{candidate-screening.result.shortlisted_candidates}}',
+        candidates: '{{background-check-initial.result.prequalified_candidates}}',
         interviewers: ['hr_representative', 'hiring_manager'],
         availability: 'mutual_convenience',
-        format: 'video_call'
+        format: 'video_call',
+        interviewKit: '{{job-description-creation.result.position_materials}}'
       },
       description: '初轮面试安排',
-      dependsOn: ['candidate-screening']
+      dependsOn: ['background-check-initial']
     },
     {
       id: 'technical-assessment',
@@ -87,56 +134,93 @@ export const recruitmentProcess: WorkflowDefinition = {
         assessmentType: 'skills_evaluation',
         role: '{{job-description-creation.result.position_role}}',
         candidates: '{{initial-interview-scheduling.result.interview_passed_candidates}}',
-        evaluationCriteria: '{{job-description-creation.result.key_skills}}'
+        evaluationCriteria: '{{job-description-creation.result.key_skills}}',
+        accessibilityAccommodations: true
       },
       description: '技术评估',
       dependsOn: ['initial-interview-scheduling']
     },
     {
-      id: 'final-round-interviews',
-      tool: 'interview_scheduler',
+      id: 'culture-fit-assessment',
+      tool: 'analytics_engine',
       params: {
-        candidates: '{{technical-assessment.result.qualified_candidates}}',
-        interviewPanel: ['hiring_manager', 'team_members', 'department_head', 'culture_fit_evaluator'],
-        evaluationForms: ['technical_skills', 'leadership_potential', 'cultural_fit', 'communication']
+        operation: 'culture_alignment_analysis',
+        candidateProfile: '{{technical-assessment.result.candidate_profile}}',
+        companyValues: '{{company_profile.result.core_values}}',
+        teamDynamics: '{{hiring-manager.result.team_composition}}',
+        workStyleCompatibility: true
       },
-      description: '终轮面试',
+      description: '文化契合度评估',
       dependsOn: ['technical-assessment']
     },
     {
-      id: 'offer-preparation',
-      tool: 'offer_letter_generator',
+      id: 'final-round-interviews',
+      tool: 'interview_scheduler',
       params: {
-        template: 'offer_letter_template',
-        candidateInfo: '{{final-round-interviews.result.selected_candidate}}',
-        compensation: '{{compensation_evaluation.result.offer_package}}',
-        startDate: '{{availability.result.preferred_start_date}}'
+        candidates: '{{culture-fit-assessment.result.preselected_candidates}}',
+        interviewPanel: ['hiring_manager', 'team_members', 'department_head', 'culture_fit_evaluator'],
+        evaluationFramework: 'structured_interview_guide',
+        accommodationRequirements: '{{technical-assessment.result.accessibility_needs}}'
       },
-      description: '录用通知准备',
+      description: '终轮面试',
+      dependsOn: ['culture-fit-assessment']
+    },
+    {
+      id: 'reference-check',
+      tool: 'validation_check',
+      params: {
+        operation: 'comprehensive_reference_check',
+        candidateId: '{{final-round-interviews.result.selected_candidate_id}}',
+        referenceContacts: '{{final-round-interviews.result.provided_references}}',
+        verificationAreas: ['work_ethic', 'performance', 'leadership_potential', 'collaboration_style']
+      },
+      description: '参考检查',
       dependsOn: ['final-round-interviews']
     },
     {
-      id: 'offer-negotiation',
-      tool: 'negotiation_tool',
+      id: 'final-background-check',
+      tool: 'validation_check',
       params: {
-        initialOffer: '{{offer-preparation.result.initial_offer}}',
-        candidateCounter: '{{candidate_response.result.counter_offer}}',
-        negotiationLimits: '{{compensation_policy.result.bands}}',
-        finalTerms: '{{agreement.result.negotiated_terms}}'
+        operation: 'comprehensive_background_check',
+        candidateId: '{{reference-check.result.verified_candidate_id}}',
+        checkTypes: [
+          'criminal_background',
+          'credit_check',
+          'drug_screening',
+          'professional_license_verification',
+          'academic_credentials'
+        ],
+        complianceRequirements: '{{job-description-creation.result.position_requirements}}'
       },
-      description: '录用谈判',
-      dependsOn: ['offer-preparation']
+      description: '最终背景调查',
+      dependsOn: ['reference-check']
     },
     {
-      id: 'offer-acceptance',
-      tool: 'document_signing',
+      id: 'offer-negotiation',
+      tool: 'analytics_engine',
       params: {
-        document: '{{offer-negotiation.result.final_offer}}',
-        signer: '{{selected_candidate.result.candidate_email}}',
-        deadline: '5_business_days',
-        acceptanceVerification: true
+        operation: 'compensation_negotiation_support',
+        candidateExpectations: '{{final-round-interviews.result.candidate_feedback}}',
+        marketRates: '{{market-analysis.result.salary_benchmarks}}',
+        internalEquity: '{{compensation_database.result.internal_parity_data}}',
+        totalCompensationPackage: true
       },
-      description: '录用接受',
+      description: '录用谈判',
+      dependsOn: ['final-background-check']
+    },
+    {
+      id: 'offer-generation',
+      tool: 'document_generator',
+      params: {
+        template: 'job_offer_template',
+        data: {
+          candidateDetails: '{{final-round-interviews.result.selected_candidate_details}}',
+          compensation: '{{offer-negotiation.result.agreed_compensation}}',
+          benefits: '{{offer-negotiation.result.benefits_package}}',
+          startConditions: '{{offer-negotiation.result.terms_and_conditions}}'
+        }
+      },
+      description: '录用通知生成',
       dependsOn: ['offer-negotiation']
     }
   ]

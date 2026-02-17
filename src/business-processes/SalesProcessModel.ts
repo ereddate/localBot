@@ -54,17 +54,30 @@ export const customerDevelopmentProcess: WorkflowDefinition = {
       dependsOn: ['qualification-call']
     },
     {
+      id: 'competitor-analysis',
+      tool: 'data_analysis',
+      params: {
+        operation: 'competitive_intelligence',
+        targetMarket: '{{needs-analysis.result.target_market}}',
+        customerRequirements: '{{needs-analysis.result.solution_requirements}}',
+        competitorLandscape: true
+      },
+      description: '竞争对手分析',
+      dependsOn: ['needs-analysis']
+    },
+    {
       id: 'proposal-preparation',
       tool: 'document_generator',
       params: {
         template: 'sales_proposal_template',
         data: {
           clientInfo: '{{needs-analysis.result.client_info}}',
-          proposedSolution: '{{needs-analysis.result.solution_requirements}}'
+          proposedSolution: '{{needs-analysis.result.solution_requirements}}',
+          competitiveAdvantages: '{{competitor-analysis.result.competitive_advantages}}'
         }
       },
       description: '准备提案',
-      dependsOn: ['needs-analysis']
+      dependsOn: ['competitor-analysis']
     },
     {
       id: 'quote-generation',
@@ -78,15 +91,28 @@ export const customerDevelopmentProcess: WorkflowDefinition = {
       dependsOn: ['proposal-preparation']
     },
     {
+      id: 'risk-assessment',
+      tool: 'validation_check',
+      params: {
+        operation: 'credit_risk_assessment',
+        leadId: '{{identify-prospect.result.lead_id}}',
+        transactionAmount: '{{quote-generation.result.quote_amount}}',
+        customerProfile: '{{needs-analysis.result.client_info}}'
+      },
+      description: '风险评估',
+      dependsOn: ['quote-generation']
+    },
+    {
       id: 'presentation',
       tool: 'crm_operations',
       params: {
         operation: 'schedule_meeting',
         meetingType: 'presentation',
-        attendees: ['sales_rep', 'prospect_decision_maker']
+        attendees: ['sales_rep', 'prospect_decision_maker'],
+        riskFactors: '{{risk-assessment.result.risk_factors}}'
       },
       description: '产品演示',
-      dependsOn: ['quote-generation']
+      dependsOn: ['risk-assessment']
     },
     {
       id: 'follow-up',
@@ -95,20 +121,49 @@ export const customerDevelopmentProcess: WorkflowDefinition = {
         type: 'email',
         recipient: '{{presentation.result.prospect_email}}',
         subject: '感谢您参加我们的产品演示',
-        message: '附件是演示文稿和报价单'
+        message: '附件是演示文稿和报价单',
+        attachments: ['proposal', 'quote', 'risk_assessment_summary']
       },
       description: '后续跟进',
       dependsOn: ['presentation']
+    },
+    {
+      id: 'negotiation-support',
+      tool: 'analytics_engine',
+      params: {
+        operation: 'negotiation_strategy',
+        customerProfile: '{{needs-analysis.result.client_info}}',
+        initialOffer: '{{quote-generation.result.initial_quote}}',
+        historicalData: true,
+        marketConditions: '{{competitor-analysis.result.market_conditions}}'
+      },
+      description: '谈判支持',
+      dependsOn: ['follow-up']
     },
     {
       id: 'close-deal',
       tool: 'crm_operations',
       params: {
         operation: 'convert_lead_to_opportunity',
-        probability: 90
+        probability: 90,
+        negotiationOutcomes: '{{negotiation-support.result.negotiation_outcomes}}'
       },
       description: '关闭交易',
-      dependsOn: ['follow-up']
+      dependsOn: ['negotiation-support']
+    },
+    {
+      id: 'post-sale-handoff',
+      tool: 'notification_send',
+      params: {
+        type: 'internal_notification',
+        recipient: 'account_management_team',
+        subject: '新客户交接通知',
+        message: '客户 {{needs-analysis.result.client_info.name}} 已成功签约',
+        customerDetails: '{{close-deal.result.customer_details}}',
+        nextSteps: '安排首次客户服务会议'
+      },
+      description: '售后交接',
+      dependsOn: ['close-deal']
     }
   ]
 };
