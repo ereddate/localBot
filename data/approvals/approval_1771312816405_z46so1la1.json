@@ -1,0 +1,12 @@
+{
+  "id": "approval_1771312816405_z46so1la1",
+  "document": "{{variance-analysis.result.adjustment_recommendations}}",
+  "approvers": [
+    "department_head",
+    "finance_manager"
+  ],
+  "criteria": [],
+  "status": "pending",
+  "createdAt": "2026-02-17T07:20:16.405Z",
+  "responses": []
+}

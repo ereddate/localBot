@@ -1,0 +1,21 @@
+{
+  "id": "iot_1771312857560_hkgeq1pbh",
+  "operation": "set_scene",
+  "scene": "evening",
+  "devices": {
+    "lights": {
+      "action": "warm_light",
+      "brightness": 40
+    },
+    "music": {
+      "action": "play",
+      "genre": "relaxing"
+    },
+    "thermostat": {
+      "action": "adjust_temperature",
+      "target": 24
+    }
+  },
+  "timestamp": "2026-02-17T07:20:57.560Z",
+  "status": "executed"
+}

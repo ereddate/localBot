@@ -1,0 +1,29 @@
+[
+  {
+    "id": "record_1771312035987_2ai40wenx",
+    "createdAt": "2026-02-17T07:07:15.987Z",
+    "employeeId": "{{employee_id}}",
+    "amount": "{{expense_amount}}",
+    "category": "{{expense_category}}",
+    "receipt": "{{receipt_image}}",
+    "date": "{{expense_date}}"
+  },
+  {
+    "id": "record_1771312236459_qlgmmoe8p",
+    "createdAt": "2026-02-17T07:10:36.459Z",
+    "employeeId": "{{employee_id}}",
+    "amount": "{{expense_amount}}",
+    "category": "{{expense_category}}",
+    "receipt": "{{receipt_image}}",
+    "date": "{{expense_date}}"
+  },
+  {
+    "id": "record_1771312816461_mp3z50jav",
+    "createdAt": "2026-02-17T07:20:16.461Z",
+    "employeeId": "{{employee_id}}",
+    "amount": "{{expense_amount}}",
+    "category": "{{expense_category}}",
+    "receipt": "{{receipt_image}}",
+    "date": "{{expense_date}}"
+  }
+]

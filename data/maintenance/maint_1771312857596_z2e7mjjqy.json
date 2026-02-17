@@ -1,0 +1,10 @@
+{
+  "id": "maint_1771312857596_z2e7mjjqy",
+  "operation": "create_ticket",
+  "equipment": "security_system",
+  "task": "monthly_test",
+  "scheduleDate": "{{every_month}}",
+  "assignedTo": "security_service",
+  "createdDate": "2026-02-17T07:20:57.596Z",
+  "status": "scheduled"
+}

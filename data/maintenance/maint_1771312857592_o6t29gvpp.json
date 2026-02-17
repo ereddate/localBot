@@ -1,0 +1,10 @@
+{
+  "id": "maint_1771312857592_o6t29gvpp",
+  "operation": "create_ticket",
+  "equipment": "heating_system",
+  "task": "annual_inspection",
+  "scheduleDate": "{{next_year}}-10-01",
+  "assignedTo": "HVAC_contractor",
+  "createdDate": "2026-02-17T07:20:57.592Z",
+  "status": "scheduled"
+}

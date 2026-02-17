@@ -161,28 +161,37 @@ export class InventoryManagementTool implements Tool {
       const threshold = params.threshold as number;
 
       if (!operation) {
-        return { success: false, error: 'operation is required (track_stock, update_stock, reorder_alert, transfer_stock, audit_inventory)' };
+        return { success: false, error: 'operation is required (track_stock, update_stock, reorder_alert, transfer_stock, audit_inventory, receive_goods, issue_stock, cycle_count, demand_forecast)' };
       }
 
-      switch (operation.toLowerCase()) {
-        case 'track_stock':
-          return await this.trackStock(productId);
-        case 'update_stock':
+      // Method mapping to avoid TypeScript compilation errors
+      const methods: { [key: string]: () => Promise<ToolResult> } = {
+        'track_stock': () => this.trackStock(productId),
+        'update_stock': async () => {
           if (productId === undefined || quantity === undefined) {
             return { success: false, error: 'productId and quantity are required for update_stock operation' };
           }
           return await this.updateStock(productId, quantity, location);
-        case 'reorder_alert':
-          return await this.reorderAlert(threshold);
-        case 'transfer_stock':
+        },
+        'reorder_alert': () => this.reorderAlert(threshold),
+        'transfer_stock': async () => {
           if (productId === undefined || quantity === undefined || !location) {
             return { success: false, error: 'productId, quantity, and location are required for transfer_stock operation' };
           }
           return await this.transferStock(productId, quantity, location);
-        case 'audit_inventory':
-          return await this.auditInventory();
-        default:
-          return { success: false, error: 'Invalid operation. Use: track_stock, update_stock, reorder_alert, transfer_stock, audit_inventory' };
+        },
+        'audit_inventory': () => this.auditInventory(),
+        'receive_goods': () => this.receiveGoods(params),
+        'issue_stock': () => this.issueStock(params),
+        'cycle_count': () => this.cycleCount(params),
+        'demand_forecast': () => this.demandForecast(params)
+      };
+
+      const method = methods[operation.toLowerCase()];
+      if (method) {
+        return await method();
+      } else {
+        return { success: false, error: 'Invalid operation. Use: track_stock, update_stock, reorder_alert, transfer_stock, audit_inventory, receive_goods, issue_stock, cycle_count, demand_forecast' };
       }
     } catch (error) {
       Logger.error(`Inventory management operation failed`, { error: (error as Error).message });
@@ -288,6 +297,123 @@ export class InventoryManagementTool implements Tool {
       data: {
         audit: mockAudit,
         message: 'Inventory audit completed successfully'
+      }
+    };
+  }
+
+  private async receiveGoods(params: Record<string, unknown>): Promise<ToolResult> {
+    const poId = params.poId as string;
+    const receivedItems = params.receivedItems as any;
+    const qualityCheckRequired = params.qualityCheckRequired as boolean;
+
+    // Mock receiving goods
+    const goodsReceipt = {
+      receiptId: `GR_${Date.now()}`,
+      poId,
+      receivedDate: new Date().toISOString(),
+      itemsReceived: receivedItems || [],
+      qualityCheckRequired,
+      status: qualityCheckRequired ? 'pending_qc' : 'received',
+      totalValue: Array.isArray(receivedItems) 
+        ? receivedItems.reduce((sum, item) => sum + (item.quantity || 0) * (item.unitPrice || 0), 0) 
+        : 0
+    };
+
+    return {
+      success: true,
+      data: {
+        goodsReceipt,
+        message: qualityCheckRequired 
+          ? 'Goods received, pending quality check' 
+          : 'Goods received and accepted'
+      }
+    };
+  }
+
+  private async issueStock(params: Record<string, unknown>): Promise<ToolResult> {
+    const productId = params.productId as string;
+    const quantity = params.quantity as number;
+    const destination = params.destination as string;
+    const purpose = params.purpose as string;
+
+    // Mock issuing stock
+    const stockIssue = {
+      issueId: `ISSUE_${Date.now()}`,
+      productId,
+      quantity,
+      destination,
+      purpose,
+      issuedDate: new Date().toISOString(),
+      status: 'completed'
+    };
+
+    return {
+      success: true,
+      data: {
+        stockIssue,
+        message: 'Stock issued successfully'
+      }
+    };
+  }
+
+  private async cycleCount(params: Record<string, unknown>): Promise<ToolResult> {
+    const location = params.location as string;
+    const category = params.category as string;
+
+    // Mock cycle count results
+    const cycleCountResults = {
+      countId: `CC_${Date.now()}`,
+      location: location || 'All Locations',
+      category: category || 'All Categories',
+      totalItemsCounted: 125,
+      discrepancies: 3,
+      accuracyRate: 97.6,
+      countedBy: 'System',
+      completedAt: new Date().toISOString(),
+      details: [
+        { productId: 'PROD001', countedQty: 50, recordedQty: 50, variance: 0 },
+        { productId: 'PROD002', countedQty: 25, recordedQty: 24, variance: 1 },
+        { productId: 'PROD003', countedQty: 10, recordedQty: 12, variance: -2 }
+      ]
+    };
+
+    return {
+      success: true,
+      data: {
+        cycleCountResults,
+        message: 'Cycle count completed'
+      }
+    };
+  }
+
+  private async demandForecast(params: Record<string, unknown>): Promise<ToolResult> {
+    const period = params.period as string;
+    const productId = params.productId as string;
+
+    // Mock demand forecast
+    const forecast = {
+      productId: productId || 'All Products',
+      period: period || 'Next 30 Days',
+      forecastedDemand: 1250,
+      confidenceLevel: 85,
+      trend: 'increasing',
+      seasonalFactors: ['Q4 High Season', 'Back to School'],
+      recommendations: [
+        'Increase procurement by 15%',
+        'Review safety stock levels',
+        'Plan for peak capacity'
+      ],
+      historicalComparison: {
+        lastPeriod: 1100,
+        variance: '+13.6%'
+      }
+    };
+
+    return {
+      success: true,
+      data: {
+        forecast,
+        message: 'Demand forecast generated'
       }
     };
   }

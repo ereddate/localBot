@@ -1,0 +1,19 @@
+{
+  "id": "iot_1771312857561_hjww0mwim",
+  "operation": "set_scene",
+  "scene": "bedtime",
+  "devices": {
+    "lights": {
+      "action": "turn_off"
+    },
+    "thermostat": {
+      "action": "night_mode",
+      "target": 20
+    },
+    "security": {
+      "action": "activate_night"
+    }
+  },
+  "timestamp": "2026-02-17T07:20:57.561Z",
+  "status": "executed"
+}

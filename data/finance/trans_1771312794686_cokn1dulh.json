@@ -1,0 +1,9 @@
+{
+  "id": "trans_1771312794686_cokn1dulh",
+  "transactionType": "income",
+  "category": "salary",
+  "amount": "{{monthly_income}}",
+  "date": "{{month_start}}",
+  "description": "月薪到账",
+  "timestamp": "2026-02-17T07:19:54.686Z"
+}

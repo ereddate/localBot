@@ -29,13 +29,21 @@ import {
   performanceEvaluationProcess, 
   trainingDevelopmentProcess 
 } from './HRProcessModel';
+import { 
+  smartHomeControlProcess,
+  homeMaintenanceProcess,
+  homeFinanceProcess,
+  healthFitnessProcess,
+  homeActivityProcess
+} from './HomeAutomationModel';
 import { Logger } from '../utils/Logger';
 
 export enum BusinessDomain {
   SALES = 'sales',
   FINANCE = 'finance',
   OPERATIONS = 'operations',
-  HR = 'human_resources'
+  HR = 'human_resources',
+  HOME_AUTOMATION = 'home_automation'
 }
 
 export enum SalesProcessType {
@@ -63,6 +71,14 @@ export enum HRProcessType {
   ONBOARDING = 'onboarding-process',
   PERFORMANCE_EVALUATION = 'performance-evaluation-process',
   TRAINING_DEVELOPMENT = 'training-development-process'
+}
+
+export enum HomeAutomationProcessType {
+  SMART_HOME_CONTROL = 'smart-home-control-process',
+  HOME_MAINTENANCE = 'home-maintenance-process',
+  HOME_FINANCE = 'home-finance-process',
+  HEALTH_FITNESS = 'health-fitness-process',
+  HOME_ACTIVITY = 'home-activity-process'
 }
 
 export interface BusinessProcessExecutionOptions {
@@ -112,6 +128,14 @@ export class BusinessProcessManager {
           onboardingProcess,
           performanceEvaluationProcess,
           trainingDevelopmentProcess
+        ];
+      case BusinessDomain.HOME_AUTOMATION:
+        return [
+          smartHomeControlProcess,
+          homeMaintenanceProcess,
+          homeFinanceProcess,
+          healthFitnessProcess,
+          homeActivityProcess
         ];
       default:
         return [];
@@ -280,6 +304,50 @@ export class BusinessProcessManager {
   }
 
   /**
+   * 执行家庭自动化流程
+   */
+  public async executeHomeAutomationProcess(
+    processType: HomeAutomationProcessType,
+    options: BusinessProcessExecutionOptions
+  ): Promise<any> {
+    try {
+      Logger.info(`Executing home automation process: ${processType}`, { processId: options.processId });
+      
+      let processDefinition;
+      switch (processType) {
+        case HomeAutomationProcessType.SMART_HOME_CONTROL:
+          processDefinition = smartHomeControlProcess;
+          break;
+        case HomeAutomationProcessType.HOME_MAINTENANCE:
+          processDefinition = homeMaintenanceProcess;
+          break;
+        case HomeAutomationProcessType.HOME_FINANCE:
+          processDefinition = homeFinanceProcess;
+          break;
+        case HomeAutomationProcessType.HEALTH_FITNESS:
+          processDefinition = healthFitnessProcess;
+          break;
+        case HomeAutomationProcessType.HOME_ACTIVITY:
+          processDefinition = homeActivityProcess;
+          break;
+        default:
+          throw new Error(`Unknown home automation process type: ${processType}`);
+      }
+
+      // Get all available tools from skill manager
+      const allTools = new Map<string, any>();
+      this.skillManager.getAllTools().forEach(tool => {
+        allTools.set(tool.name, tool);
+      });
+      
+      return await this.workflowEngine.execute(processDefinition, options.inputData || {}, allTools);
+    } catch (error) {
+      Logger.error(`Error executing home automation process ${processType}`, { error: (error as Error).message, processId: options.processId });
+      throw error;
+    }
+  }
+
+  /**
    * 根据业务需求自动选择最合适的流程
    */
   public async executeBusinessProcessByRequirement(
@@ -355,6 +423,37 @@ export class BusinessProcessManager {
         return await this.executeHRProcess(HRProcessType.ONBOARDING, options);
       }
     }
+    // 家庭自动化相关
+    else if (requirementLower.includes('smart') || requirementLower.includes('home') || 
+             requirementLower.includes('iot') || requirementLower.includes('automat') || 
+             requirementLower.includes('device') || requirementLower.includes('schedule') ||
+             requirementLower.includes('maintenance') || requirementLower.includes('finance') ||
+             requirementLower.includes('health') || requirementLower.includes('fitness') ||
+             requirementLower.includes('family') || requirementLower.includes('vacation')) {
+      if (requirementLower.includes('smart') || requirementLower.includes('iot') || 
+          requirementLower.includes('device') || requirementLower.includes('light') ||
+          requirementLower.includes('temperature') || requirementLower.includes('thermostat')) {
+        return await this.executeHomeAutomationProcess(HomeAutomationProcessType.SMART_HOME_CONTROL, options);
+      } else if (requirementLower.includes('mainten') || requirementLower.includes('repair') ||
+                 requirementLower.includes('check') || requirementLower.includes('service')) {
+        return await this.executeHomeAutomationProcess(HomeAutomationProcessType.HOME_MAINTENANCE, options);
+      } else if (requirementLower.includes('finance') || requirementLower.includes('budget') ||
+                 requirementLower.includes('expense') || requirementLower.includes('payment') ||
+                 requirementLower.includes('savings') || requirementLower.includes('money')) {
+        return await this.executeHomeAutomationProcess(HomeAutomationProcessType.HOME_FINANCE, options);
+      } else if (requirementLower.includes('health') || requirementLower.includes('fitness') ||
+                 requirementLower.includes('exercise') || requirementLower.includes('meal') ||
+                 requirementLower.includes('nutrition') || requirementLower.includes('doctor')) {
+        return await this.executeHomeAutomationProcess(HomeAutomationProcessType.HEALTH_FITNESS, options);
+      } else if (requirementLower.includes('event') || requirementLower.includes('vacation') ||
+                 requirementLower.includes('schedule') || requirementLower.includes('calendar') ||
+                 requirementLower.includes('activity') || requirementLower.includes('planning')) {
+        return await this.executeHomeAutomationProcess(HomeAutomationProcessType.HOME_ACTIVITY, options);
+      } else {
+        // 默认使用智能家居控制流程
+        return await this.executeHomeAutomationProcess(HomeAutomationProcessType.SMART_HOME_CONTROL, options);
+      }
+    }
     // 如果无法识别，抛出错误
     else {
       throw new Error(`Unable to identify appropriate business process for requirement: ${requirement}`);
@@ -420,6 +519,22 @@ export class BusinessProcessManager {
     ].forEach(proc => {
       allProcesses.push({
         domain: BusinessDomain.HR,
+        type: proc.type,
+        name: proc.name,
+        description: proc.description
+      });
+    });
+
+    // 添加家庭自动化流程
+    [
+      { type: HomeAutomationProcessType.SMART_HOME_CONTROL, ...smartHomeControlProcess },
+      { type: HomeAutomationProcessType.HOME_MAINTENANCE, ...homeMaintenanceProcess },
+      { type: HomeAutomationProcessType.HOME_FINANCE, ...homeFinanceProcess },
+      { type: HomeAutomationProcessType.HEALTH_FITNESS, ...healthFitnessProcess },
+      { type: HomeAutomationProcessType.HOME_ACTIVITY, ...homeActivityProcess }
+    ].forEach(proc => {
+      allProcesses.push({
+        domain: BusinessDomain.HOME_AUTOMATION,
         type: proc.type,
         name: proc.name,
         description: proc.description

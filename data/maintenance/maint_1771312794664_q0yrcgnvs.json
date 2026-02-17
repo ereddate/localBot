@@ -1,0 +1,10 @@
+{
+  "id": "maint_1771312794664_q0yrcgnvs",
+  "operation": "create_ticket",
+  "equipment": "garden",
+  "task": "seasonal_care",
+  "scheduleDate": "{{current_season_change}}",
+  "assignedTo": "landscaper",
+  "createdDate": "2026-02-17T07:19:54.664Z",
+  "status": "scheduled"
+}

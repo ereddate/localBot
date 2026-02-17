@@ -1,0 +1,13 @@
+{
+  "id": "approval_1771312816385_5v8zbj9ik",
+  "document": "{{budget-allocation.result.budget_document}}",
+  "approvers": [
+    "department_head",
+    "finance_manager",
+    "cfo"
+  ],
+  "criteria": [],
+  "status": "pending",
+  "createdAt": "2026-02-17T07:20:16.385Z",
+  "responses": []
+}

@@ -1,0 +1,18 @@
+{
+  "id": "iot_1771312794629_375s6oiin",
+  "operation": "set_scene",
+  "scene": "away",
+  "devices": {
+    "lights": {
+      "action": "turn_off"
+    },
+    "thermostat": {
+      "action": "eco_mode"
+    },
+    "security": {
+      "action": "activate"
+    }
+  },
+  "timestamp": "2026-02-17T07:19:54.629Z",
+  "status": "executed"
+}

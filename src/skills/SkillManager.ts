@@ -5,7 +5,6 @@ import { MemoryTool, MemorySearchTool } from './MemoryTool';
 import { MemorySystem } from '../memory/MemorySystem';
 import { 
   DatabaseConnectTool, 
-  DatabaseQueryTool, 
   DatabaseExecuteTool 
 } from './DatabaseTools';
 import { 
@@ -113,6 +112,43 @@ import {
   ProjectManagementTool, 
   TimeTrackingTool 
 } from './BusinessTools5';
+import { 
+  DatabaseInsertTool, 
+  DatabaseQueryTool, 
+  DatabaseUpdateTool, 
+  DatabaseDeleteTool 
+} from './DatabaseOperationTools';
+import { 
+  WorkflowApprovalTool, 
+  DocumentGeneratorTool, 
+  ValidationCheckTool, 
+  NotificationSendTool 
+} from './UtilityTools';
+import { 
+  HrSystemTool, 
+  DocumentManagementTool, 
+  AnalyticsEngineTool, 
+  ReportGeneratorTool 
+} from './AnalyticsTools';
+import { 
+  InventoryManagementToolExtended, 
+  AccountingSystemTool, 
+  PaymentGatewayTool, 
+  TaxCalculatorTool 
+} from './FinancialTools';
+import { 
+  TimeTrackingToolExtended, 
+  ProjectManagementToolExtended, 
+  QualityManagementTool, 
+  WorkflowSystemTool 
+} from './ProjectAndOperationsTools';
+import { 
+  IoTDeviceControlTool,
+  MaintenanceSchedulerTool,
+  FinanceTrackerTool,
+  HealthTrackerTool,
+  CalendarSchedulerTool
+} from './HomeAutomationTools';
 
 export class SkillManager {
   private skills: Map<string, Skill> = new Map();
@@ -307,6 +343,59 @@ export class SkillManager {
     this.registerTool(complianceCheckerTool);
     this.registerTool(projectManagementTool);
     this.registerTool(timeTrackingTool);
+
+    // Register database operation tools
+    const databaseInsertTool = new DatabaseInsertTool();
+    const databaseQueryTool = new DatabaseQueryTool();
+    const databaseUpdateTool = new DatabaseUpdateTool();
+    const databaseDeleteTool = new DatabaseDeleteTool();
+
+    this.registerTool(databaseInsertTool);
+    this.registerTool(databaseQueryTool);
+    this.registerTool(databaseUpdateTool);
+    this.registerTool(databaseDeleteTool);
+
+    // Register utility tools
+    const workflowApprovalTool = new WorkflowApprovalTool();
+    const documentGeneratorTool = new DocumentGeneratorTool();
+    const validationCheckTool = new ValidationCheckTool();
+    const notificationSendTool = new NotificationSendTool();
+
+    this.registerTool(workflowApprovalTool);
+    this.registerTool(documentGeneratorTool);
+    this.registerTool(validationCheckTool);
+    this.registerTool(notificationSendTool);
+
+    // Register analytics tools
+    const hrSystemTool = new HrSystemTool();
+    const documentManagementTool = new DocumentManagementTool();
+    const analyticsEngineTool = new AnalyticsEngineTool();
+    const reportGeneratorTool = new ReportGeneratorTool();
+
+    this.registerTool(hrSystemTool);
+    this.registerTool(documentManagementTool);
+    this.registerTool(analyticsEngineTool);
+    this.registerTool(reportGeneratorTool);
+
+    // Register financial tools
+    const accountingSystemTool = new AccountingSystemTool();
+    const paymentGatewayTool = new PaymentGatewayTool();
+    const taxCalculatorTool = new TaxCalculatorTool();
+
+    this.registerTool(accountingSystemTool);
+    this.registerTool(paymentGatewayTool);
+    this.registerTool(taxCalculatorTool);
+
+    // Register project and operations tools
+    const timeTrackingToolExtended = new TimeTrackingToolExtended();
+    const projectManagementToolExtended = new ProjectManagementToolExtended();
+    const qualityManagementTool = new QualityManagementTool();
+    const workflowSystemTool = new WorkflowSystemTool();
+
+    this.registerTool(timeTrackingToolExtended);
+    this.registerTool(projectManagementToolExtended);
+    this.registerTool(qualityManagementTool);
+    this.registerTool(workflowSystemTool);
 
     // Original skills
     const fileSystemSkill: Skill = {
@@ -604,6 +693,66 @@ export class SkillManager {
     this.registerSkill(complianceToolsSkill);
     this.registerSkill(projectManagementToolsSkill);
     this.registerSkill(timeTrackingToolsSkill);
+    
+    // Register home automation tools
+    const ioTDeviceControlTool = new IoTDeviceControlTool();
+    const maintenanceSchedulerTool = new MaintenanceSchedulerTool();
+    const financeTrackerTool = new FinanceTrackerTool();
+    const healthTrackerTool = new HealthTrackerTool();
+    const calendarSchedulerTool = new CalendarSchedulerTool();
+    
+    this.registerTool(ioTDeviceControlTool);
+    this.registerTool(maintenanceSchedulerTool);
+    this.registerTool(financeTrackerTool);
+    this.registerTool(healthTrackerTool);
+    this.registerTool(calendarSchedulerTool);
+    
+    // Home automation skills
+    const homeAutomationSkill: Skill = {
+      name: 'home-automation-tools',
+      description: 'Home automation and smart home control',
+      tools: [ioTDeviceControlTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const homeMaintenanceSkill: Skill = {
+      name: 'home-maintenance-tools',
+      description: 'Home maintenance scheduling and tracking',
+      tools: [maintenanceSchedulerTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const homeFinanceSkill: Skill = {
+      name: 'home-finance-tools',
+      description: 'Personal and family finance management',
+      tools: [financeTrackerTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const healthTrackingSkill: Skill = {
+      name: 'health-tracking-tools',
+      description: 'Health and fitness tracking for family members',
+      tools: [healthTrackerTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    const calendarSchedulingSkill: Skill = {
+      name: 'calendar-scheduling-tools',
+      description: 'Family calendar and activity scheduling',
+      tools: [calendarSchedulerTool],
+      enabled: true,
+      permissions: [],
+    };
+    
+    this.registerSkill(homeAutomationSkill);
+    this.registerSkill(homeMaintenanceSkill);
+    this.registerSkill(homeFinanceSkill);
+    this.registerSkill(healthTrackingSkill);
+    this.registerSkill(calendarSchedulingSkill);
   }
 
   registerTool(tool: Tool): void {

@@ -137,15 +137,97 @@ Once the assistant is running, you can use these commands:
 
 ## Available Tools
 
-| Tool | Description |
-|------|-------------|
-| `file_read` | Read the contents of a file |
-| `file_write` | Write content to a file |
-| `file_list` | List files in a directory |
-| `file_delete` | Delete a file |
-| `shell_execute` | Execute a shell command |
-| `memory_add` | Add an entry to memory |
-| `memory_search` | Search memory entries |
+| Category | Tool | Description |
+|----------|------|-------------|
+| **File System** | `file_read` | Read the contents of a file |
+| | `file_write` | Write content to a file |
+| | `file_list` | List files in a directory |
+| | `file_delete` | Delete a file |
+| **Shell** | `shell_execute` | Execute a shell command |
+| **Memory** | `memory_add` | Add an entry to memory |
+| | `memory_search` | Search memory entries |
+| **Database** | `database_connect` | Connect to database |
+| | `database_query` | Query database |
+| | `database_execute` | Execute database commands |
+| | `database_insert` | Insert data into database |
+| | `database_update` | Update data in database |
+| | `database_delete` | Delete data from database |
+| **Business** | `crm_operations` | Customer relationship management |
+| | `erp_operations` | Enterprise resource planning |
+| | `financial_calculator` | Financial calculations |
+| | `inventory_management` | Inventory tracking and management |
+| | `sales_analytics` | Sales data analysis and reporting |
+| | `compliance_checker` | Compliance checking and risk assessment |
+| | `project_management` | Project tracking and management |
+| | `time_tracking` | Employee time tracking |
+| | `business_intelligence` | Business intelligence and analytics |
+| **API & Data Processing** | `api_get/post/put/delete` | REST API operations |
+| | `csv_read/write` | CSV file processing |
+| | `json_read/write` | JSON file processing |
+| **Notifications & Scheduling** | `send_notification` | Send notifications |
+| | `schedule_task` | Schedule tasks |
+| | `cancel_task` | Cancel scheduled tasks |
+| **System Monitoring** | `system_info` | System information |
+| | `process_list` | Running processes |
+| | `resource_monitor` | Resource usage monitoring |
+| **Security** | `encrypt_data` | Data encryption |
+| | `hash_data` | Data hashing |
+| **Text & Data Processing** | `text_analysis` | Text analysis |
+| | `math_calculations` | Mathematical calculations |
+| | `unit_conversion` | Unit conversions |
+
+## Business Process Models
+
+The system includes comprehensive business process models across five domains:
+
+### Sales Processes
+- **Lead Generation Process**: End-to-end process from prospect to customer
+- **Opportunity Management Process**: Managing sales opportunities from creation to closure
+- **Sales Performance Analysis Process**: Regular analysis of sales team and individual performance
+
+### Finance Processes  
+- **Budget Management Process**: Complete budgeting workflow from planning to monitoring
+- **Expense Reimbursement Process**: Complete employee expense reimbursement workflow
+- **Financial Reporting Process**: Regular financial report generation and distribution
+- **Tax Processing Process**: Corporate tax filing and payment workflow
+
+### Operations Processes
+- **Supply Chain Management Process**: Complete supply chain workflow from vendor to delivery
+- **Production Planning Process**: From demand forecasting to production execution
+- **Quality Management Process**: Complete quality control workflow
+- **Inventory Control Process**: Complete inventory monitoring and replenishment workflow
+
+### Human Resources Processes
+- **Recruitment Management Process**: Complete hiring workflow from job requisition to candidate onboarding
+- **Employee Onboarding Process**: New employee onboarding workflow
+- **Performance Evaluation Process**: Employee performance evaluation workflow
+- **Training & Development Process**: Employee training needs identification to effectiveness evaluation
+
+### Home Automation Processes
+- **Smart Home Control Process**: Automated control of home devices including lighting, temperature, and security
+- **Home Maintenance Process**: Scheduled maintenance tasks for home systems and appliances
+- **Home Finance Process**: Personal and family financial management including budgeting and savings
+- **Health & Fitness Process**: Family health monitoring, fitness goals, and nutrition planning
+- **Home Activity Process**: Family event planning, vacation scheduling, and activity coordination
+
+## Architecture
+
+```
+localAgentNew/
+├── src/
+│   ├── agent/              # AI agent core logic
+│   ├── business-processes/ # Business process models and manager
+│   ├── gateway/            # Session management gateway
+│   ├── interface/          # CLI interface
+│   ├── memory/             # Memory system
+│   ├── session/            # Session management
+│   ├── skills/             # Tools and skills
+│   ├── tasks/              # Task scheduler and workflow engine
+│   └── utils/              # Utility functions
+├── memory/                 # Memory storage (created on first run)
+├── sessions/               # Session data storage
+└── reports/                # Generated reports (created on first run)
+```
 
 ## Memory System
 
