@@ -15,7 +15,7 @@
     "agent",
     "local"
   ],
-  "author": "",
+  "author": "ereddate <ereddate@gmail.com>",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
