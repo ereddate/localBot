@@ -43,6 +43,7 @@ import {
   taxComplianceMonitoringProcess
 } from './TaxPlanningModel';
 import { Logger } from '../utils/Logger';
+import { ApiResponseFactory } from '../api/ApiResponse';
 
 export enum BusinessDomain {
   SALES = 'sales',
@@ -615,5 +616,64 @@ export class BusinessProcessManager {
     });
 
     return allProcesses;
+  }
+
+  /**
+   * 执行业务流程并返回标准化的API响应
+   */
+  async executeBusinessProcessWithStandardResponse(
+    requirement: string, 
+    options: BusinessProcessExecutionOptions, 
+    requestId?: string
+  ) {
+    try {
+      console.log(`🤖 分析业务需求 (API): "${requirement}"`);
+      Logger.info('Analyzing business requirement via API', { requirement, requestId });
+      
+      const result = await this.executeBusinessProcessByRequirement(requirement, options);
+      
+      return ApiResponseFactory.success(
+        result, 
+        'Business process executed successfully', 
+        requestId
+      );
+    } catch (error: any) {
+      console.log(`❌ 业务流程执行失败 (API): ${error.message}`);
+      Logger.error('Error executing business process via API', { 
+        error: error.message, 
+        requirement, 
+        requestId 
+      });
+      
+      return ApiResponseFactory.internalError(
+        error.message, 
+        requestId
+      );
+    }
+  }
+
+  /**
+   * 获取所有业务流程并返回标准化的API响应
+   */
+  getAllBusinessProcessesWithStandardResponse(requestId?: string) {
+    try {
+      const processes = this.getAllBusinessProcesses();
+      
+      return ApiResponseFactory.success(
+        processes, 
+        'Business processes retrieved successfully', 
+        requestId
+      );
+    } catch (error: any) {
+      Logger.error('Error getting business processes via API', { 
+        error: error.message, 
+        requestId 
+      });
+      
+      return ApiResponseFactory.internalError(
+        error.message, 
+        requestId
+      );
+    }
   }
 }

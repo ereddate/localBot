@@ -17,7 +17,7 @@ export class ApiGetTool implements Tool {
         return { success: false, error: 'url is required' };
       }
 
-      Logger.info(`Making GET request to: ${url}`);
+      Logger.info(`Making GET request to: ${url}`, { url, queryParams });
 
       const response = await axios.get(url, {
         headers,
@@ -32,14 +32,25 @@ export class ApiGetTool implements Tool {
           statusText: response.statusText,
           data: response.data,
           headers: response.headers,
-          url: response.config.url
+          url: response.config.url,
+          // 符合统一API响应格式的数据
+          apiResponse: {
+            code: response.status,
+            message: response.statusText,
+            data: response.data,
+            timestamp: Date.now()
+          }
         }
       };
     } catch (error: any) {
-      Logger.error(`API GET request failed`, { error: error.message });
+      Logger.error(`API GET request failed`, { 
+        error: error.message, 
+        url: params.url as string,
+        status: error.response?.status 
+      });
       return { 
         success: false, 
-        error: error.response?.data?.message || error.message 
+        error: error.response?.data?.message || error.message || 'API GET request failed' 
       };
     }
   }
@@ -64,7 +75,7 @@ export class ApiPostTool implements Tool {
         return { success: false, error: 'data is required' };
       }
 
-      Logger.info(`Making POST request to: ${url}`);
+      Logger.info(`Making POST request to: ${url}`, { url });
 
       const response = await axios.post(url, data, {
         headers,
@@ -78,14 +89,25 @@ export class ApiPostTool implements Tool {
           statusText: response.statusText,
           data: response.data,
           headers: response.headers,
-          url: response.config.url
+          url: response.config.url,
+          // 符合统一API响应格式的数据
+          apiResponse: {
+            code: response.status,
+            message: response.statusText,
+            data: response.data,
+            timestamp: Date.now()
+          }
         }
       };
     } catch (error: any) {
-      Logger.error(`API POST request failed`, { error: error.message });
+      Logger.error(`API POST request failed`, { 
+        error: error.message, 
+        url: params.url as string,
+        status: error.response?.status 
+      });
       return { 
         success: false, 
-        error: error.response?.data?.message || error.message 
+        error: error.response?.data?.message || error.message || 'API POST request failed' 
       };
     }
   }
@@ -110,7 +132,7 @@ export class ApiPutTool implements Tool {
         return { success: false, error: 'data is required' };
       }
 
-      Logger.info(`Making PUT request to: ${url}`);
+      Logger.info(`Making PUT request to: ${url}`, { url });
 
       const response = await axios.put(url, data, {
         headers,
@@ -124,14 +146,25 @@ export class ApiPutTool implements Tool {
           statusText: response.statusText,
           data: response.data,
           headers: response.headers,
-          url: response.config.url
+          url: response.config.url,
+          // 符合统一API响应格式的数据
+          apiResponse: {
+            code: response.status,
+            message: response.statusText,
+            data: response.data,
+            timestamp: Date.now()
+          }
         }
       };
     } catch (error: any) {
-      Logger.error(`API PUT request failed`, { error: error.message });
+      Logger.error(`API PUT request failed`, { 
+        error: error.message, 
+        url: params.url as string,
+        status: error.response?.status 
+      });
       return { 
         success: false, 
-        error: error.response?.data?.message || error.message 
+        error: error.response?.data?.message || error.message || 'API PUT request failed' 
       };
     }
   }
@@ -151,7 +184,7 @@ export class ApiDeleteTool implements Tool {
         return { success: false, error: 'url is required' };
       }
 
-      Logger.info(`Making DELETE request to: ${url}`);
+      Logger.info(`Making DELETE request to: ${url}`, { url });
 
       const response = await axios.delete(url, {
         headers,
@@ -165,14 +198,25 @@ export class ApiDeleteTool implements Tool {
           statusText: response.statusText,
           data: response.data,
           headers: response.headers,
-          url: response.config.url
+          url: response.config.url,
+          // 符合统一API响应格式的数据
+          apiResponse: {
+            code: response.status,
+            message: response.statusText,
+            data: response.data,
+            timestamp: Date.now()
+          }
         }
       };
     } catch (error: any) {
-      Logger.error(`API DELETE request failed`, { error: error.message });
+      Logger.error(`API DELETE request failed`, { 
+        error: error.message, 
+        url: params.url as string,
+        status: error.response?.status 
+      });
       return { 
         success: false, 
-        error: error.response?.data?.message || error.message 
+        error: error.response?.data?.message || error.message || 'API DELETE request failed' 
       };
     }
   }

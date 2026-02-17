@@ -17,6 +17,7 @@ An advanced local AI personal assistant with multi-provider support including Ch
 - **Home Automation Models**: Smart home control, maintenance scheduling, finance management, health tracking, and activity planning
 - **Tax Planning Automation**: Corporate and individual tax planning, optimization, and automated filing processes
 - **Comprehensive Skill System**: Over 80+ tools across multiple categories including file operations, system monitoring, data processing, business tools, AI tools, security, networking, and more
+- **Unified API Interface**: Standardized RESTful API endpoints for external integrations
 
 ## Technology Stack
 

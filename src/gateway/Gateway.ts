@@ -1,6 +1,7 @@
 import { AgentContext, Message, SessionData } from '../types';
 import { SessionManager } from '../session/SessionManager';
 import { Logger } from '../utils/Logger';
+import { ApiResponseFactory } from '../api/ApiResponse';
 
 export class Gateway {
   private contexts: Map<string, AgentContext> = new Map();
@@ -83,6 +84,76 @@ export class Gateway {
     await this.addMessage(sessionId, assistantMessage);
 
     return response;
+  }
+
+  /**
+   * 处理消息并返回标准化的API响应
+   */
+  async processMessageWithStandardResponse(sessionId: string, content: string, requestId?: string) {
+    try {
+      const response = await this.processMessage(sessionId, content);
+      return ApiResponseFactory.success(response, 'Message processed successfully', requestId);
+    } catch (error: any) {
+      Logger.error('Error processing message', { 
+        error: error.message, 
+        sessionId, 
+        requestId 
+      });
+      return ApiResponseFactory.internalError(error.message, requestId);
+    }
+  }
+
+  /**
+   * 获取会话信息并返回标准化的API响应
+   */
+  getSessionWithStandardResponse(sessionId: string, requestId?: string) {
+    try {
+      const context = this.getContext(sessionId);
+      if (!context) {
+        return ApiResponseFactory.notFound('Session not found', requestId);
+      }
+      return ApiResponseFactory.success(context, 'Session retrieved successfully', requestId);
+    } catch (error: any) {
+      Logger.error('Error getting session', { 
+        error: error.message, 
+        sessionId, 
+        requestId 
+      });
+      return ApiResponseFactory.internalError(error.message, requestId);
+    }
+  }
+
+  /**
+   * 关闭会话并返回标准化的API响应
+   */
+  async closeSessionWithStandardResponse(sessionId: string, requestId?: string) {
+    try {
+      await this.closeSession(sessionId);
+      return ApiResponseFactory.success(null, 'Session closed successfully', requestId);
+    } catch (error: any) {
+      Logger.error('Error closing session', { 
+        error: error.message, 
+        sessionId, 
+        requestId 
+      });
+      return ApiResponseFactory.internalError(error.message, requestId);
+    }
+  }
+
+  /**
+   * 获取所有会话并返回标准化的API响应
+   */
+  async getAllSessionsWithStandardResponse(requestId?: string) {
+    try {
+      const sessions = await this.getAllSessions();
+      return ApiResponseFactory.success(sessions, 'Sessions retrieved successfully', requestId);
+    } catch (error: any) {
+      Logger.error('Error getting all sessions', { 
+        error: error.message, 
+        requestId 
+      });
+      return ApiResponseFactory.internalError(error.message, requestId);
+    }
   }
 
   private async generateResponse(context: AgentContext): Promise<string> {
