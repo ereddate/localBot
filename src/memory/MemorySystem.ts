@@ -9,6 +9,7 @@ export class MemorySystem {
   private longTermMemoryFile: string;
   private cache: Map<string, MemoryEntry[]> = new Map();
   private embeddingsCache: Map<string, number[]> = new Map();
+  private initialized: boolean = false;
 
   constructor() {
     this.memoryDir = config.memoryDir;
@@ -27,9 +28,19 @@ export class MemorySystem {
       }
 
       await this.loadRecentMemories();
+      this.initialized = true;
       Logger.info('Memory system initialized', { memoryDir: this.memoryDir });
     } catch (error) {
       Logger.error('Error initializing memory system', { error: (error as Error).message });
+    }
+  }
+  
+  private async ensureInitialized(): Promise<void> {
+    if (!this.initialized) {
+      await new Promise(resolve => setTimeout(resolve, 100)); // Give initialization time to complete
+      if (!this.initialized) {
+        await new Promise(resolve => setTimeout(resolve, 500)); // Wait a bit longer
+      }
     }
   }
 
@@ -46,7 +57,19 @@ export class MemorySystem {
         this.cache.set(dateKey, entries);
       }
       
-      Logger.info(`Loaded ${mdFiles.length} memory files`);
+      // Also load long-term memory from MEMORY.md
+      try {
+        const longTermContent = await fs.readFile(this.longTermMemoryFile, 'utf-8');
+        if (longTermContent && longTermContent.trim() !== '# Long-term Memory\n\n') {
+          const longTermEntries = this.parseLongTermMemoryFile(longTermContent);
+          const longTermKey = 'long_term_memory';
+          this.cache.set(longTermKey, longTermEntries);
+        }
+      } catch (error) {
+        Logger.info('No long-term memory file found or error reading it', { error: (error as Error).message });
+      }
+      
+      Logger.info(`Loaded ${mdFiles.length} memory files and long-term memory`);
     } catch (error) {
       Logger.warn('Error loading recent memories', { error: (error as Error).message });
     }
@@ -65,6 +88,35 @@ export class MemorySystem {
         entries.push({
           id: this.generateId(),
           content: contentMatch[1].trim(),
+          timestamp: new Date(timestampMatch[1]),
+          tags: tagsMatch ? tagsMatch[1].split(',').map(t => t.trim()) : [],
+          importance: 1,
+        });
+      }
+    }
+
+    return entries;
+  }
+  
+  private parseLongTermMemoryFile(content: string): MemoryEntry[] {
+    const entries: MemoryEntry[] = [];
+    
+    // Split by sections starting with ## timestamp
+    const sections = content.split(/\n(?=## \d{4}-\d{2}-\d{2}T)/);
+    
+    for (const section of sections) {
+      if (section.trim() === '') continue;
+      
+      const timestampMatch = section.match(/## (\d{4}-\d{2}-\d{2}T[\d:.-]+Z)/);
+      const tagsMatch = section.match(/Tags: ([^\n\r]+)/);
+      const contentMatch = section.match(/\n(?:Tags: [^\n\r]+\n)?\n([.\s\S]*)/);
+
+      if (timestampMatch) {
+        const content = contentMatch ? contentMatch[1].trim() : section.replace(timestampMatch[0], '').replace(tagsMatch?.[0] || '', '').trim();
+        
+        entries.push({
+          id: this.generateId(),
+          content: content,
           timestamp: new Date(timestampMatch[1]),
           tags: tagsMatch ? tagsMatch[1].split(',').map(t => t.trim()) : [],
           importance: 1,
@@ -106,6 +158,8 @@ export class MemorySystem {
   }
 
   async search(query: string, limit: number = 10): Promise<MemoryEntry[]> {
+    await this.ensureInitialized();
+    
     const allEntries: MemoryEntry[] = [];
 
     for (const entries of this.cache.values()) {
@@ -226,6 +280,8 @@ export class MemorySystem {
   }
 
   async getRecentEntries(days: number = 7): Promise<MemoryEntry[]> {
+    await this.ensureInitialized();
+    
     const entries: MemoryEntry[] = [];
     const today = new Date();
 

@@ -25,6 +25,7 @@ export class Gateway {
     
     // Load memory from memory system if available
     let memory: MemoryEntry[] = [];
+    
     if (this.memorySystem) {
       // Search for memories related to this session/user
       try {

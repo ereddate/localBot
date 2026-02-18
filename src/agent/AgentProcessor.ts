@@ -141,6 +141,13 @@ export class AgentProcessor {
     
     const systemPrompt = this.buildSystemPrompt(context);
     const currentProvider = this.router.getCurrentProvider();
+    
+    // Debug: Log if system prompt contains time info
+    if (systemPrompt.includes('Current Date and Time')) {
+      Logger.info('System prompt contains time information');
+    } else {
+      Logger.warn('System prompt does NOT contain time information!');
+    }
 
     try {
       let response: string;
@@ -264,7 +271,7 @@ These features allow you to perform complex automated tasks on the user's system
 `
       : '';
 
-    return `You are an intelligent AI assistant with access to local tools and memory systems.${automationInfo}
+    const systemPrompt = `You are an intelligent AI assistant with access to local tools and memory systems.${automationInfo}
 
 ## Your Capabilities
 
@@ -316,6 +323,8 @@ You have access to a memory system where you can:
 - Respect user privacy and data security
 - When in doubt, err on the side of helping the user
 - Exercise extra caution with automation tools that affect system operations`;
+
+    return systemPrompt;
   }
 
   private groupToolsByCategory(tools: Tool[]): Record<string, Tool[]> {
@@ -331,11 +340,67 @@ You have access to a memory system where you can:
 
     return grouped;
   }
+  
+  private buildMemoryContext(memories: any[]): string {
+    if (!memories || memories.length === 0) {
+      return '';
+    }
+    
+    const memoryText = memories.map((mem, index) => {
+      const timestamp = mem.timestamp ? new Date(mem.timestamp).toLocaleDateString('zh-CN') : '未知日期';
+      const tags = mem.tags && mem.tags.length > 0 ? `[${mem.tags.join(', ')}]` : '';
+      return `${index + 1}. ${timestamp} ${tags}\n   ${mem.content}`;
+    }).join('\n\n');
+    
+    return `## Relevant Memories from Previous Conversations\n\n${memoryText}`;
+  }
 
   private async buildMessages(context: AgentContext, systemPrompt: string): Promise<OpenAI.Chat.ChatCompletionMessageParam[]> {
+    // Get current date and time for a separate system message
+    const now = new Date();
+    const currentDateTime = now.toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      timeZone: 'Asia/Shanghai'
+    });
+    const currentDate = now.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      timeZone: 'Asia/Shanghai'
+    });
+
+    const timeMessage = `## CRITICAL: Current Date and Time
+
+**YOU MUST KNOW**: The current date and time is:
+- **Date**: ${currentDate}
+- **Full DateTime**: ${currentDateTime}
+
+**IMPORTANT INSTRUCTIONS**:
+1. ALWAYS use this current date and time when responding to ANY time-related questions
+2. NEVER say "I don't know the current time" or "I don't have access to real-time information"
+3. When users ask about time, date, or anything temporal, ALWAYS reference the time provided above
+4. Do NOT use system date/time from your training data - use ONLY the time provided here`;
+
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
+      { role: 'system', content: timeMessage },
     ];
+
+    // Add memory context if available
+    if (context.memory && context.memory.length > 0) {
+      const memoryContext = this.buildMemoryContext(context.memory);
+      messages.push({
+        role: 'system',
+        content: memoryContext
+      });
+    }
 
     // Load recent messages from session manager
     const session = await this.sessionManager.getSession(context.sessionId);
@@ -352,9 +417,51 @@ You have access to a memory system where you can:
   }
 
   private async buildMessagesForOllama(context: AgentContext, systemPrompt: string): Promise<Array<{ role: string; content: string }>> {
+    // Get current date and time for a separate system message
+    const now = new Date();
+    const currentDateTime = now.toLocaleString('zh-CN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+      timeZone: 'Asia/Shanghai'
+    });
+    const currentDate = now.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      timeZone: 'Asia/Shanghai'
+    });
+
+    const timeMessage = `## CRITICAL: Current Date and Time
+
+**YOU MUST KNOW**: The current date and time is:
+- **Date**: ${currentDate}
+- **Full DateTime**: ${currentDateTime}
+
+**IMPORTANT INSTRUCTIONS**:
+1. ALWAYS use this current date and time when responding to ANY time-related questions
+2. NEVER say "I don't know the current time" or "I don't have access to real-time information"
+3. When users ask about time, date, or anything temporal, ALWAYS reference the time provided above
+4. Do NOT use system date/time from your training data - use ONLY the time provided here`;
+
     const messages: Array<{ role: string; content: string }> = [
       { role: 'system', content: systemPrompt },
+      { role: 'system', content: timeMessage },
     ];
+
+    // Add memory context if available
+    if (context.memory && context.memory.length > 0) {
+      const memoryContext = this.buildMemoryContext(context.memory);
+      messages.push({
+        role: 'system',
+        content: memoryContext
+      });
+    }
 
     // Load recent messages from session manager
     const session = await this.sessionManager.getSession(context.sessionId);

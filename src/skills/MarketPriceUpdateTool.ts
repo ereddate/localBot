@@ -1,6 +1,7 @@
 import { Tool, ToolResult } from '../types';
 import { Logger } from '../utils/Logger';
 import { ConsoleLogger } from '../utils/ConsoleLogger';
+import { DateUtils } from '../utils/DateUtils';
 
 export class MarketPriceUpdateTool implements Tool {
   name = 'market_price_update';
@@ -43,7 +44,7 @@ export class MarketPriceUpdateTool implements Tool {
       return { 
         success: true, 
         data: {
-          timestamp: new Date().toISOString(),
+          timestamp: DateUtils.nowISOString(),
           prices: prices
         }
       };
@@ -83,7 +84,7 @@ export class MarketPriceUpdateTool implements Tool {
         current_price: parseFloat(currentPrice.toFixed(symbol.startsWith('GC=') || symbol.startsWith('SI=') ? 2 : 2)),
         price_change: parseFloat(priceChange.toFixed(2)),
         price_change_percent: parseFloat((changeFactor * 100).toFixed(2)),
-        last_updated: new Date().toISOString()
+        last_updated: DateUtils.nowISOString()
       };
 
       if (includeDetails) {

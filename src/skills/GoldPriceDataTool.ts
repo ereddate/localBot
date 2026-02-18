@@ -1,6 +1,7 @@
 import { Tool, ToolResult } from '../types';
 import { Logger } from '../utils/Logger';
 import { ConsoleLogger } from '../utils/ConsoleLogger';
+import { DateUtils } from '../utils/DateUtils';
 import axios from 'axios';
 
 export class GoldPriceDataTool implements Tool {
@@ -55,7 +56,7 @@ export class GoldPriceDataTool implements Tool {
           end_date: endDate,
           interval: interval,
           data: data,
-          last_updated: new Date().toISOString()
+          last_updated: DateUtils.nowISOString()
         }
       };
     } catch (error) {
@@ -85,7 +86,7 @@ export class GoldPriceDataTool implements Tool {
       currentPrice = Math.max(1500, currentPrice + fluctuation); // Minimum price of 1500
       
       dataPoints.push({
-        date: new Date(currentDate).toISOString().split('T')[0],
+        date: DateUtils.formatDate(currentDate),
         price: parseFloat(currentPrice.toFixed(2)),
         open: parseFloat((currentPrice * (0.99 + Math.random() * 0.02)).toFixed(2)),
         high: parseFloat((currentPrice * (1 + Math.random() * 0.03)).toFixed(2)),
