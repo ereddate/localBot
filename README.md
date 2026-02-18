@@ -4,7 +4,7 @@ An advanced local AI personal assistant with multi-provider support including Ch
 
 ## Why Choose LocalBot?
 
-LocalBot stands out as a comprehensive AI assistant platform with unique advantages:
+LocalBot stands out as a comprehensive AI assistant platform with unique advantages, designed to serve diverse user groups:
 
 ### 🏆 **Domestic AI Model Excellence**
 - **Full support for Chinese AI models**: Native integration with Baidu ERNIE Bot, Tencent HunYuan, Zhipu ChatGLM, and SiliconCloud
@@ -24,9 +24,93 @@ LocalBot stands out as a comprehensive AI assistant platform with unique advanta
 - **Security-focused**: Built-in encryption, secure shell operations, and permission management
 
 ### 🌐 **Universal Applicability**
-- **General users**: Daily task automation, home management, and productivity tools
-- **Developers**: Code analysis, database operations, API testing, file management, and system tools
-- **Professionals**: Specialized tools for finance, taxation, HR, sales, project management, legal compliance, and data science
+
+#### 1. **General Users' Daily Needs**
+LocalBot helps general users solve various daily needs:
+
+##### Home Automation
+- **Smart Home Control**: Control smart devices through `IoTDeviceControlTool`
+- **Schedule Management**: Manage schedules using `CalendarSchedulerTool` and `CalendarEventTool`
+- **Health Tracking**: Track family members' health status through `HealthTrackerTool`
+- **Financial Tracking**: Manage personal and family finances using `FinanceTrackerTool`
+- **Reminders and To-Dos**: Manage task lists through `ReminderTodoTool`
+
+##### Utility Tools
+- **Weather Query**: Get weather information using `WeatherTool`
+- **News Aggregation**: Get latest updates through `NewsAggregatorTool`
+- **Translation Service**: Perform text translation using `TranslationTool`
+- **Calculator**: Perform mathematical calculations through `CalculatorTool`
+- **Password Generation**: Generate secure passwords using `PasswordGeneratorTool`
+- **Map Location**: Get location services through `MapLocationTool` and `AdvancedLocationServiceTool`
+
+##### File and System Operations
+- **File Management**: Read, write, list, and delete files
+- **System Monitoring**: View system information, process list, and resource usage
+- **Notification Reminders**: Send notifications and schedule reminders
+
+#### 2. **Developer Programming Needs**
+LocalBot provides rich tools to assist developers:
+
+##### Code Development Tools
+- **Code Analysis**: Analyze code quality and structure using `CodeAnalysisTool`
+- **Shell Commands**: Execute system commands through `ShellTool`
+- **Database Operations**: Connect and operate databases (`DatabaseConnectTool`, `DatabaseExecuteTool`, etc.)
+- **API Operations**: Execute HTTP requests (`ApiGetTool`, `ApiPostTool`, `ApiPutTool`, `ApiDeleteTool`)
+- **File Operations**: Read and write code files and other development-related files
+
+##### Data Processing Tools
+- **Data Format Handling**: CSV and JSON file reading/writing (`CsvReadTool`, `JsonWriteTool`, etc.)
+- **Text Processing**: Text analysis, search, and transformation (`TextAnalysisTool`, `TextSearchTool`, `TextTransformTool`)
+- **Data Validation**: Perform data validation using `ValidationCheckTool`
+
+##### System Tools
+- **Log Management**: Manage system logs using `LogManagementTool`
+- **Configuration Management**: Manage configuration files through `ConfigManagementTool`
+- **Compression Tools**: ZIP/UNZIP operations (`ZipTool`, `UnzipTool`, etc.)
+- **Security Tools**: Encryption and decryption functions (`EncryptTool`, `DecryptTool`, `HashTool`)
+
+##### AI-Assisted Development
+- **AI Model Operations**: Perform AI model operations using `AiModelTool`
+- **Embedding Vectors**: Generate text embeddings through `EmbeddingTool`
+- **Image Generation**: Generate images using `ImageGenerationTool`
+
+#### 3. **Professional Domain-Specific Needs**
+LocalBot has targeted functions in multiple professional domains:
+
+##### Finance and Tax Domain
+- **Financial Calculation**: Use `FinancialCalculatorTool` and `AccountingSystemTool`
+- **Tax Planning**: Provide corporate and personal tax planning through `TaxCalculationTool`, `TaxSoftwareIntegrationTool`, `IRSEfileSystemTool`
+- **Payment Gateway**: Handle payment transactions using `PaymentGatewayTool`
+
+##### Human Resources Domain
+- **HR System**: Manage human resources through `HrSystemTool`
+- **Recruitment Management**: Manage recruitment documents using `DocumentManagementTool`
+
+##### Sales and Marketing Domain
+- **CRM Operations**: Manage customer relationships using `CrmTool`
+- **Sales Analysis**: Perform dynamic analysis through `SalesAnalyticsTool`
+- **Marketing Automation**: Perform business intelligence analysis using `BusinessIntelligenceTool`
+
+##### Project Management
+- **Project Tracking**: Use `ProjectManagementTool` and `ProjectManagementToolExtended`
+- **Time Tracking**: Track project time through `TimeTrackingTool` and `TimeTrackingToolExtended`
+- **Workflow Approval**: Perform workflow approval using `WorkflowApprovalTool`
+
+##### Data Science and Analysis
+- **Data Discovery**: Explore data sources using `DataDiscoveryTool`
+- **Data Integration**: Merge multiple data sources through `DataIntegrationTool`
+- **ETL Processing**: Perform data pipeline processing using `ETLTool`
+- **Data Quality**: Ensure data quality through `DataQualityTool` and `DataCleaningTool`
+- **Machine Learning**: Perform model training using `MachineLearningTool`
+- **Data Visualization**: Create data visualizations through `VisualizationTool` and `DashboardTool`
+
+##### Legal Compliance
+- **Legal Research**: Perform legal research using `LegalResearchTool`
+- **Compliance Database**: Query compliance standards through `ComplianceDatabaseTool`
+- **Compliance Checks**: Perform compliance checks using `ComplianceCheckerTool`
+
+##### Strategic Planning
+- **Strategic Planning**: Perform strategic planning and SWOT analysis using `StrategicPlanningTool`
 
 ## Features
 
