@@ -6,9 +6,11 @@ import { RetryHandler } from '../utils/RetryHandler';
 import { MultiAIRouter } from './MultiAIRouter';
 import { AutomationController } from '../tasks/AutomationController';
 import { SkillManager } from '../skills/SkillManager';
+import { OllamaService } from '../services/OllamaService';
 
 export class AgentProcessor {
   private openai: OpenAI;
+  private ollamaService: OllamaService;
   private router: MultiAIRouter;
   private conversationHistory: Map<string, Array<{ role: string; content: string }>> = new Map();
   private automationController?: AutomationController;
@@ -16,6 +18,7 @@ export class AgentProcessor {
   constructor(private skillManager?: SkillManager) {
     this.router = new MultiAIRouter();
     this.openai = this.createClient(this.router.getCurrentProvider());
+    this.ollamaService = new OllamaService();
   }
 
   async initializeAutomation(): Promise<void> {
@@ -106,7 +109,9 @@ export class AgentProcessor {
 
   switchProvider(provider: LLMProvider): void {
     this.router.setCurrentProvider(provider);
-    this.openai = this.createClient(provider);
+    if (provider !== 'ollama') {
+      this.openai = this.createClient(provider);
+    }
     Logger.info(`Switched to provider: ${provider}`);
   }
 
@@ -116,21 +121,37 @@ export class AgentProcessor {
 
   async process(context: AgentContext): Promise<string> {
     const systemPrompt = this.buildSystemPrompt(context);
-    const messages = this.buildMessages(context, systemPrompt);
     const currentProvider = this.router.getCurrentProvider();
 
     try {
-      const completion = await RetryHandler.execute(
-        () => this.openai.chat.completions.create({
-          model: this.getModel(currentProvider),
-          messages,
-          temperature: 0.7,
-          max_tokens: 2000,
-        }),
-        { maxRetries: 3, initialDelay: 1000 }
-      );
+      let response: string;
+      
+      if (currentProvider === 'ollama') {
+        // Use Ollama service for local inference
+        const messages = this.buildMessagesForOllama(context, systemPrompt);
+        
+        const ollamaResponse = await RetryHandler.execute(
+          () => this.ollamaService.chat(messages, config.ollamaModelName),
+          { maxRetries: 3, initialDelay: 1000 }
+        );
+        
+        response = ollamaResponse.response;
+      } else {
+        // Use OpenAI-compatible providers
+        const messages = this.buildMessages(context, systemPrompt);
+        
+        const completion = await RetryHandler.execute(
+          () => this.openai.chat.completions.create({
+            model: this.getModel(currentProvider),
+            messages,
+            temperature: 0.7,
+            max_tokens: 2000,
+          }),
+          { maxRetries: 3, initialDelay: 1000 }
+        );
 
-      const response = completion.choices[0]?.message?.content || 'No response generated';
+        response = completion.choices[0]?.message?.content || 'No response generated';
+      }
       
       this.router.recordCall(currentProvider, true);
       
@@ -244,6 +265,22 @@ You have access to a memory system where you can:
 
   private buildMessages(context: AgentContext, systemPrompt: string): OpenAI.Chat.ChatCompletionMessageParam[] {
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
+      { role: 'system', content: systemPrompt },
+    ];
+
+    const recentMessages = context.messages.slice(-10);
+    recentMessages.forEach(msg => {
+      messages.push({
+        role: msg.role,
+        content: msg.content,
+      });
+    });
+
+    return messages;
+  }
+
+  private buildMessagesForOllama(context: AgentContext, systemPrompt: string): Array<{ role: string; content: string }> {
+    const messages: Array<{ role: string; content: string }> = [
       { role: 'system', content: systemPrompt },
     ];
 

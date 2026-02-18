@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-export type LLMProvider = 'openai' | 'aliyun' | 'anthropic' | 'baidu' | 'tencent' | 'zhipu' | 'siliconcloud';
+export type LLMProvider = 'openai' | 'aliyun' | 'anthropic' | 'baidu' | 'tencent' | 'zhipu' | 'siliconcloud' | 'ollama';
 
 export interface Config {
   llmProvider: LLMProvider;
@@ -15,6 +15,11 @@ export interface Config {
   tencentApiKey: string;
   zhipuApiKey: string;
   siliconcloudApiKey: string;
+  ollamaApiUrl: string;
+  ollamaModelName: string;
+  useGpu: boolean;
+  gpuDevice: string;
+  gpuMemoryFraction: number;
   port: number;
   logLevel: string;
   memoryDir: string;
@@ -32,6 +37,11 @@ export const config: Config = {
   tencentApiKey: process.env.TENCENT_API_KEY || '',
   zhipuApiKey: process.env.ZHIPU_API_KEY || '',
   siliconcloudApiKey: process.env.SILICONCLOUD_API_KEY || '',
+  ollamaApiUrl: process.env.OLLAMA_API_URL || 'http://localhost:11434',
+  ollamaModelName: process.env.OLLAMA_MODEL_NAME || 'llama3.2',
+  useGpu: process.env.USE_GPU === 'true',
+  gpuDevice: process.env.GPU_DEVICE || 'cpu',
+  gpuMemoryFraction: parseFloat(process.env.GPU_MEMORY_FRACTION || '0.8'),
   port: parseInt(process.env.PORT || '3000', 10),
   logLevel: process.env.LOG_LEVEL || 'info',
   memoryDir: process.env.MEMORY_DIR || './memory',

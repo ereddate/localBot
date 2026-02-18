@@ -1,5 +1,6 @@
 import { LLMProvider, config } from '../config';
 import { Logger } from '../utils/Logger';
+import { Ollama } from 'ollama';
 
 export interface AIProviderConfig {
   name: LLMProvider;
@@ -90,6 +91,16 @@ export class MultiAIRouter {
       costPerToken: 0.000012,
       maxTokens: 32768,
       latency: 1600,
+    });
+
+    this.providers.set('ollama', {
+      name: 'ollama',
+      displayName: 'Ollama Local',
+      priority: 8, // High priority since it's local
+      capabilities: ['reasoning', 'coding', 'offline', 'cost-effective', 'gpu-accelerated'],
+      costPerToken: 0, // No cost for local inference
+      maxTokens: 4096,
+      latency: 800, // Typically lower for local inference
     });
 
     this.providers.forEach((_, provider) => {

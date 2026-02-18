@@ -1,4 +1,4 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolCategory, ToolType } from '../types';
 
 export class ComplianceDatabaseTool implements Tool {
   name = 'compliance_database';
