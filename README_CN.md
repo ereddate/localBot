@@ -6,29 +6,94 @@
 
 LocalBot作为综合性AI助手平台，具备独特的优势，旨在服务多样化的用户群体：
 
-### 🏆 **国产AI模型优势**
-- **全面支持国产AI模型**: 原生集成百度文心一言、腾讯混元、智谱AI、硅基流动等
-- **智能模型路由**: 根据任务需求和语言自动选择最优AI提供商
-- **性能优化**: 专为中文处理和本地使用模式量身定制
-
-### 🤖 **全面自动化能力**
-- **80+内置工具**: 涵盖文件操作、系统管理、数据处理、业务工具、AI工具和安全
-- **业务流程自动化**: 完整自动化销售、财务、人事、运营、税务规划、项目管理、CRM、营销和合规
-- **家庭自动化**: 智能家居控制、财务跟踪、健康监测和日程管理
-- **可定制工作流**: 创建和扩展适合特定需求的自动化流程
-
-### 🔐 **隐私优先架构**
-- **本地优先设计**: 数据处理优先本地执行，增强隐私保护
-- **离线功能**: 许多功能可在无互联网连接的情况下运行
-- **数据控制**: 通过本地存储选项完全控制您的数据
-- **安全专注**: 内置加密、安全Shell操作和权限管理
-
 ### 🌐 **普遍适用性**
-有关LocalBot如何服务不同用户群体的详细信息，请参阅：
-- [技能系统](./docs/SKILLS_SYSTEM.md) - 工具和功能的全面列表
-- [自动化流程](./docs/AUTOMATION_PROCESSES_CN.md) - 详细的业务和家庭自动化工作流程
-- [自定义技能和模型指南](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE_CN.md) - 扩展LocalBot功能的说明
-- [架构概览](./docs/ARCHITECTURE_OVERVIEW.md) - 技术架构和设计原则
+
+#### 1. **一般用户的日常需求**
+LocalBot 可以帮助一般用户解决多种日常需求：
+
+##### 家庭自动化
+- **智能家居控制**: 通过 `IoTDeviceControlTool` 控制智能设备
+- **日程管理**: 使用 `CalendarSchedulerTool` 和 `CalendarEventTool` 管理日程
+- **健康追踪**: 通过 `HealthTrackerTool` 跟踪家庭成员健康状况
+- **财务跟踪**: 使用 `FinanceTrackerTool` 管理个人和家庭财务
+- **提醒和待办事项**: 通过 `ReminderTodoTool` 管理任务清单
+
+##### 实用工具
+- **天气查询**: 使用 `WeatherTool` 获取天气信息
+- **新闻聚合**: 通过 `NewsAggregatorTool` 获取最新资讯
+- **翻译服务**: 使用 `TranslationTool` 进行文本翻译
+- **计算器**: 通过 `CalculatorTool` 执行数学计算
+- **密码生成**: 使用 `PasswordGeneratorTool` 生成安全密码
+- **地图定位**: 通过 `MapLocationTool` 和 `AdvancedLocationServiceTool` 获取位置服务
+
+##### 文件和系统操作
+- **文件管理**: 读写、列出和删除文件
+- **系统监控**: 查看系统信息、进程列表和资源使用情况
+- **通知提醒**: 发送通知和安排提醒
+
+#### 2. **开发人员的编程需求**
+LocalBot 提供了丰富的工具来协助开发人员：
+
+##### 代码开发工具
+- **代码分析**: 使用 `CodeAnalysisTool` 分析代码质量和结构
+- **Shell命令**: 通过 `ShellTool` 执行系统命令
+- **数据库操作**: 连接和操作数据库（`DatabaseConnectTool`, `DatabaseExecuteTool`等）
+- **API操作**: 执行HTTP请求（`ApiGetTool`, `ApiPostTool`, `ApiPutTool`, `ApiDeleteTool`）
+- **文件操作**: 读写代码文件和其他开发相关文件
+
+##### 数据处理工具
+- **数据格式处理**: CSV和JSON文件读写（`CsvReadTool`, `JsonWriteTool`等）
+- **文本处理**: 文本分析、搜索和转换（`TextAnalysisTool`, `TextSearchTool`, `TextTransformTool`）
+- **数据验证**: 使用 `ValidationCheckTool` 进行数据验证
+
+##### 系统工具
+- **日志管理**: 使用 `LogManagementTool` 管理系统日志
+- **配置管理**: 通过 `ConfigManagementTool` 管理配置文件
+- **压缩工具**: ZIP/UNZIP操作（`ZipTool`, `UnzipTool`等）
+- **安全工具**: 加密解密功能（`EncryptTool`, `DecryptTool`, `HashTool`）
+
+##### AI辅助开发
+- **AI模型操作**: 使用 `AiModelTool` 进行AI模型操作
+- **嵌入向量**: 通过 `EmbeddingTool` 生成文本嵌入
+- **图像生成**: 使用 `ImageGenerationTool` 生成图像
+
+#### 3. **专业领域的特定需求**
+LocalBot 在多个专业领域都有针对性的功能：
+
+##### 财务和税务领域
+- **财务计算**: 使用 `FinancialCalculatorTool` 和 `AccountingSystemTool`
+- **税务规划**: 通过 `TaxCalculationTool`, `TaxSoftwareIntegrationTool`, `IRSEfileSystemTool` 提供企业和个人税务规划
+- **支付网关**: 使用 `PaymentGatewayTool` 处理支付事务
+
+##### 人力资源领域
+- **HR系统**: 通过 `HrSystemTool` 管理人力资源
+- **招聘管理**: 使用 `DocumentManagementTool` 管理招聘文档
+
+##### 销售和营销领域
+- **CRM操作**: 使用 `CrmTool` 管理客户关系
+- **销售分析**: 通过 `SalesAnalyticsTool` 进行动态分析
+- **营销自动化**: 使用 `BusinessIntelligenceTool` 进行商业智能分析
+
+##### 项目管理
+- **项目跟踪**: 使用 `ProjectManagementTool` 和 `ProjectManagementToolExtended`
+- **时间跟踪**: 通过 `TimeTrackingTool` 和 `TimeTrackingToolExtended` 跟踪项目时间
+- **工作流审批**: 使用 `WorkflowApprovalTool` 进行工作流审批
+
+##### 数据科学和分析
+- **数据发现**: 使用 `DataDiscoveryTool` 探索数据源
+- **数据集成**: 通过 `DataIntegrationTool` 合并多个数据源
+- **ETL处理**: 使用 `ETLTool` 进行数据管道处理
+- **数据质量**: 通过 `DataQualityTool` 和 `DataCleaningTool` 确保数据质量
+- **机器学习**: 使用 `MachineLearningTool` 进行模型训练
+- **数据可视化**: 通过 `VisualizationTool` 和 `DashboardTool` 创建数据可视化
+
+##### 法律合规
+- **法律研究**: 使用 `LegalResearchTool` 进行法律研究
+- **合规数据库**: 通过 `ComplianceDatabaseTool` 查询合规标准
+- **合规检查**: 使用 `ComplianceCheckerTool` 进行合规检查
+
+##### 战略规划
+- **战略规划**: 使用 `StrategicPlanningTool` 进行战略规划和SWOT分析
 
 ## 功能特点
 
