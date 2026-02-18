@@ -67,6 +67,8 @@ import { ComplianceDatabaseTool } from './ComplianceDatabaseTool';
 import { StrategicPlanningTool } from './StrategicPlanningTool';
 import { AdvancedLocationServiceTool } from './AdvancedLocationServiceTool';
 import { SearchTool } from './SearchTool';
+import { ImageViewerTool } from './ImageViewerTool';
+import { KritaTool } from './KritaTool';
 import { WebScrapingTool } from './WebScrapingTool';
 import { EmailSendingTool } from './EmailSendingTool';
 import { CodeInterpreterTool } from './CodeInterpreterTool';
@@ -498,6 +500,14 @@ export class SkillManager {
     
     // 注册市场价格更新工具
     this.registerTool(marketPriceUpdateTool);
+    
+    // 注册图片查看工具
+    const imageViewerTool = new ImageViewerTool();
+    this.registerTool(imageViewerTool);
+    
+    // 注册Krita绘图工具
+    const kritaTool = new KritaTool();
+    this.registerTool(kritaTool);
 
     // 原始技能
     const fileSystemSkill = {
