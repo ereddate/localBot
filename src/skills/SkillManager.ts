@@ -1176,6 +1176,8 @@ export class SkillManager {
         enabledTools.push(...skill.tools);
       }
     }
+    // Also include all individually registered tools
+    enabledTools.push(...this.tools.values());
     return enabledTools;
   }
 

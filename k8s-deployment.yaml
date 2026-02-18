@@ -1,0 +1,121 @@
+# LocalBot Kubernetes Deployment Configuration
+#
+# Use these YAML files to deploy LocalBot to a Kubernetes cluster
+#
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: localbot-deployment
+  labels:
+    app: localbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: localbot
+  template:
+    metadata:
+      labels:
+        app: localbot
+    spec:
+      containers:
+      - name: localbot
+        image: localbot:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        - name: RUN_MODE
+          value: "server"
+        - name: PORT
+          value: "3000"
+        - name: LLM_PROVIDER
+          valueFrom:
+            configMapKeyRef:
+              name: localbot-config
+              key: llm-provider
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: localbot-secrets
+              key: openai-api-key
+        - name: LOG_LEVEL
+          value: "info"
+        - name: ENABLE_PERSISTENCE
+          value: "true"
+        volumeMounts:
+        - name: localbot-data
+          mountPath: /app/data
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+      volumes:
+      - name: localbot-data
+        persistentVolumeClaim:
+          claimName: localbot-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: localbot-service
+spec:
+  selector:
+    app: localbot
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: localbot-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: localbot-config
+data:
+  llm-provider: "openai"
+  port: "3000"
+  log-level: "info"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: localbot-secrets
+type: Opaque
+data:
+  # These should be base64 encoded values
+  # Example: echo -n 'your-api-key' | base64
+  openai-api-key: <base64-encoded-api-key-here>

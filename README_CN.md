@@ -117,6 +117,10 @@ LocalBot 在多个专业领域都有针对性的功能：
 - [GPU加速设置](./docs/GPU_SETUP.md)
 - [Ollama配置与故障排除](./docs/TROUBLESHOOTING_OLLAMA.md)
 
+部署配置请参阅：
+- [Docker部署指南](./DOCKER_DEPLOYMENT.md)
+- [Kubernetes部署](./k8s-deployment.yaml)
+
 ### 🏢 企业级功能
 - **综合自动化**: 包括业务流程、家庭自动化、税务规划、项目管理、CRM、营销和合规自动化
 

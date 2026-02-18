@@ -5,8 +5,15 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
+    "dev:server": "RUN_MODE=server nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+    "start:server": "RUN_MODE=server node dist/index.js",
+    "server": "node dist/server.js",
+    "docker:build": "docker build -t localbot .",
+    "docker:run": "docker run -p 3000:3000 localbot",
+    "compose:up": "docker-compose up -d",
+    "compose:down": "docker-compose down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [

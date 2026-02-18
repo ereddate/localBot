@@ -19,7 +19,7 @@ export class CLIInterface {
   constructor() {
     this.memorySystem = new MemorySystem();
     this.skillManager = new SkillManager(this.memorySystem);
-    this.gateway = new Gateway();
+    this.gateway = new Gateway(this.skillManager);
     this.agentProcessor = new AgentProcessor(this.skillManager);
     this.sessionId = `cli-${uuidv4()}`; // Generate unique session ID
     this.rl = readline.createInterface({

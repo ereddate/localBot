@@ -1,0 +1,41 @@
+{
+  "development": {
+    "port": 3000,
+    "host": "localhost",
+    "logLevel": "debug",
+    "enablePersistence": true,
+    "persistenceDir": "./sessions",
+    "memoryDir": "./memory",
+    "skillsDir": "./skills",
+    "llmProvider": "openai",
+    "useGpu": false
+  },
+  "production": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "logLevel": "info",
+    "enablePersistence": true,
+    "persistenceDir": "/data/sessions",
+    "memoryDir": "/data/memory",
+    "skillsDir": "/data/skills",
+    "llmProvider": "openai",
+    "useGpu": false
+  },
+  "cloud": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "logLevel": "warn",
+    "enablePersistence": true,
+    "persistenceDir": "/app/data/sessions",
+    "memoryDir": "/app/data/memory",
+    "skillsDir": "/app/data/skills",
+    "llmProvider": "openai",
+    "useGpu": false,
+    "maxConnections": 100,
+    "requestTimeout": 30000,
+    "rateLimit": {
+      "windowMs": 900000,
+      "max": 100
+    }
+  }
+}

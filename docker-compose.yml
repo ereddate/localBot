@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  localbot:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ALIYUN_API_KEY=${ALIYUN_API_KEY}
+      - ALIYUN_MODEL=${ALIYUN_MODEL:-qwen-plus}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - BAIDU_API_KEY=${BAIDU_API_KEY}
+      - BAIDU_SECRET_KEY=${BAIDU_SECRET_KEY}
+      - TENCENT_API_KEY=${TENCENT_API_KEY}
+      - ZHIPU_API_KEY=${ZHIPU_API_KEY}
+      - SILICONCLOUD_API_KEY=${SILICONCLOUD_API_KEY}
+      - OLLAMA_API_URL=${OLLAMA_API_URL:-http://localhost:11434}
+      - OLLAMA_MODEL_NAME=${OLLAMA_MODEL_NAME:-llama3.2}
+      - USE_GPU=${USE_GPU:-false}
+      - GPU_DEVICE=${GPU_DEVICE:-cpu}
+      - GPU_MEMORY_FRACTION=${GPU_MEMORY_FRACTION:-0.8}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - MEMORY_DIR=${MEMORY_DIR:-./memory}
+      - SKILLS_DIR=${SKILLS_DIR:-./skills}
+      - ENABLE_PERSISTENCE=${ENABLE_PERSISTENCE:-true}
+      - PERSISTENCE_DIR=${PERSISTENCE_DIR:-./sessions}
+    volumes:
+      - ./memory:/app/memory
+      - ./sessions:/app/sessions
+      - ./skills:/app/skills
+      - ./.env:/app/.env:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  default:
+    driver: bridge

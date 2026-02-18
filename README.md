@@ -117,6 +117,10 @@ For detailed information about our automation processes and skills, see:
 - [GPU Acceleration Setup](./docs/GPU_SETUP.md)
 - [Ollama Configuration & Troubleshooting](./docs/TROUBLESHOOTING_OLLAMA.md)
 
+For deployment configurations, see:
+- [Docker Deployment Guide](./DOCKER_DEPLOYMENT.md)
+- [Kubernetes Deployment](./k8s-deployment.yaml)
+
 ### 🏢 Enterprise-Level Features
 - **Comprehensive Automation**: Including business processes, home automation, tax planning, project management, CRM, marketing, and compliance automation
 

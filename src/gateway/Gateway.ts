@@ -1,18 +1,24 @@
-import { AgentContext, Message, SessionData } from '../types';
+import { AgentContext, Message, SessionData, Tool } from '../types';
 import { SessionManager } from '../session/SessionManager';
 import { Logger } from '../utils/Logger';
 import { ApiResponseFactory } from '../api/ApiResponse';
+import { SkillManager } from '../skills/SkillManager';
 
 export class Gateway {
   private contexts: Map<string, AgentContext> = new Map();
   private sessionManager: SessionManager;
+  private skillManager?: SkillManager;
 
-  constructor() {
+  constructor(skillManager?: SkillManager) {
     this.sessionManager = new SessionManager();
+    this.skillManager = skillManager;
   }
 
   async createContext(sessionId: string, userId?: string): Promise<AgentContext> {
     const sessionData = await this.sessionManager.getSession(sessionId);
+    
+    // Determine available tools based on skill manager
+    const availableTools = this.skillManager ? this.skillManager.getAllTools() : [];
     
     if (sessionData) {
       const context: AgentContext = {
@@ -20,7 +26,7 @@ export class Gateway {
         userId,
         messages: sessionData.messages,
         memory: [],
-        availableTools: [],
+        availableTools,
         createdAt: sessionData.createdAt,
         lastActivity: sessionData.lastActivity,
       };
@@ -35,7 +41,7 @@ export class Gateway {
       userId,
       messages: newSession.messages,
       memory: [],
-      availableTools: [],
+      availableTools,
       createdAt: newSession.createdAt,
       lastActivity: newSession.lastActivity,
     };
@@ -158,7 +164,7 @@ export class Gateway {
 
   private async generateResponse(context: AgentContext): Promise<string> {
     const { AgentProcessor } = await import('../agent/AgentProcessor');
-    const processor = new AgentProcessor();
+    const processor = new AgentProcessor(this.skillManager);
     return processor.process(context);
   }
 
