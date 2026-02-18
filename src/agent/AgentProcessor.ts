@@ -141,13 +141,6 @@ export class AgentProcessor {
     
     const systemPrompt = this.buildSystemPrompt(context);
     const currentProvider = this.router.getCurrentProvider();
-    
-    // Debug: Log if system prompt contains time info
-    if (systemPrompt.includes('Current Date and Time')) {
-      Logger.info('System prompt contains time information');
-    } else {
-      Logger.warn('System prompt does NOT contain time information!');
-    }
 
     try {
       let response: string;
