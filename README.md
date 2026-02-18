@@ -106,14 +106,14 @@ LocalBot has targeted functions in multiple professional domains:
 - **Unified API Interface**: Standardized RESTful API endpoints for external integrations
 
 For detailed information about our automation processes and skills, see:
-- [Automation Processes](./docs/AUTOMATION_PROCESSES_CN.md)
+- [Automation Processes](./docs/AUTOMATION_PROCESSES.md)
 - [Skills System](./docs/SKILLS_SYSTEM.md)
-- [API Documentation](./docs/API_DOCUMENTATION_CN.md)
+- [API Documentation](./docs/API_DOCUMENTATION.md)
 - [API Specification](./docs/API_SPECIFICATION.md)
 - [Automation Capabilities](./docs/AUTOMATION_CAPABILITIES.md)
 - [Business Processes](./docs/BUSINESS_PROCESSES.md)
 - [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
-- [Custom Skills and Models Guide](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE_CN.md)
+- [Custom Skills and Models Guide](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE.md)
 
 ### 🏢 Enterprise-Level Features
 - **Comprehensive Automation**: Including business processes, home automation, tax planning, project management, CRM, marketing, and compliance automation
@@ -213,15 +213,20 @@ npm run dev
 npm run build
 ```
 
-## Architecture
+### Start
 
-- `src/agent/` - AI agent core logic
-- `src/memory/` - Memory system implementation
-- `src/skills/` - Tools and skills system
-- `src/tasks/` - Task scheduling and workflow
-- `src/utils/` - General utility functions
-- `sessions/` - Session data storage
-- `memory/` - Memory data storage
+```bash
+npm start
+```
+
+## CLI Commands
+
+Once the assistant is running, you can use these commands:
+
+- `help` - Show available commands
+- `tools` - List available tools
+- `skills` - List available skills
+- `exit` - Exit the assistant
 
 ## Available Tools
 
@@ -390,18 +395,35 @@ localAgentNew/
 └── reports/                # Generated reports (created on first run)
 ```
 
-## Extensibility
+## Memory System
 
-The system is designed for high extensibility, allowing you to easily add new tools and skills:
+The assistant has a two-tier memory system:
 
-1. Create a new tool class implementing the `Tool` interface
-2. Register the new tool in `SkillManager`
-3. Create the corresponding skill definition
-4. The tool will be automatically available
+1. **Daily Memory** - Stored in `memory/YYYY-MM-DD.md` files
+2. **Long-term Memory** - Stored in `memory/MEMORY.md` for important entries
 
-## Contributing
+## Project Structure
 
-Contributions are welcome! Please feel free to submit pull requests.
+```
+localAgentNew/
+├── src/
+│   ├── agent/           # Agent processing logic
+│   ├── gateway/         # Gateway for session management
+│   ├── interface/       # CLI interface
+│   ├── memory/          # Memory system
+│   └── skills/          # Tools and skills
+├── memory/              # Memory storage (created on first run)
+├── dist/                # Compiled JavaScript
+└── package.json
+```
+
+## Security Considerations
+
+This assistant has access to:
+- File system read/write
+- Shell command execution
+
+Use with caution and only in trusted environments.
 
 ## License
 
