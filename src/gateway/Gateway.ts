@@ -28,7 +28,19 @@ export class Gateway {
     if (this.memorySystem) {
       // Search for memories related to this session/user
       try {
-        memory = await this.memorySystem.search(sessionId.substring(0, 10)); // Use partial session ID as search query
+        // First, try to get recent entries for general context
+        const recentMemories = await this.memorySystem.getRecentEntries(7);
+        
+        // Also search for memories related to this specific session
+        const sessionMemories = await this.memorySystem.search(sessionId.substring(0, 10));
+        
+        // Combine both sets of memories, avoiding duplicates
+        const allMemoriesMap = new Map();
+        [...recentMemories, ...sessionMemories].forEach(entry => {
+          allMemoriesMap.set(entry.id, entry);
+        });
+        
+        memory = Array.from(allMemoriesMap.values());
       } catch (error) {
         Logger.warn('Could not load memory for session', { error: (error as Error).message });
       }
