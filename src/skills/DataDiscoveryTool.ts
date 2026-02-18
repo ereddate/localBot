@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class DataDiscoveryTool implements Tool {
   name = 'data_discovery_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Discovers and profiles data sources to understand their structure, content, and quality.';
   parameters = {
     type: 'object',
@@ -42,7 +41,8 @@ export class DataDiscoveryTool implements Tool {
           throw new Error(`Unsupported operation: ${operation}`);
       }
     } catch (error) {
-      return { error: `Failed to execute data discovery: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute data discovery: ${errorMessage}` };
     }
   }
 

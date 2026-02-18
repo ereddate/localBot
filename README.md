@@ -114,6 +114,8 @@ For detailed information about our automation processes and skills, see:
 - [Business Processes](./docs/BUSINESS_PROCESSES.md)
 - [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
 - [Custom Skills and Models Guide](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE.md)
+- [GPU Acceleration Setup](./docs/GPU_SETUP.md)
+- [Ollama Configuration & Troubleshooting](./docs/TROUBLESHOOTING_OLLAMA.md)
 
 ### 🏢 Enterprise-Level Features
 - **Comprehensive Automation**: Including business processes, home automation, tax planning, project management, CRM, marketing, and compliance automation

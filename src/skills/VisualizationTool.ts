@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class VisualizationTool implements Tool {
-  name = 'visualization_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  name = 'data_visualization_tool';
+  category = 'other' as const;
   description = 'Creates visual representations of data including charts, graphs, and dashboards.';
   parameters = {
     type: 'object',
@@ -50,7 +49,8 @@ export class VisualizationTool implements Tool {
       
       return this.createVisualization(data, chartType, xField, yField, title, options);
     } catch (error) {
-      return { error: `Failed to create visualization: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to create visualization: ${errorMessage}` };
     }
   }
 

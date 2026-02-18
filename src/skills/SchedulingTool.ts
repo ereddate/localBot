@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class SchedulingTool implements Tool {
   name = 'scheduling_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'productivity';
+  category = 'other' as const;
   description = 'Manages schedules, appointments, meetings, and calendar events.';
   parameters = {
     type: 'object',
@@ -87,7 +86,8 @@ export class SchedulingTool implements Tool {
           throw new Error(`Unsupported operation: ${operation}`);
       }
     } catch (error) {
-      return { error: `Failed to execute scheduling operation: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute scheduling operation: ${errorMessage}` };
     }
   }
 
@@ -261,9 +261,10 @@ export class SchedulingTool implements Tool {
 
   private async scheduleMeeting(eventData: any): Promise<any> {
     // Check availability of all attendees before scheduling
+    let unavailableAttendees: string[] = [];
     if (eventData.attendees && eventData.startDate && eventData.endDate) {
       // Simulate checking availability
-      const unavailableAttendees = [];
+      unavailableAttendees = [];
       
       for (const attendee of eventData.attendees) {
         // Simulate 20% chance of being unavailable

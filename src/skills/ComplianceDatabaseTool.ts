@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from '../types';
+import { Tool, ToolResult } from '../types';
 
 export class ComplianceDatabaseTool implements Tool {
-  name = 'compliance_database';
-  type: ToolType = 'function';
-  category: ToolCategory = 'legal';
+  name = 'compliance_database_tool';
+  category = 'other' as const;
   description = 'Manages compliance requirements, regulations, and standards in a structured database.';
   parameters = {
     type: 'object',
@@ -88,7 +87,8 @@ export class ComplianceDatabaseTool implements Tool {
           throw new Error(`Unsupported operation: ${operation}`);
       }
     } catch (error) {
-      return { error: `Failed to execute compliance database operation: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute compliance database operation: ${errorMessage}` };
     }
   }
 

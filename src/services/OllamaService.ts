@@ -116,9 +116,12 @@ export class OllamaService {
       const models = await this.ollama.list();
       const modelExists = models.models.some(m => m.name === modelName || m.name.startsWith(modelName));
       
+      // Initialize selectedModel with the requested model name
+      let selectedModel = modelName;
+      
       if (!modelExists) {
-        Logger.warn(`Model '${modelName}' not found, available models:`, 
-          models.models.map(m => m.name));
+        const availableModels = models.models.map(m => m.name);
+        Logger.warn(`Model '${modelName}' not found, available models: ${availableModels.join(', ')}`);
         
         // Try to find a suitable alternative model
         const fallbackModels = ['llama3.1', 'llama3', 'mistral', 'phi3', 'gemma2'];
@@ -142,9 +145,15 @@ export class OllamaService {
       }
 
       const startTime = Date.now();
+      // Convert messages to the format expected by Ollama
+      const ollamaMessages = messages.map(msg => ({
+        role: msg.role as 'user' | 'assistant' | 'system',
+        content: msg.content
+      }));
+
       const response = await this.ollama.chat({
         model: selectedModel,
-        messages: messages,
+        messages: ollamaMessages,
         options: {
           num_gpu: this.gpuEnabled ? -1 : 0, // Use all GPUs if available and enabled
           temperature: 0.7,

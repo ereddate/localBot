@@ -114,6 +114,8 @@ LocalBot 在多个专业领域都有针对性的功能：
 - [业务流程](./docs/BUSINESS_PROCESSES.md)
 - [架构概览](./docs/ARCHITECTURE_OVERVIEW.md)
 - [自定义技能和模型指南](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE_CN.md)
+- [GPU加速设置](./docs/GPU_SETUP.md)
+- [Ollama配置与故障排除](./docs/TROUBLESHOOTING_OLLAMA.md)
 
 ### 🏢 企业级功能
 - **综合自动化**: 包括业务流程、家庭自动化、税务规划、项目管理、CRM、营销和合规自动化

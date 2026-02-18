@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class TestingTool implements Tool {
   name = 'testing_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Performs various types of testing including unit tests, integration tests, and data validation tests.';
   parameters = {
     type: 'object',
@@ -49,7 +48,8 @@ export class TestingTool implements Tool {
       
       return this.runTests(testType, testTargets, testData, testSuite, configuration);
     } catch (error) {
-      return { error: `Failed to run tests: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to run tests: ${errorMessage}` };
     }
   }
 

@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class DashboardTool implements Tool {
   name = 'dashboard_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Creates and manages interactive dashboards with multiple visualizations and metrics.';
   parameters = {
     type: 'object',
@@ -55,7 +54,8 @@ export class DashboardTool implements Tool {
       
       return this.createDashboard(dashboardName, widgets, refreshInterval, permissions);
     } catch (error) {
-      return { error: `Failed to create dashboard: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to create dashboard: ${errorMessage}` };
     }
   }
 

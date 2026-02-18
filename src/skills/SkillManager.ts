@@ -1,4 +1,4 @@
-import { Tool, ToolCategory, ToolType } from './types'; // 假设有一个types文件定义了Tool接口
+import { Tool } from '../types';
 
 // 导入所有工具类
 import { FileTool, FileWriteTool, FileListTool, FileDeleteTool } from './FileTool';
@@ -66,6 +66,10 @@ import { LegalResearchTool } from './LegalResearchTool';
 import { ComplianceDatabaseTool } from './ComplianceDatabaseTool';
 import { StrategicPlanningTool } from './StrategicPlanningTool';
 import { AdvancedLocationServiceTool } from './AdvancedLocationServiceTool';
+import { SearchTool } from './SearchTool';
+import { WebScrapingTool } from './WebScrapingTool';
+import { EmailSendingTool } from './EmailSendingTool';
+import { CodeInterpreterTool } from './CodeInterpreterTool';
 
 export class SkillManager {
   private skills: Map<string, any>;
@@ -271,6 +275,14 @@ export class SkillManager {
     
     // 高级位置服务工具
     const advancedLocationServiceTool = new AdvancedLocationServiceTool();
+    
+    // 网络和通信工具
+    const searchTool = new SearchTool();
+    const webScrapingTool = new WebScrapingTool();
+    const emailSendingTool = new EmailSendingTool();
+    
+    // 代码执行工具
+    const codeInterpreterTool = new CodeInterpreterTool();
 
     // 注册所有工具
     this.registerTool(fileTool);
@@ -448,6 +460,14 @@ export class SkillManager {
     this.registerTool(etlTool);
     this.registerTool(dataQualityTool);
     this.registerTool(dataCleaningTool);
+    
+    // 注册网络和通信工具
+    this.registerTool(searchTool);
+    this.registerTool(webScrapingTool);
+    this.registerTool(emailSendingTool);
+    
+    // 注册代码执行工具
+    this.registerTool(codeInterpreterTool);
     this.registerTool(statisticalTool);
     this.registerTool(machineLearningTool);
     this.registerTool(dataMiningTool);

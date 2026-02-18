@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class LegalResearchTool implements Tool {
   name = 'legal_research_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'legal';
+  category = 'other' as const;
   description = 'Conducts legal research, analyzes regulations, and provides legal guidance on compliance matters.';
   parameters = {
     type: 'object',
@@ -82,7 +81,8 @@ export class LegalResearchTool implements Tool {
           throw new Error(`Unsupported research type: ${researchType}`);
       }
     } catch (error) {
-      return { error: `Failed to execute legal research: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute legal research: ${errorMessage}` };
     }
   }
 

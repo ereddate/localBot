@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class DataQualityTool implements Tool {
   name = 'data_quality_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Validates and assesses the quality of data based on defined rules and standards.';
   parameters = {
     type: 'object',
@@ -30,7 +29,8 @@ export class DataQualityTool implements Tool {
       
       return this.assessDataQuality(dataSource, validationRules, qualityThreshold);
     } catch (error) {
-      return { error: `Failed to assess data quality: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to assess data quality: ${errorMessage}` };
     }
   }
 

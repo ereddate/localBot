@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class DataIntegrationTool implements Tool {
   name = 'data_integration_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Integrates data from multiple sources into a unified format or destination.';
   parameters = {
     type: 'object',
@@ -47,7 +46,8 @@ export class DataIntegrationTool implements Tool {
           throw new Error(`Unsupported operation: ${operation}`);
       }
     } catch (error) {
-      return { error: `Failed to execute data integration: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute data integration: ${errorMessage}` };
     }
   }
 

@@ -72,6 +72,13 @@ import {
   dataVisualizationDashboardProcess,
   reportGenerationDistributionProcess
 } from './DataAnalyticsReportModel';
+import {
+  personalAssistantProcess,
+  healthWellnessProcess,
+  learningEducationProcess,
+  personalFinanceProcess,
+  informationManagementProcess
+} from './PersonalAssistantModel';
 import { Logger } from '../utils/Logger';
 import { ApiResponseFactory } from '../api/ApiResponse';
 
@@ -86,7 +93,8 @@ export enum BusinessDomain {
   CRM = 'customer_relationship_management',
   MARKETING = 'marketing',
   LEGAL_COMPLIANCE = 'legal_compliance',
-  DATA_ANALYTICS = 'data_analytics'
+  DATA_ANALYTICS = 'data_analytics',
+  PERSONAL_ASSISTANT = 'personal_assistant'
 }
 
 export enum SalesProcessType {
@@ -164,6 +172,14 @@ export enum DataAnalyticsProcessType {
   DATA_ANALYSIS_MINING = 'data-analysis-mining-process',
   DATA_VISUALIZATION_DASHBOARD = 'data-visualization-dashboard-process',
   REPORT_GENERATION_DISTRIBUTION = 'report-generation-distribution-process'
+}
+
+export enum PersonalAssistantProcessType {
+  PERSONAL_ASSISTANT = 'personal-assistant-process',
+  HEALTH_WELLNESS = 'health-wellness-process',
+  LEARNING_EDUCATION = 'learning-education-process',
+  PERSONAL_FINANCE = 'personal-finance-process',
+  INFORMATION_MANAGEMENT = 'information-management-process'
 }
 
 export interface BusinessProcessExecutionOptions {
@@ -263,6 +279,14 @@ export class BusinessProcessManager {
           dataAnalysisMiningProcess,
           dataVisualizationDashboardProcess,
           reportGenerationDistributionProcess
+        ];
+      case BusinessDomain.PERSONAL_ASSISTANT:
+        return [
+          personalAssistantProcess,
+          healthWellnessProcess,
+          learningEducationProcess,
+          personalFinanceProcess,
+          informationManagementProcess
         ];
       default:
         return [];

@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class ReportingTool implements Tool {
   name = 'reporting_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Generates reports from data with customizable formats, templates, and delivery options.';
   parameters = {
     type: 'object',
@@ -59,7 +58,8 @@ export class ReportingTool implements Tool {
       
       return this.generateReport(reportType, dataSource, template, recipients, format, schedule, filters);
     } catch (error) {
-      return { error: `Failed to generate report: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to generate report: ${errorMessage}` };
     }
   }
 

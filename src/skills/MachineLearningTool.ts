@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class MachineLearningTool implements Tool {
   name = 'machine_learning_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Performs machine learning tasks including classification, regression, clustering, and prediction.';
   parameters = {
     type: 'object',
@@ -84,7 +83,8 @@ export class MachineLearningTool implements Tool {
         hyperparameters
       );
     } catch (error) {
-      return { error: `Failed to execute machine learning task: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute machine learning task: ${errorMessage}` };
     }
   }
 

@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class ETLTool implements Tool {
   name = 'etl_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Extracts, transforms, and loads data between systems.';
   parameters = {
     type: 'object',
@@ -44,7 +43,8 @@ export class ETLTool implements Tool {
       
       return this.performETL(source, destination, transformationRules, batchSize, schedule);
     } catch (error) {
-      return { error: `Failed to execute ETL process: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute ETL process: ${errorMessage}` };
     }
   }
 
@@ -122,7 +122,7 @@ export class ETLTool implements Tool {
         // Normalize field names
         for (const [oldField, newField] of Object.entries(rules.normalizeFields)) {
           if (transformedRecord.hasOwnProperty(oldField)) {
-            transformedRecord[newField] = transformedRecord[oldField];
+            transformedRecord[newField as keyof typeof transformedRecord] = transformedRecord[oldField as keyof typeof transformedRecord];
             delete transformedRecord[oldField];
           }
         }

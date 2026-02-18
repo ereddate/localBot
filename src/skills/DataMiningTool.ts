@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class DataMiningTool implements Tool {
   name = 'data_mining_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Discovers patterns, correlations, and anomalies in large datasets using various mining techniques.';
   parameters = {
     type: 'object',
@@ -68,7 +67,8 @@ export class DataMiningTool implements Tool {
         numberOfClusters
       );
     } catch (error) {
-      return { error: `Failed to perform data mining: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to perform data mining: ${errorMessage}` };
     }
   }
 

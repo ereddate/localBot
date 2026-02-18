@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class StatisticalTool implements Tool {
-  name = 'statistical_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  name = 'statistical_analysis_tool';
+  category = 'other' as const;
   description = 'Performs statistical analysis on datasets including measures of central tendency, dispersion, and correlation.';
   parameters = {
     type: 'object',
@@ -52,7 +51,8 @@ export class StatisticalTool implements Tool {
       
       return this.performStatisticalAnalysis(dataset, operations, confidenceLevel);
     } catch (error) {
-      return { error: `Failed to perform statistical analysis: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to perform statistical analysis: ${errorMessage}` };
     }
   }
 

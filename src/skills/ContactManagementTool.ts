@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class ContactManagementTool implements Tool {
   name = 'contact_management_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'communication';
+  category = 'other' as const;
   description = 'Manages contacts, relationships, and communications with individuals or organizations.';
   parameters = {
     type: 'object',
@@ -71,7 +70,8 @@ export class ContactManagementTool implements Tool {
           throw new Error(`Unsupported operation: ${operation}`);
       }
     } catch (error) {
-      return { error: `Failed to execute contact management operation: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute contact management operation: ${errorMessage}` };
     }
   }
 

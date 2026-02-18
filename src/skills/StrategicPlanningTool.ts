@@ -1,9 +1,9 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool } from '../types';
+import { ToolResult } from '../types';
 
 export class StrategicPlanningTool implements Tool {
   name = 'strategic_planning_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'business-intelligence';
+  category = 'other' as const;
   description = 'Facilitates strategic planning processes including SWOT analysis, goal setting, and strategy development.';
   parameters = {
     type: 'object',
@@ -91,7 +91,8 @@ export class StrategicPlanningTool implements Tool {
           throw new Error(`Unsupported operation: ${operation}`);
       }
     } catch (error) {
-      return { error: `Failed to execute strategic planning operation: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to execute strategic planning operation: ${errorMessage}` };
     }
   }
 

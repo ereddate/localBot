@@ -1,9 +1,8 @@
-import { Tool, ToolCategory, ToolType } from './SkillManager';
+import { Tool, ToolResult } from '../types';
 
 export class DataCleaningTool implements Tool {
   name = 'data_cleaning_tool';
-  type: ToolType = 'function';
-  category: ToolCategory = 'data-processing';
+  category = 'other' as const;
   description = 'Cleans and standardizes data by removing duplicates, correcting errors, and filling missing values.';
   parameters = {
     type: 'object',
@@ -44,7 +43,8 @@ export class DataCleaningTool implements Tool {
       
       return this.cleanData(dataSource, cleaningOperations, missingValueHandling, customFillValue);
     } catch (error) {
-      return { error: `Failed to clean data: ${error.message}` };
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      return { error: `Failed to clean data: ${errorMessage}` };
     }
   }
 
@@ -190,7 +190,7 @@ export class DataCleaningTool implements Tool {
 
   private calculateQualityImprovement(summary: any): number {
     // Calculate a quality improvement score based on operations performed
-    const totalChanges = Object.values(summary).reduce((a, b) => a + (b as number), 0);
+    const totalChanges = Object.values(summary as Record<string, number>).reduce((a: number, b: number) => a + (b as number), 0); 
     const improvementScore = Math.min(100, Math.floor((totalChanges / 10000) * 100));
     return improvementScore;
   }
