@@ -8,8 +8,8 @@ LocalBot stands out as a comprehensive AI assistant platform with unique advanta
 
 ### 🌐 **Universal Applicability**
 
-#### 1. **General Users' Daily Needs**
-LocalBot helps general users solve various daily needs:
+#### 1. **Daily Needs of General Users**
+LocalBot can help general users solve various daily needs:
 
 ##### Home Automation
 - **Smart Home Control**: Control smart devices through `IoTDeviceControlTool`
@@ -31,7 +31,7 @@ LocalBot helps general users solve various daily needs:
 - **System Monitoring**: View system information, process list, and resource usage
 - **Notification Reminders**: Send notifications and schedule reminders
 
-#### 2. **Developer Programming Needs**
+#### 2. **Programming Needs for Developers**
 LocalBot provides rich tools to assist developers:
 
 ##### Code Development Tools
@@ -57,7 +57,7 @@ LocalBot provides rich tools to assist developers:
 - **Embedding Vectors**: Generate text embeddings through `EmbeddingTool`
 - **Image Generation**: Generate images using `ImageGenerationTool`
 
-#### 3. **Professional Domain-Specific Needs**
+#### 3. **Domain-Specific Professional Needs**
 LocalBot has targeted functions in multiple professional domains:
 
 ##### Finance and Tax Domain
@@ -97,33 +97,50 @@ LocalBot has targeted functions in multiple professional domains:
 
 ## Features
 
-- Local-first architecture with data privacy
-- Memory system with daily and long-term storage
-- Extensible tool and skill system
-- File system operations (read, write, list, delete)
-- Shell command execution
-- CLI interface for interaction
-- **Multi-LLM support**: OpenAI GPT, Aliyun 通义千问, Anthropic Claude, Baidu 文心一言, Tencent 混元, Zhipu 智谱AI, SiliconCloud
-- **Intelligent AI Routing**: Automatic selection of optimal AI provider based on task requirements and language
-- **Comprehensive Automation**: Business processes, home automation, tax planning, project management, CRM, marketing, and compliance automation
+### 🚀 Core Capabilities
+- **Multi-AI Model Routing**: Support for mainstream AI models both domestically and internationally (OpenAI, Baidu ERNIE Bot, Tencent HunYuan, Zhipu AI, SiliconCloud, etc.)
+- **Chinese Domestic AI Large Model Support**: Complete integration with major domestic AI service providers
+- **Business Process Automation**: Automatically analyze user requirements and execute corresponding business processes
+- **Local Skills System**: Rich built-in tools and skills
+- **Offline Processing Capability**: Support for partial functionality execution in offline environments
 - **Unified API Interface**: Standardized RESTful API endpoints for external integrations
 
 For detailed information about our automation processes and skills, see:
-- [Automation Processes](./docs/AUTOMATION_PROCESSES.md)
+- [Automation Processes](./docs/AUTOMATION_PROCESSES_CN.md)
 - [Skills System](./docs/SKILLS_SYSTEM.md)
-- [API Documentation](./docs/API_DOCUMENTATION.md)
+- [API Documentation](./docs/API_DOCUMENTATION_CN.md)
 - [API Specification](./docs/API_SPECIFICATION.md)
 - [Automation Capabilities](./docs/AUTOMATION_CAPABILITIES.md)
 - [Business Processes](./docs/BUSINESS_PROCESSES.md)
 - [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
-- [Custom Skills and Models Guide](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE.md)
+- [Custom Skills and Models Guide](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE_CN.md)
+
+### 🏢 Enterprise-Level Features
+- **Comprehensive Automation**: Including business processes, home automation, tax planning, project management, CRM, marketing, and compliance automation
+
+### 🏠 Home Automation
+- **Smart Home Control**: Integration with various smart home devices
+- **Home Financial Management**: Personal and family financial planning
+- **Schedule Management**: Smart scheduling and reminders
+- **Life Assistant**: Daily life-related task automation
+
+### 🔧 Skills System
+- **Comprehensive Skill Set**: Includes over 80 tools covering file operations, system monitoring, data processing, business tools, AI tools, security, networking, and more categories
+
+### 🌐 Unified API Interface
+- **Standardized Response**: Unified API response format
+- **RESTful API**: Standardized API endpoints for external integration
+- **Health Check**: `/health` endpoint to monitor service status
+- **Message Processing**: `/api/v1/message` to handle user messages
+- **Session Management**: `/api/v1/session/*` to manage session states
+- **Request Tracing**: Built-in request ID tracing system
+- **Error Handling**: Unified error response format
 
 ## Technology Stack
 
 - **TypeScript** - Main development language
 - **Node.js** - Runtime environment (v20+)
 - **OpenAI SDK** - LLM integration (supports multiple providers)
-- **Express.js** - Web framework for API endpoints
 - **pnpm** - Package manager (recommended)
 
 ## Supported LLM Providers
@@ -131,53 +148,12 @@ For detailed information about our automation processes and skills, see:
 | Provider | Models |
 |----------|--------|
 | **OpenAI** | GPT-4, GPT-3.5-turbo |
-| **Aliyun (通义千问)** | qwen-plus, qwen-turbo, qwen-max |
+| **Alibaba Cloud (Qwen)** | qwen-plus, qwen-turbo, qwen-max |
 | **Anthropic** | Claude-3-opus, Claude-3-sonnet |
-| **Baidu (文心一言)** | ERNIE-Bot series |
-| **Tencent (混元)** | HunYuan series |
-| **Zhipu (智谱AI)** | ChatGLM series |
+| **Baidu (ERNIE Bot)** | ERNIE-Bot series |
+| **Tencent (HunYuan)** | HunYuan series |
+| **Zhipu AI (ChatGLM)** | ChatGLM series |
 | **SiliconCloud** | Various open-source models including Qwen |
-
-## Architecture Overview
-
-The system includes multiple components for comprehensive automation:
-
-- **AgentProcessor**: Main AI request processing component
-- **MultiAIRouter**: Intelligent routing system for optimal AI provider selection
-- **SkillManager**: Centralized management of all available tools and skills
-- **BusinessProcessManager**: Orchestration of complex business processes
-- **WorkflowEngine**: Execution engine for multi-step automation workflows
-- **TaskScheduler**: Scheduling and execution of time-based tasks
-
-For detailed architecture information, see [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md).
-- Interest Calculations: Simple and compound interest
-- Future Value Calculations
-
-### CRM and ERP Tools
-- Customer Relationship Management: Create/update customers, record interactions, opportunity management
-- Enterprise Resource Planning: Inventory management, order management, supplier management, financial management, human resources management
-
-### Business Intelligence and Analytics
-- Business report generation
-- Data analysis and insights
-- Dashboard creation
-- Sales forecasting
-
-### Inventory and Sales Management
-- Inventory tracking and management
-- Sales data analysis and reporting
-- Trend identification and performance prediction
-
-### Project and Time Management
-- Project tracking and management
-- Task assignment and progress tracking
-- Employee time tracking
-- Productivity analysis
-
-### Compliance Tools
-- Compliance checking
-- Risk assessment
-- Regulatory monitoring
 
 ## Installation
 
@@ -200,57 +176,52 @@ cp .env.example .env
 4. Edit `.env` and configure your LLM provider:
 
 ### Using OpenAI
-```
-LLM_PROVIDER=openai
-OPENAI_API_KEY=sk-your-openai-api-key-here
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+DEFAULT_LLM_PROVIDER=openai
+DEFAULT_OPENAI_MODEL=gpt-4o
 ```
 
-### Using Aliyun 通义千问
-```
-LLM_PROVIDER=aliyun
-ALIYUN_API_KEY=sk-your-aliyun-api-key-here
-ALIYUN_MODEL=qwen-plus
+### Using Alibaba Cloud Qwen
+```env
+ALIYUN_API_KEY=your_aliyun_api_key_here
+DEFAULT_LLM_PROVIDER=aliyun
+DEFAULT_ALIYUN_MODEL=qwen-plus
 ```
 
 ### Using Anthropic Claude
+```env
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+DEFAULT_LLM_PROVIDER=anthropic
+DEFAULT_ANTHROPIC_MODEL=claude-3-sonnet
 ```
-LLM_PROVIDER=anthropic
-ANTHROPIC_API_KEY=sk-your-anthropic-api-key-here
-```
-
-**获取 API Key:**
-- OpenAI: https://platform.openai.com/api-keys
-- Aliyun: https://dashscope.console.aliyun.com/apiKey
-- Anthropic: https://console.anthropic.com/
 
 ## Usage
 
-### Development Mode
-
-```bash
-npm run dev
-```
-
-### Build
-
-```bash
-npm run build
-```
-
-### Start
-
+### Start the Assistant
 ```bash
 npm start
 ```
 
-## CLI Commands
+### Development Mode
+```bash
+npm run dev
+```
 
-Once the assistant is running, you can use these commands:
+### Build the Project
+```bash
+npm run build
+```
 
-- `help` - Show available commands
-- `tools` - List available tools
-- `skills` - List available skills
-- `exit` - Exit the assistant
+## Architecture
+
+- `src/agent/` - AI agent core logic
+- `src/memory/` - Memory system implementation
+- `src/skills/` - Tools and skills system
+- `src/tasks/` - Task scheduling and workflow
+- `src/utils/` - General utility functions
+- `sessions/` - Session data storage
+- `memory/` - Memory data storage
 
 ## Available Tools
 
@@ -261,7 +232,7 @@ Once the assistant is running, you can use these commands:
 | | `file_list` | List files in a directory |
 | | `file_delete` | Delete a file |
 | **Shell** | `shell_execute` | Execute a shell command |
-| **Memory** | `memory_add` | Add an entry to memory |
+| **Memory System** | `memory_add` | Add an entry to memory |
 | | `memory_search` | Search memory entries |
 | **Database** | `database_connect` | Connect to database |
 | | `database_query` | Query database |
@@ -269,7 +240,7 @@ Once the assistant is running, you can use these commands:
 | | `database_insert` | Insert data into database |
 | | `database_update` | Update data in database |
 | | `database_delete` | Delete data from database |
-| **Business** | `crm_operations` | Customer relationship management |
+| **Business Tools** | `crm_operations` | Customer relationship management |
 | | `erp_operations` | Enterprise resource planning |
 | | `financial_calculator` | Financial calculations |
 | | `inventory_management` | Inventory tracking and management |
@@ -278,10 +249,10 @@ Once the assistant is running, you can use these commands:
 | | `project_management` | Project tracking and management |
 | | `time_tracking` | Employee time tracking |
 | | `business_intelligence` | Business intelligence and analytics |
-| **API & Data Processing** | `api_get/post/put/delete` | REST API operations |
+| **API and Data Processing** | `api_get/post/put/delete` | REST API operations |
 | | `csv_read/write` | CSV file processing |
 | | `json_read/write` | JSON file processing |
-| **Notifications & Scheduling** | `send_notification` | Send notifications |
+| **Notifications and Scheduling** | `send_notification` | Send notifications |
 | | `schedule_task` | Schedule tasks |
 | | `cancel_task` | Cancel scheduled tasks |
 | **System Monitoring** | `system_info` | System information |
@@ -289,10 +260,10 @@ Once the assistant is running, you can use these commands:
 | | `resource_monitor` | Resource usage monitoring |
 | **Security** | `encrypt_data` | Data encryption |
 | | `hash_data` | Data hashing |
-| **Text & Data Processing** | `text_analysis` | Text analysis |
+| **Text and Data Processing** | `text_analysis` | Text analysis |
 | | `math_calculations` | Mathematical calculations |
 | | `unit_conversion` | Unit conversions |
-| **AI & ML Tools** | `ai_model_tool` | AI model operations |
+| **AI and Machine Learning Tools** | `ai_model_tool` | AI model operations |
 | | `image_generation` | Generate images from text |
 | | `embedding_tool` | Text embedding operations |
 | **Image Processing** | `image_resize` | Resize images |
@@ -301,9 +272,9 @@ Once the assistant is running, you can use these commands:
 | **PDF Tools** | `pdf_reader` | Read PDF documents |
 | | `pdf_writer` | Write PDF documents |
 | | `pdf_merge` | Merge PDF files |
-| **Logging & Configuration** | `log_management` | Manage log files |
+| **Logs and Configuration** | `log_management` | Manage log files |
 | | `config_management` | Configuration management |
-| **Communication & Code** | `email_operations` | Email operations |
+| **Communication and Code** | `email_operations` | Email operations |
 | | `code_analysis` | Code analysis tools |
 | **Compression** | `compress_files` | Compress files |
 | | `decompress_files` | Decompress files |
@@ -311,36 +282,36 @@ Once the assistant is running, you can use these commands:
 | **Networking** | `network_operations` | Network operations |
 | | `dns_lookup` | DNS lookup |
 | | `whois_lookup` | WHOIS lookup |
-| **Date & Time** | `datetime_operations` | Date and time operations |
+| **Date and Time** | `datetime_operations` | Date and time operations |
 | | `timezone_converter` | Timezone conversion |
 | | `calendar_operations` | Calendar operations |
-| **Conversations** | `conversation_history` | Manage conversation history |
+| **Conversation** | `conversation_history` | Manage conversation history |
 | | `context_management` | Context management |
-| | `summarize_conversation` | Summarize conversations |
-| **Utilities** | `workflow_approval` | Workflow approval operations |
+| | `summarize_conversation` | Summarize conversation |
+| **Utility Tools** | `workflow_approval` | Workflow approval operations |
 | | `document_generator` | Document generation |
 | | `validation_check` | Validation and compliance checking |
 | | `notification_send` | Send notifications |
 | | `document_generation` | Advanced document generation |
 | | `hr_system` | Human resources system operations |
-| | `analytics_engine` | Analytics and strategy generation |
+| | `analytics_engine` | Analysis and strategy generation |
 | | `report_generator` | Report generation |
-| **Financial & Business** | `spreadsheet_operations` | Spreadsheet operations |
+| **Finance and Business** | `spreadsheet_operations` | Spreadsheet operations |
 | | `accounting_system` | Accounting system operations |
 | | `payment_gateway` | Payment processing |
-| | `tax_calculator` | Tax calculations |
+| | `tax_calculator` | Tax calculation |
 | | `inventory_management_extended` | Extended inventory management |
-| **Project & Operations** | `time_tracking_extended` | Extended time tracking |
+| **Project and Operations** | `time_tracking_extended` | Extended time tracking |
 | | `project_management_extended` | Extended project management |
 | | `quality_management` | Quality management |
 | | `workflow_system` | Workflow system operations |
 | **Home Automation** | `iot_device_control` | IoT device control |
 | | `maintenance_scheduler` | Maintenance scheduling |
-| | `finance_tracker` | Personal finance tracking |
+| | `finance_tracker` | Personal financial management |
 | | `health_tracker` | Health tracking |
 | | `calendar_scheduler` | Calendar scheduling |
-| **Chinese AI Tools** | `chinese_ai_local` | Local Chinese AI models |
-| **General Utilities** | `weather_tool` | Weather information |
+| **Chinese AI Tools** | `chinese_ai_local` | Local Chinese AI model |
+| **General Utility Tools** | `weather_tool` | Weather information |
 | | `news_aggregator` | News aggregation |
 | | `translation_tool` | Text translation |
 | | `calculator_tool` | Advanced calculator |
@@ -358,47 +329,47 @@ Once the assistant is running, you can use these commands:
 
 The system includes comprehensive business process models across seven domains:
 
-### Sales Processes
-- **Lead Generation Process**: End-to-end process from prospect to customer
-- **Opportunity Management Process**: Managing sales opportunities from creation to closure
+### Sales Process
+- **Customer Development Process**: End-to-end process from potential customers to closed customers
+- **Opportunity Management Process**: Complete process managing sales opportunities from creation to closure
 - **Sales Performance Analysis Process**: Regular analysis of sales team and individual performance
 
-### Finance Processes  
-- **Budget Management Process**: Complete budgeting workflow from planning to monitoring
-- **Expense Reimbursement Process**: Complete employee expense reimbursement workflow
-- **Financial Reporting Process**: Regular financial report generation and distribution
-- **Tax Processing Process**: Corporate tax filing and payment workflow
+### Finance Process
+- **Budget Management Process**: Complete budget workflow from planning to monitoring
+- **Expense Reimbursement Process**: Complete workflow for employee expense reimbursement
+- **Financial Reporting Process**: Process for generating and publishing regular financial reports
+- **Tax Processing Process**: Complete process for corporate tax filing and payment
 
-### Operations Processes
-- **Supply Chain Management Process**: Complete supply chain workflow from vendor to delivery
-- **Production Planning Process**: From demand forecasting to production execution
+### Operations Process
+- **Supply Chain Management Process**: Complete supply chain workflow from suppliers to delivery
+- **Production Planning Process**: Complete process from demand forecasting to production execution
 - **Quality Management Process**: Complete quality control workflow
-- **Inventory Control Process**: Complete inventory monitoring and replenishment workflow
+- **Inventory Control Process**: Complete process from inventory monitoring to restocking
 
-### Human Resources Processes
-- **Recruitment Management Process**: Complete hiring workflow from job requisition to candidate onboarding
+### Human Resources Process
+- **Recruitment Management Process**: Complete recruitment process from job requirements to candidate onboarding
 - **Employee Onboarding Process**: New employee onboarding workflow
 - **Performance Evaluation Process**: Employee performance evaluation workflow
-- **Training & Development Process**: Employee training needs identification to effectiveness evaluation
+- **Training and Development Process**: Complete process from employee training needs identification to effectiveness evaluation
 
-### Home Automation Processes
-- **Smart Home Control Process**: Automated control of home devices including lighting, temperature, and security
-- **Home Maintenance Process**: Scheduled maintenance tasks for home systems and appliances
-- **Home Finance Process**: Personal and family financial management including budgeting and savings
-- **Health & Fitness Process**: Family health monitoring, fitness goals, and nutrition planning
-- **Home Activity Process**: Family event planning, vacation scheduling, and activity coordination
+### Home Automation Process
+- **Smart Home Control Process**: Automate control of home devices, including lighting, temperature, and security
+- **Home Maintenance Process**: Regular maintenance tasks for home systems and appliances
+- **Home Financial Management Process**: Personal and family financial management, including budgeting and saving
+- **Health and Fitness Process**: Home health monitoring, fitness goals, and nutrition planning
+- **Home Activities Process**: Home activity planning, holiday arrangements, and event coordination
 
-### Tax Planning Processes
+### Tax Planning Process
 - **Corporate Tax Planning Process**: Comprehensive corporate tax planning and optimization recommendations
-- **Individual Tax Planning Process**: Personal tax planning and optimization strategies
+- **Personal Tax Planning Process**: Personal tax planning and optimization strategies
 - **Automated Tax Filing Process**: Complete automated tax filing and payment workflow
-- **Tax Compliance Monitoring Process**: Continuous monitoring of tax compliance status and alerts
+- **Tax Compliance Monitoring Process**: Continuous monitoring and alerts for tax compliance status
 
-### Additional Business Processes
-- **Supply Chain Management Process**: Complete supply chain workflow from vendor to delivery
-- **Production Planning Process**: From demand forecasting to production execution
+### Other Business Processes
+- **Supply Chain Management Process**: Complete supply chain workflow from suppliers to delivery
+- **Production Planning Process**: Complete process from demand forecasting to production execution
 - **Quality Management Process**: Complete quality control workflow
-- **Inventory Control Process**: Complete inventory monitoring and replenishment workflow
+- **Inventory Control Process**: Complete process from inventory monitoring to restocking
 
 ## Architecture
 
@@ -406,7 +377,7 @@ The system includes comprehensive business process models across seven domains:
 localAgentNew/
 ├── src/
 │   ├── agent/              # AI agent core logic
-│   ├── business-processes/ # Business process models and manager
+│   ├── business-processes/ # Business process models and managers
 │   ├── gateway/            # Session management gateway
 │   ├── interface/          # CLI interface
 │   ├── memory/             # Memory system
@@ -419,36 +390,19 @@ localAgentNew/
 └── reports/                # Generated reports (created on first run)
 ```
 
-## Memory System
+## Extensibility
 
-The assistant has a two-tier memory system:
+The system is designed for high extensibility, allowing you to easily add new tools and skills:
 
-1. **Daily Memory** - Stored in `memory/YYYY-MM-DD.md` files
-2. **Long-term Memory** - Stored in `memory/MEMORY.md` for important entries
+1. Create a new tool class implementing the `Tool` interface
+2. Register the new tool in `SkillManager`
+3. Create the corresponding skill definition
+4. The tool will be automatically available
 
-## Project Structure
+## Contributing
 
-```
-localAgentNew/
-├── src/
-│   ├── agent/           # Agent processing logic
-│   ├── gateway/         # Gateway for session management
-│   ├── interface/       # CLI interface
-│   ├── memory/          # Memory system
-│   └── skills/          # Tools and skills
-├── memory/              # Memory storage (created on first run)
-├── dist/                # Compiled JavaScript
-└── package.json
-```
-
-## Security Considerations
-
-This assistant has access to:
-- File system read/write
-- Shell command execution
-
-Use with caution and only in trusted environments.
+Contributions are welcome! Please feel free to submit pull requests.
 
 ## License
 
-ISC
+MIT
