@@ -1,4 +1,4 @@
-import { AgentContext, Tool } from '../types';
+import { AgentContext, Message, Tool } from '../types';
 import { config, LLMProvider } from '../config';
 import OpenAI from 'openai';
 import { Logger } from '../utils/Logger';
@@ -7,16 +7,18 @@ import { MultiAIRouter } from './MultiAIRouter';
 import { AutomationController } from '../tasks/AutomationController';
 import { SkillManager } from '../skills/SkillManager';
 import { OllamaService } from '../services/OllamaService';
+import { SessionManager } from '../session/SessionManager';
 
 export class AgentProcessor {
   private openai: OpenAI;
   private ollamaService: OllamaService;
   private router: MultiAIRouter;
-  private conversationHistory: Map<string, Array<{ role: string; content: string }>> = new Map();
+  private sessionManager: SessionManager;
   private automationController?: AutomationController;
 
   constructor(private skillManager?: SkillManager) {
     this.router = new MultiAIRouter();
+    this.sessionManager = new SessionManager(); // Use default directory from config
     this.openai = this.createClient(this.router.getCurrentProvider());
     this.ollamaService = new OllamaService();
   }
@@ -128,7 +130,7 @@ export class AgentProcessor {
       
       if (currentProvider === 'ollama') {
         // Use Ollama service for local inference
-        const messages = this.buildMessagesForOllama(context, systemPrompt);
+        const messages = await this.buildMessagesForOllama(context, systemPrompt);
         
         const ollamaResponse = await RetryHandler.execute(
           () => this.ollamaService.chat(messages, config.ollamaModelName),
@@ -138,7 +140,7 @@ export class AgentProcessor {
         response = ollamaResponse.response;
       } else {
         // Use OpenAI-compatible providers
-        const messages = this.buildMessages(context, systemPrompt);
+        const messages = await this.buildMessages(context, systemPrompt);
         
         const completion = await RetryHandler.execute(
           () => this.openai.chat.completions.create({
@@ -159,6 +161,30 @@ export class AgentProcessor {
         provider: currentProvider,
         length: response.length,
       });
+
+      // Update session with the new interaction
+      const userMessage: Message = { 
+        id: `msg_${Date.now()}_user`, 
+        role: 'user', 
+        content: context.messages[context.messages.length - 1]?.content || '', 
+        timestamp: new Date() 
+      };
+      const assistantMessage: Message = { 
+        id: `msg_${Date.now()}_assistant`, 
+        role: 'assistant', 
+        content: response, 
+        timestamp: new Date() 
+      };
+      
+      // Get existing session or create new one
+      let session = await this.sessionManager.getSession(context.sessionId);
+      if (!session) {
+        session = await this.sessionManager.createSession(context.sessionId, context.userId);
+      }
+      
+      // Add messages to session
+      session.messages.push(userMessage, assistantMessage);
+      await this.sessionManager.updateSession(context.sessionId, session.messages);
 
       await this.checkAndExecuteTools(context, response);
 
@@ -263,12 +289,15 @@ You have access to a memory system where you can:
     return grouped;
   }
 
-  private buildMessages(context: AgentContext, systemPrompt: string): OpenAI.Chat.ChatCompletionMessageParam[] {
+  private async buildMessages(context: AgentContext, systemPrompt: string): Promise<OpenAI.Chat.ChatCompletionMessageParam[]> {
     const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
       { role: 'system', content: systemPrompt },
     ];
 
-    const recentMessages = context.messages.slice(-10);
+    // Load recent messages from session manager
+    const session = await this.sessionManager.getSession(context.sessionId);
+    const recentMessages = session?.messages?.slice(-10) || context.messages.slice(-10);
+    
     recentMessages.forEach(msg => {
       messages.push({
         role: msg.role,
@@ -279,12 +308,15 @@ You have access to a memory system where you can:
     return messages;
   }
 
-  private buildMessagesForOllama(context: AgentContext, systemPrompt: string): Array<{ role: string; content: string }> {
+  private async buildMessagesForOllama(context: AgentContext, systemPrompt: string): Promise<Array<{ role: string; content: string }>> {
     const messages: Array<{ role: string; content: string }> = [
       { role: 'system', content: systemPrompt },
     ];
 
-    const recentMessages = context.messages.slice(-10);
+    // Load recent messages from session manager
+    const session = await this.sessionManager.getSession(context.sessionId);
+    const recentMessages = session?.messages?.slice(-10) || context.messages.slice(-10);
+    
     recentMessages.forEach(msg => {
       messages.push({
         role: msg.role,
@@ -332,8 +364,8 @@ You have access to a memory system where you can:
     }
   }
 
-  clearHistory(sessionId: string): void {
-    this.conversationHistory.delete(sessionId);
+  async clearHistory(sessionId: string): Promise<void> {
+    await this.sessionManager.deleteSession(sessionId);
     Logger.info(`Cleared conversation history for session ${sessionId}`);
   }
 }

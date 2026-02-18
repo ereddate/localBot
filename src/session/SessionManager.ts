@@ -2,13 +2,14 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import { SessionData } from '../types';
 import { Logger } from '../utils/Logger';
+import { config } from '../config';
 
 export class SessionManager {
   private sessionsDir: string;
   private sessions: Map<string, SessionData> = new Map();
 
-  constructor() {
-    this.sessionsDir = path.join(process.cwd(), 'sessions');
+  constructor(sessionsDir?: string) {
+    this.sessionsDir = sessionsDir || config.persistenceDir;
     this.initialize();
   }
 

@@ -24,6 +24,8 @@ export interface Config {
   logLevel: string;
   memoryDir: string;
   skillsDir: string;
+  enablePersistence: boolean;
+  persistenceDir: string;
 }
 
 export const config: Config = {
@@ -46,4 +48,6 @@ export const config: Config = {
   logLevel: process.env.LOG_LEVEL || 'info',
   memoryDir: process.env.MEMORY_DIR || './memory',
   skillsDir: process.env.SKILLS_DIR || './skills',
+  enablePersistence: process.env.ENABLE_PERSISTENCE !== 'false', // Enabled by default
+  persistenceDir: process.env.PERSISTENCE_DIR || './sessions',
 };

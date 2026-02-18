@@ -1,5 +1,6 @@
 import * as readline from 'readline';
 import chalk from 'chalk';
+import { v4 as uuidv4 } from 'uuid';
 import { Gateway } from '../gateway/Gateway';
 import { MemorySystem } from '../memory/MemorySystem';
 import { SkillManager } from '../skills/SkillManager';
@@ -20,7 +21,7 @@ export class CLIInterface {
     this.skillManager = new SkillManager(this.memorySystem);
     this.gateway = new Gateway();
     this.agentProcessor = new AgentProcessor(this.skillManager);
-    this.sessionId = 'cli-session';
+    this.sessionId = `cli-${uuidv4()}`; // Generate unique session ID
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -118,9 +119,7 @@ export class CLIInterface {
   }
 
   private async clearSession(): Promise<void> {
-    const { AgentProcessor } = await import('../agent/AgentProcessor');
-    const processor = new AgentProcessor();
-    processor.clearHistory(this.sessionId);
+    await this.agentProcessor.clearHistory(this.sessionId);
     console.log(chalk.green('✓') + ' Session history cleared');
     console.log();
   }
