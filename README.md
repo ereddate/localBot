@@ -6,30 +6,27 @@ An advanced local AI personal assistant with multi-provider support including Ch
 
 - Local-first architecture with data privacy
 - Memory system with daily and long-term storage
-- Tool and skill system for extensibility
+- Extensible tool and skill system
 - File system operations (read, write, list, delete)
 - Shell command execution
 - CLI interface for interaction
 - **Multi-LLM support**: OpenAI GPT, Aliyun 通义千问, Anthropic Claude, Baidu 文心一言, Tencent 混元, Zhipu 智谱AI, SiliconCloud
 - **Intelligent AI Routing**: Automatic selection of optimal AI provider based on task requirements and language
-- **Automation System**: Task scheduling, workflow engine, monitoring system
-- **Business Tool Suite**: Financial calculators, CRM, ERP, Business Intelligence, Inventory Management, Sales Analytics, Project Management, Compliance Checking, etc.
-- **Home Automation Models**: Smart home control, maintenance scheduling, finance management, health tracking, and activity planning
-- **Tax Planning Automation**: Corporate and individual tax planning, optimization, and automated filing processes
-- **Project Management Automation**: Project initiation, planning, execution monitoring, and closure processes
-- **Customer Relationship Management (CRM)**: Customer acquisition, relationship management, satisfaction improvement, and loyalty management processes
-- **Marketing Automation**: Market research, campaign management, brand management, and analytics processes
-- **Legal Compliance Automation**: Regulatory monitoring, compliance assessment, risk management, and reporting processes
-- **Data Analytics & Reporting**: Data collection, analysis, visualization, and reporting automation
-- **Comprehensive Skill System**: Over 80+ tools across multiple categories including file operations, system monitoring, data processing, business tools, AI tools, security, networking, and more
+- **Comprehensive Automation**: Business processes, home automation, tax planning, project management, CRM, marketing, and compliance automation
 - **Unified API Interface**: Standardized RESTful API endpoints for external integrations
-- **API Documentation**: Comprehensive API specification with standardized responses and error handling
+
+For detailed information about our automation processes and skills, see:
+- [Automation Processes](./docs/AUTOMATION_PROCESSES.md)
+- [Skills System](./docs/SKILLS_SYSTEM.md)
+- [API Documentation](./docs/API_DOCUMENTATION.md)
+- [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
 
 ## Technology Stack
 
 - **TypeScript** - Main development language
 - **Node.js** - Runtime environment (v20+)
 - **OpenAI SDK** - LLM integration (supports multiple providers)
+- **Express.js** - Web framework for API endpoints
 - **pnpm** - Package manager (recommended)
 
 ## Supported LLM Providers
@@ -44,10 +41,18 @@ An advanced local AI personal assistant with multi-provider support including Ch
 | **Zhipu (智谱AI)** | ChatGLM series |
 | **SiliconCloud** | Various open-source models including Qwen |
 
-## New Business Capabilities
+## Architecture Overview
 
-### Financial Tools
-- Financial Calculator: NPV, ROI, cash flow calculations
+The system includes multiple components for comprehensive automation:
+
+- **AgentProcessor**: Main AI request processing component
+- **MultiAIRouter**: Intelligent routing system for optimal AI provider selection
+- **SkillManager**: Centralized management of all available tools and skills
+- **BusinessProcessManager**: Orchestration of complex business processes
+- **WorkflowEngine**: Execution engine for multi-step automation workflows
+- **TaskScheduler**: Scheduling and execution of time-based tasks
+
+For detailed architecture information, see [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md).
 - Interest Calculations: Simple and compound interest
 - Future Value Calculations
 
