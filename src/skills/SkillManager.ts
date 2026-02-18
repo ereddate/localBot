@@ -70,6 +70,7 @@ import { SearchTool } from './SearchTool';
 import { WebScrapingTool } from './WebScrapingTool';
 import { EmailSendingTool } from './EmailSendingTool';
 import { CodeInterpreterTool } from './CodeInterpreterTool';
+import { MarketAnalysisTool } from './MarketAnalysisTool';
 
 export class SkillManager {
   private skills: Map<string, any>;
@@ -218,6 +219,7 @@ export class SkillManager {
     const accountingSystemTool = new AccountingSystemTool();
     const paymentGatewayTool = new PaymentGatewayTool();
     const taxCalculatorTool = new TaxCalculatorTool();
+    const marketAnalysisTool = new MarketAnalysisTool();
 
     // 项目和运营工具
     const timeTrackingToolExtended = new TimeTrackingToolExtended();
@@ -483,6 +485,9 @@ export class SkillManager {
     
     // 注册高级位置服务工具
     this.registerTool(advancedLocationServiceTool);
+    
+    // 注册市场分析工具
+    this.registerTool(marketAnalysisTool);
 
     // 原始技能
     const fileSystemSkill = {
