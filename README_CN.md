@@ -16,6 +16,9 @@
 - [自动化流程](./docs/AUTOMATION_PROCESSES_CN.md)
 - [技能系统](./docs/SKILLS_SYSTEM.md)
 - [API文档](./docs/API_DOCUMENTATION_CN.md)
+- [API规范](./docs/API_SPECIFICATION.md)
+- [自动化能力](./docs/AUTOMATION_CAPABILITIES.md)
+- [业务流程](./docs/BUSINESS_PROCESSES.md)
 - [架构概览](./docs/ARCHITECTURE_OVERVIEW.md)
 
 ### 🏢 企业级功能

@@ -19,6 +19,9 @@ For detailed information about our automation processes and skills, see:
 - [Automation Processes](./docs/AUTOMATION_PROCESSES.md)
 - [Skills System](./docs/SKILLS_SYSTEM.md)
 - [API Documentation](./docs/API_DOCUMENTATION.md)
+- [API Specification](./docs/API_SPECIFICATION.md)
+- [Automation Capabilities](./docs/AUTOMATION_CAPABILITIES.md)
+- [Business Processes](./docs/BUSINESS_PROCESSES.md)
 - [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
 
 ## Technology Stack
