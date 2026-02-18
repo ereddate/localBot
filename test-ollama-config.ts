@@ -1,5 +1,5 @@
-import { config } from './config';
-import { Logger } from './utils/Logger';
+import { config } from './src/config';
+import { Logger } from './src/utils/Logger';
 
 // Simplified Ollama GPU test without importing problematic modules
 async function testOllamaConfig() {

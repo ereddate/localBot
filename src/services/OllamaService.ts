@@ -105,15 +105,45 @@ export class OllamaService {
    * Performs a chat completion using Ollama
    */
   async chat(messages: Array<{ role: string; content: string }>, model?: string): Promise<OllamaResponse> {
+    const modelName = model || config.ollamaModelName;
     try {
       Logger.debug('Sending chat request to Ollama', { 
         messageCount: messages.length,
-        model: model || config.ollamaModelName
+        model: modelName
       });
+
+      // Check if the model exists before attempting to use it
+      const models = await this.ollama.list();
+      const modelExists = models.models.some(m => m.name === modelName || m.name.startsWith(modelName));
+      
+      if (!modelExists) {
+        Logger.warn(`Model '${modelName}' not found, available models:`, 
+          models.models.map(m => m.name));
+        
+        // Try to find a suitable alternative model
+        const fallbackModels = ['llama3.1', 'llama3', 'mistral', 'phi3', 'gemma2'];
+        let selectedModel = modelName;
+        
+        for (const fallback of fallbackModels) {
+          if (models.models.some(m => m.name === fallback || m.name.startsWith(fallback))) {
+            selectedModel = fallback;
+            Logger.info(`Using fallback model: ${selectedModel}`);
+            break;
+          }
+        }
+        
+        if (selectedModel === modelName) {
+          // If no fallback found, suggest pulling the model
+          throw new Error(`Model '${modelName}' not found. Available models: ${models.models.map(m => m.name).join(', ')}. Please pull the required model with: ollama pull ${modelName}`);
+        }
+        
+        // Update the model to the fallback
+        Logger.info(`Attempting to use fallback model: ${selectedModel}`);
+      }
 
       const startTime = Date.now();
       const response = await this.ollama.chat({
-        model: model || config.ollamaModelName,
+        model: selectedModel,
         messages: messages,
         options: {
           num_gpu: this.gpuEnabled ? -1 : 0, // Use all GPUs if available and enabled
@@ -125,7 +155,8 @@ export class OllamaService {
       const duration = Date.now() - startTime;
       Logger.debug('Ollama chat response received', { 
         duration: `${duration}ms`,
-        responseLength: response.message?.content?.length || 0
+        responseLength: response.message?.content?.length || 0,
+        modelUsed: response.model
       });
 
       // Convert chat response to standard response format
@@ -138,8 +169,18 @@ export class OllamaService {
     } catch (error) {
       Logger.error('Ollama chat request failed', { 
         error: (error as Error).message,
-        model: model || config.ollamaModelName
+        model: modelName
       });
+      
+      // If it's a model not found error, provide more helpful message
+      if ((error as Error).message.includes('not found')) {
+        const models = await this.ollama.list().catch(() => ({ models: [] }));
+        const availableModels = models.models.map(m => m.name).join(', ');
+        const helpMessage = `Model '${modelName}' not found. Available models: ${availableModels || 'none'}. Please pull the required model with: ollama pull ${modelName}`;
+        Logger.warn(helpMessage);
+        throw new Error(helpMessage);
+      }
+      
       throw error;
     }
   }

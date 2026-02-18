@@ -39,6 +39,31 @@ GPU_MEMORY_FRACTION=0.8  # GPU内存使用比例
 
 ## 启动启用 GPU 加速的 LocalBot
 
+### 步骤 1：安装所需模型
+
+在启动 LocalBot 之前，必须先安装至少一个 Ollama 模型：
+
+```bash
+# 安装推荐的模型
+ollama pull llama3.2
+
+# 或者安装其他流行模型
+ollama pull llama3.1
+ollama pull mistral
+ollama pull phi3
+```
+
+### 步骤 2：启动 Ollama 服务
+
+在一个新的终端窗口中启动 Ollama 服务：
+
+```bash
+# 启动 Ollama 服务
+ollama serve
+```
+
+### 步骤 3：启动 LocalBot
+
 在另一个终端窗口中，设置环境变量并启动 LocalBot：
 
 ```bash
