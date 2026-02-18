@@ -9,7 +9,7 @@ export interface Message {
 export interface Tool {
   name: string;
   description: string;
-  category: 'file' | 'shell' | 'memory' | 'network' | 'system' | 'other';
+  category: 'file' | 'shell' | 'memory' | 'network' | 'system' | 'other' | 'lifestyle';
   execute: (params: Record<string, unknown>) => Promise<ToolResult>;
 }
 

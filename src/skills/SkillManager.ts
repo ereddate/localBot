@@ -75,6 +75,10 @@ import { CodeInterpreterTool } from './CodeInterpreterTool';
 import { MarketAnalysisTool } from './MarketAnalysisTool';
 import { GoldPriceDataTool } from './GoldPriceDataTool';
 import { MarketPriceUpdateTool } from './MarketPriceUpdateTool';
+import { FoodDeliveryTool } from './FoodDeliveryTool';
+import { CourierServiceTool } from './CourierServiceTool';
+import { RideHailingTool } from './RideHailingTool';
+import { MovieTicketTool } from './MovieTicketTool';
 
 export class SkillManager {
   private skills: Map<string, any>;
@@ -508,6 +512,19 @@ export class SkillManager {
     // 注册Krita绘图工具
     const kritaTool = new KritaTool();
     this.registerTool(kritaTool);
+    
+    // 注册生活服务工具
+    const foodDeliveryTool = new FoodDeliveryTool();
+    this.registerTool(foodDeliveryTool);
+    
+    const courierServiceTool = new CourierServiceTool();
+    this.registerTool(courierServiceTool);
+    
+    const rideHailingTool = new RideHailingTool();
+    this.registerTool(rideHailingTool);
+    
+    const movieTicketTool = new MovieTicketTool();
+    this.registerTool(movieTicketTool);
 
     // 原始技能
     const fileSystemSkill = {
