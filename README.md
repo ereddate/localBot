@@ -6,23 +6,6 @@ An advanced local AI personal assistant with multi-provider support including Ch
 
 LocalBot stands out as a comprehensive AI assistant platform with unique advantages, designed to serve diverse user groups:
 
-### 🏆 **Domestic AI Model Excellence**
-- **Full support for Chinese AI models**: Native integration with Baidu ERNIE Bot, Tencent HunYuan, Zhipu ChatGLM, and SiliconCloud
-- **Intelligent model routing**: Automatically selects the optimal AI provider based on task requirements and language
-- **Performance optimization**: Tailored specifically for Chinese language processing and local usage patterns
-
-### 🤖 **Comprehensive Automation Capabilities**
-- **80+ built-in tools**: Covering file operations, system management, data processing, business tools, AI utilities, and security
-- **Business process automation**: Complete automation for sales, finance, HR, operations, tax planning, project management, CRM, marketing, and compliance
-- **Home automation**: Smart home control, financial tracking, health monitoring, and schedule management
-- **Customizable workflows**: Create and extend automation processes tailored to your specific needs
-
-### 🔐 **Privacy-First Architecture**
-- **Local-first design**: Data processing prioritizes local execution for enhanced privacy
-- **Offline capabilities**: Many functions operate without internet connectivity
-- **Data control**: Complete control over your data with local storage options
-- **Security-focused**: Built-in encryption, secure shell operations, and permission management
-
 ### 🌐 **Universal Applicability**
 
 #### 1. **General Users' Daily Needs**
