@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 // Initialize core components
 const memorySystem = new MemorySystem();
 const skillManager = new SkillManager(memorySystem);
-const gateway = new Gateway(skillManager);
+const gateway = new Gateway(skillManager, memorySystem);
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {

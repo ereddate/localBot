@@ -1,17 +1,20 @@
-import { AgentContext, Message, SessionData, Tool } from '../types';
+import { AgentContext, Message, MemoryEntry, SessionData, Tool } from '../types';
 import { SessionManager } from '../session/SessionManager';
 import { Logger } from '../utils/Logger';
 import { ApiResponseFactory } from '../api/ApiResponse';
 import { SkillManager } from '../skills/SkillManager';
+import { MemorySystem } from '../memory/MemorySystem';
 
 export class Gateway {
   private contexts: Map<string, AgentContext> = new Map();
   private sessionManager: SessionManager;
   private skillManager?: SkillManager;
+  private memorySystem?: MemorySystem;
 
-  constructor(skillManager?: SkillManager) {
+  constructor(skillManager?: SkillManager, memorySystem?: MemorySystem) {
     this.sessionManager = new SessionManager();
     this.skillManager = skillManager;
+    this.memorySystem = memorySystem;
   }
 
   async createContext(sessionId: string, userId?: string): Promise<AgentContext> {
@@ -20,12 +23,23 @@ export class Gateway {
     // Determine available tools based on skill manager
     const availableTools = this.skillManager ? this.skillManager.getAllTools() : [];
     
+    // Load memory from memory system if available
+    let memory: MemoryEntry[] = [];
+    if (this.memorySystem) {
+      // Search for memories related to this session/user
+      try {
+        memory = await this.memorySystem.search(sessionId.substring(0, 10)); // Use partial session ID as search query
+      } catch (error) {
+        Logger.warn('Could not load memory for session', { error: (error as Error).message });
+      }
+    }
+    
     if (sessionData) {
       const context: AgentContext = {
         sessionId,
         userId,
         messages: sessionData.messages,
-        memory: [],
+        memory,
         availableTools,
         createdAt: sessionData.createdAt,
         lastActivity: sessionData.lastActivity,
@@ -40,7 +54,7 @@ export class Gateway {
       sessionId,
       userId,
       messages: newSession.messages,
-      memory: [],
+      memory,
       availableTools,
       createdAt: newSession.createdAt,
       lastActivity: newSession.lastActivity,

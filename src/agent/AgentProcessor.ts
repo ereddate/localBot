@@ -8,6 +8,7 @@ import { AutomationController } from '../tasks/AutomationController';
 import { SkillManager } from '../skills/SkillManager';
 import { OllamaService } from '../services/OllamaService';
 import { SessionManager } from '../session/SessionManager';
+import { MemorySystem } from '../memory/MemorySystem';
 
 export class AgentProcessor {
   private openai: OpenAI;
@@ -16,7 +17,7 @@ export class AgentProcessor {
   private sessionManager: SessionManager;
   private automationController?: AutomationController;
 
-  constructor(private skillManager?: SkillManager) {
+  constructor(private skillManager?: SkillManager, private memorySystem?: MemorySystem) {
     this.router = new MultiAIRouter();
     this.sessionManager = new SessionManager(); // Use default directory from config
     this.openai = this.createClient(this.router.getCurrentProvider());
@@ -122,6 +123,22 @@ export class AgentProcessor {
   }
 
   async process(context: AgentContext): Promise<string> {
+    // Enhance context with memory search if memory system is available
+    if (this.memorySystem) {
+      try {
+        // Search for memories related to the current conversation
+        const query = context.messages.length > 0 
+          ? context.messages[context.messages.length - 1]?.content || '' 
+          : 'general';
+        const relevantMemories = await this.memorySystem.search(query, 5);
+        
+        // Update context with relevant memories
+        context.memory = relevantMemories;
+      } catch (error) {
+        Logger.warn('Could not enhance context with memory', { error: (error as Error).message });
+      }
+    }
+    
     const systemPrompt = this.buildSystemPrompt(context);
     const currentProvider = this.router.getCurrentProvider();
 
@@ -186,7 +203,25 @@ export class AgentProcessor {
       session.messages.push(userMessage, assistantMessage);
       await this.sessionManager.updateSession(context.sessionId, session.messages);
 
+      // Check for and execute tools
       await this.checkAndExecuteTools(context, response);
+
+      // Store important conversation elements in memory
+      if (this.memorySystem) {
+        try {
+          // Store the conversation if it contains important information
+          const conversationSummary = `${userMessage.content} -> ${response}`;
+          if (conversationSummary.length > 50) { // Only store meaningful conversations
+            await this.memorySystem.addEntry(
+              conversationSummary,
+              ['conversation', 'session', context.sessionId.substring(0, 8)],
+              2 // Medium importance
+            );
+          }
+        } catch (error) {
+          Logger.warn('Could not save conversation to memory', { error: (error as Error).message });
+        }
+      }
 
       return response;
     } catch (error) {
