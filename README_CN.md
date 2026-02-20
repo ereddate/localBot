@@ -124,14 +124,36 @@ LocalBot支持多个通讯平台，实现无缝集成：
 详细信息请参考[主动服务引擎指南](docs/PROACTIVE_ENGINE.md)。
 
 #### 深度思考引擎
-- **多角色立场分裂**：创建多个不同立场的角色，产生观点冲突和辩论
+- **多角色立场分裂**：创建5个不同立场的角色，产生观点冲突和辩论
 - **逻辑递进**：每轮思考都比前一轮更深入，不是简单重复
 - **自我否定**：后面的自己推翻前面的自己，实现真正的自我修正
 - **5个思考角色**：理性分析者、批判质疑者、创新探索者、实用主义者、人文关怀者
 - **角色冲突系统**：自动检测和记录角色间的冲突
-- **深度递进**：确保每轮都有最小深度递进
+- **深度递进**：确保每轮都有最小深度递进（默认5.0）
 - **智能触发**：自动检测需要深度思考的问题
 - **记忆存储**：自动存储思考过程供未来参考
+- **置信度评分**：计算每个思考过程的置信度
+- **可配置参数**：自定义最大轮次、角色数量、深度递进和自我否定
+
+**真正深度思考的三大核心机制：**
+
+1. **立场分裂 - 产生冲突**
+   - 创建多个具有不同立场和视角的角色
+   - 每个角色都有独特的立场、视角和性格
+   - 角色之间进行辩论，挑战彼此的假设
+   - 识别共同点和差异
+
+2. **逻辑递进 - 产生推理**
+   - 每轮思考都比前一轮更深入
+   - 基于前一轮的结果进行累积推理
+   - 从表面现象层层深入到本质
+   - 构建完整的逻辑推理链条
+
+3. **自我否定 - 产生修正**
+   - 主动识别前一轮的局限性
+   - 推翻不完善的观点和结论
+   - 基于新的认识重新构建框架
+   - 通过自我否定持续优化思考
 
 详细信息请参考[深度思考引擎指南](docs/DEEP_THINKING.md)。
 
@@ -408,6 +430,18 @@ npm start
 - `run <process-name>` - 执行指定的业务流程
 - `exit` - 退出助手
 
+**深度思考**：助手会自动检测复杂问题，并在需要时触发深度思考。深度思考包括：
+- 多角色立场分裂，提供5个不同视角
+- 多轮思考的逻辑递进
+- 自我否定以完善和改进结论
+- 角色冲突生成和解决
+- 深度递进跟踪
+
+会触发深度思考的问题示例：
+- "为什么人工智能需要深度学习？"
+- "如何平衡经济发展和环境保护？"
+- "什么是意识？"
+
 #### 服务器模式
 ```bash
 npm run start:server
@@ -505,6 +539,13 @@ curl http://localhost:3000/api/v1/sessions
 | `SKILLS_DIR` | 技能目录 | ./workspace/skills |
 | `ENABLE_PERSISTENCE` | 启用会话持久化 | true |
 | `PERSISTENCE_DIR` | 持久化目录 | ./sessions |
+| `DEEP_THINKING_ENABLED` | 启用深度思考引擎 | true |
+| `DEEP_THINKING_MAX_ROUNDS` | 最大思考轮次 | 3 |
+| `DEEP_THINKING_ROLE_COUNT` | 思考角色数量 | 5 |
+| `DEEP_THINKING_MIN_DEPTH_PROGRESSION` | 每轮最小深度递进 | 5.0 |
+| `DEEP_THINKING_SELF_NEGATION` | 启用自我否定机制 | true |
+| `DEEP_THINKING_CONFLICT_GENERATION` | 启用角色冲突生成 | true |
+| `DEEP_THINKING_MAX_TIME` | 最大思考时间（毫秒） | 60000 |
 
 ## 技能系统
 
@@ -851,6 +892,14 @@ kubectl apply -f k8s-deployment.yaml
 - [GPU设置](./docs/GPU_SETUP.md)
 - [Ollama配置与故障排除](./docs/TROUBLESHOOTING_OLLAMA.md)
 - [插件开发指南](./docs/PLUGIN_DEVELOPMENT.md)
+- [反向控制系统](./docs/REVERSE_CONTROL.md)
+- [主动服务引擎](./docs/PROACTIVE_ENGINE.md)
+- [深度思考引擎](./docs/DEEP_THINKING.md)
+- [多平台集成指南](./docs/MULTI_PLATFORM_GUIDE_CN.md)
+- [移动端部署指南](./docs/MOBILE_DEPLOYMENT_CN.md)
+- [iOS部署指南](./docs/IOS_DEPLOYMENT.md)
+- [Web端开发指南](./docs/WEB_DEVELOPMENT.md)
+- [企业微信集成指南](./docs/WECOM_INTEGRATION.md)
 
 ## 故障排除
 
@@ -871,6 +920,18 @@ kubectl apply -f k8s-deployment.yaml
    - 确保SKILL.md文件格式正确
    - 检查技能目录路径
    - 验证元数据是否正确
+
+4. **深度思考未触发**
+   - 检查 `DEEP_THINKING_ENABLED` 是否设置为 `true`
+   - 确保问题包含深度思考指示词（为什么、如何、分析等）
+   - 查看日志中是否有"Deep thinking triggered"消息
+   - 验证 `DEEP_THINKING_MAX_TIME` 对于复杂问题是否足够
+
+5. **深度思考耗时过长**
+   - 减少 `DEEP_THINKING_MAX_ROUNDS`（默认：3）
+   - 减少 `DEEP_THINKING_ROLE_COUNT`（默认：5）
+   - 增加 `DEEP_THINKING_MIN_DEPTH_PROGRESSION` 以提前停止
+   - 减少 `DEEP_THINKING_MAX_TIME`（默认：60000毫秒）
 
 ## 贡献
 

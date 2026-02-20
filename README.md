@@ -124,14 +124,36 @@ For details, see [Reverse Control Engine Guide](docs/REVERSE_CONTROL.md).
 For details, see [Proactive Engine Guide](docs/PROACTIVE_ENGINE.md).
 
 #### Deep Thinking Engine
-- **Multi-Role Stance Splitting**: Creates multiple characters with different stances to generate conflicts and debates
-- **Logical Progression**: Each round of thinking is deeper than the previous, not simple repetition
+- **Multi-Role Stance Splitting**: Creates 5 distinct thinking roles with different stances to generate conflicts and debates
+- **Logical Progression**: Each round of thinking is deeper than previous, not simple repetition
 - **Self-Negation**: Later iterations推翻 earlier conclusions, achieving true self-correction
 - **5 Thinking Roles**: Rational Analyst, Critical Questioner, Innovative Explorer, Pragmatist, Humanist
 - **Role Conflict System**: Automatically detects and records conflicts between roles
-- **Depth Progression**: Ensures each round has minimum depth progression
+- **Depth Progression**: Ensures each round has minimum depth progression (default: 5.0)
 - **Smart Triggering**: Automatically detects questions requiring deep thinking
 - **Memory Storage**: Automatically stores thinking processes for future reference
+- **Confidence Scoring**: Calculates confidence level for each thinking process
+- **Configurable Parameters**: Customize max rounds, role count, depth progression, and self-negation
+
+**Three Core Mechanisms of True Deep Thinking:**
+
+1. **Stance Splitting (立场分裂)**: Generate conflicts
+   - Creates multiple characters with different stances and perspectives
+   - Each role has unique stance, viewpoint, and personality
+   - Roles debate and challenge each other's assumptions
+   - Identifies commonalities and differences
+
+2. **Logical Progression (逻辑递进)**: Generate reasoning
+   - Each round of thinking is deeper than the previous
+   - Cumulative reasoning based on previous rounds
+   - Layer-by-layer deepening from surface to essence
+   - Builds complete logical reasoning chains
+
+3. **Self-Negation (自我否定)**: Generate corrections
+   - Actively identifies limitations of previous rounds
+   - Overturns imperfect viewpoints and conclusions
+   - Reconstructs frameworks based on new insights
+   - Continuously optimizes through self-negation
 
 For details, see [Deep Thinking Engine Guide](docs/DEEP_THINKING.md).
 
@@ -408,6 +430,18 @@ In CLI mode, you can use the following commands:
 - `run <process-name>` - Execute a specific business process
 - `exit` - Exit the assistant
 
+**Deep Thinking**: The assistant automatically detects complex questions and triggers deep thinking when needed. Deep thinking involves:
+- Multi-role stance splitting with 5 different perspectives
+- Logical progression across multiple thinking rounds
+- Self-negation to refine and improve conclusions
+- Role conflict generation and resolution
+- Depth progression tracking
+
+Example questions that trigger deep thinking:
+- "Why does artificial intelligence need deep learning?"
+- "How to balance economic development and environmental protection?"
+- "What is consciousness?"
+
 #### Server Mode
 ```bash
 npm run start:server
@@ -507,6 +541,13 @@ curl http://localhost:3000/api/v1/sessions
 | `SKILLS_DIR` | Skills directory | ./workspace/skills |
 | `ENABLE_PERSISTENCE` | Enable session persistence | true |
 | `PERSISTENCE_DIR` | Persistence directory | ./sessions |
+| `DEEP_THINKING_ENABLED` | Enable deep thinking engine | true |
+| `DEEP_THINKING_MAX_ROUNDS` | Maximum thinking rounds | 3 |
+| `DEEP_THINKING_ROLE_COUNT` | Number of thinking roles | 5 |
+| `DEEP_THINKING_MIN_DEPTH_PROGRESSION` | Minimum depth progression per round | 5.0 |
+| `DEEP_THINKING_SELF_NEGATION` | Enable self-negation mechanism | true |
+| `DEEP_THINKING_CONFLICT_GENERATION` | Enable role conflict generation | true |
+| `DEEP_THINKING_MAX_TIME` | Maximum thinking time (ms) | 60000 |
 
 ## Skills System
 
@@ -853,6 +894,14 @@ For detailed documentation, see:
 - [GPU Setup](./docs/GPU_SETUP.md)
 - [Ollama Configuration & Troubleshooting](./docs/TROUBLESHOOTING_OLLAMA.md)
 - [Plugin Development Guide](./docs/PLUGIN_DEVELOPMENT.md)
+- [Reverse Control Engine](./docs/REVERSE_CONTROL.md)
+- [Proactive Engine](./docs/PROACTIVE_ENGINE.md)
+- [Deep Thinking Engine](./docs/DEEP_THINKING.md)
+- [Multi-Platform Guide](./docs/MULTI_PLATFORM_GUIDE.md)
+- [Mobile Deployment Guide](./docs/MOBILE_DEPLOYMENT.md)
+- [iOS Deployment Guide](./docs/IOS_DEPLOYMENT.md)
+- [Web Development Guide](./docs/WEB_DEVELOPMENT.md)
+- [WeCom Integration Guide](./docs/WECOM_INTEGRATION.md)
 
 ## Troubleshooting
 
@@ -873,6 +922,18 @@ For detailed documentation, see:
    - Ensure SKILL.md files are properly formatted
    - Check skills directory path
    - Verify metadata is correct
+
+4. **Deep thinking not triggering**
+   - Check if `DEEP_THINKING_ENABLED` is set to `true`
+   - Ensure the question contains deep thinking indicators (why, how, analyze, etc.)
+   - Review logs for "Deep thinking triggered" messages
+   - Verify `DEEP_THINKING_MAX_TIME` is sufficient for complex questions
+
+5. **Deep thinking takes too long**
+   - Reduce `DEEP_THINKING_MAX_ROUNDS` (default: 3)
+   - Reduce `DEEP_THINKING_ROLE_COUNT` (default: 5)
+   - Increase `DEEP_THINKING_MIN_DEPTH_PROGRESSION` to stop earlier
+   - Reduce `DEEP_THINKING_MAX_TIME` (default: 60000ms)
 
 ## Contributing
 
