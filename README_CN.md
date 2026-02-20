@@ -271,6 +271,22 @@ local-bot/
 
 ## 安装
 
+### 全局安装（CLI）
+
+您可以将LocalBot全局安装为CLI工具：
+
+```bash
+npm install -g .
+```
+
+安装后，您可以在任何地方使用 `localbot` 命令：
+
+```bash
+localbot
+```
+
+### 本地安装
+
 1. 克隆仓库：
 ```bash
 git clone <repository-url>
@@ -335,6 +351,48 @@ npm start
 ```bash
 npm run start:server
 ```
+
+#### MCP模式（Model Context Protocol）
+
+LocalBot支持MCP协议，可以作为MCP服务器与支持MCP的客户端（如Claude Desktop、Cursor等）集成：
+
+```bash
+npm run start:mcp
+```
+
+或者直接使用CLI：
+
+```bash
+localbot --mcp
+```
+
+**MCP配置示例**：
+
+在Claude Desktop的配置文件中添加：
+
+```json
+{
+  "mcpServers": {
+    "localbot": {
+      "command": "node",
+      "args": ["<path-to-localbot>\\dist\\index.js"],
+      "env": {
+        "RUN_MODE": "mcp"
+      }
+    }
+  }
+}
+```
+
+**注意**：
+- 将 `<path-to-localbot>` 替换为您的LocalBot项目实际路径
+- Windows路径使用双反斜杠 `\\`
+- macOS/Linux路径使用正斜杠 `/`
+
+例如：
+- Windows: `E:\\work\\202601211205\\local-bot\\dist\\index.js`
+- macOS/Linux: `/Users/username/local-bot/dist/index.js`
+- **提示模板**: 预定义的提示模板用于常见任务
 
 ### 开发模式
 ```bash

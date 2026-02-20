@@ -3,13 +3,18 @@
   "version": "1.0.0",
   "description": "Advanced Local AI Personal Assistant with support for multiple AI providers including Chinese domestic models (Baidu ERNIE Bot, Tencent HunYuan, Zhipu ChatGLM, etc.)",
   "main": "dist/index.js",
+  "bin": {
+    "localbot": "./bin/localbot.js"
+  },
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "dev:server": "RUN_MODE=server nodemon --exec ts-node src/index.ts",
+    "dev:mcp": "RUN_MODE=mcp nodemon --exec ts-node src/index.ts",
     "build": "tsc",
-    "start": "node dist/src/index.js",
-    "start:server": "RUN_MODE=server node dist/src/index.js",
-    "server": "node dist/src/server.js",
+    "start": "node dist/index.js",
+    "start:server": "RUN_MODE=server node dist/index.js",
+    "start:mcp": "RUN_MODE=mcp node dist/index.js",
+    "server": "node dist/server.js",
     "docker:build": "docker build -t localbot .",
     "docker:run": "docker run -p 3000:3000 localbot",
     "compose:up": "docker-compose up -d",

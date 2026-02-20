@@ -271,6 +271,22 @@ local-bot/
 
 ## Installation
 
+### Global Installation (CLI)
+
+You can install LocalBot globally as a CLI tool:
+
+```bash
+npm install -g .
+```
+
+After installation, you can use the `localbot` command from anywhere:
+
+```bash
+localbot
+```
+
+### Local Installation
+
 1. Clone the repository:
 ```bash
 git clone <repository-url>
@@ -335,6 +351,50 @@ In CLI mode, you can use the following commands:
 ```bash
 npm run start:server
 ```
+
+#### MCP Mode (Model Context Protocol)
+
+LocalBot supports MCP protocol and can integrate with MCP-compatible clients (like Claude Desktop, Cursor, etc.):
+
+```bash
+npm run start:mcp
+```
+
+Or use CLI directly:
+
+```bash
+localbot --mcp
+```
+
+**MCP Configuration Example**:
+
+Add to Claude Desktop configuration file:
+
+```json
+{
+  "mcpServers": {
+    "localbot": {
+      "command": "node",
+      "args": ["<path-to-localbot>\\dist\\index.js"],
+      "env": {
+        "RUN_MODE": "mcp"
+      }
+    }
+  }
+}
+```
+
+**Note**:
+- Replace `<path-to-localbot>` with your actual LocalBot project path
+- Windows paths use double backslashes `\\`
+- macOS/Linux paths use forward slashes `/`
+
+Examples:
+- Windows: `E:\\work\\202601211205\\local-bot\\dist\\index.js`
+- macOS/Linux: `/Users/username/local-bot/dist/index.js`
+- **Prompt Templates**: Pre-defined prompt templates for common tasks
+
+For detailed MCP documentation, see [docs/MCP_PROTOCOL.md](docs/MCP_PROTOCOL.md).
 
 ### Development Mode
 ```bash

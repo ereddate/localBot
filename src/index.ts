@@ -1,14 +1,14 @@
 import { CLIInterface } from './interface/CLIInterface';
+import { runMCPMode } from './mcp/MCPCLI';
 
-// Determine if we should run in server mode or CLI mode
-const RUN_MODE = process.env.RUN_MODE || 'cli'; // Can be 'cli' or 'server'
+const RUN_MODE = process.env.RUN_MODE || 'cli';
 
 async function main() {
   if (RUN_MODE === 'server') {
-    // Import and run server when in server mode
     const serverModule = await import('./server');
+  } else if (RUN_MODE === 'mcp') {
+    await runMCPMode();
   } else {
-    // Run CLI interface by default
     const cli = new CLIInterface();
     await cli.start();
   }

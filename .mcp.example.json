@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "localbot": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "RUN_MODE": "mcp"
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ sessions/
 # 忽略内存文件
 memory/
 dist/
+dist/src/
 .env
 *.log
 .DS_Store
