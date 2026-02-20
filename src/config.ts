@@ -3,6 +3,16 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export type LLMProvider = 'openai' | 'aliyun' | 'anthropic' | 'baidu' | 'tencent' | 'zhipu' | 'siliconcloud' | 'ollama';
+export type PlatformType = 'cli' | 'api' | 'mcp' | 'telegram' | 'discord' | 'slack' | 'whatsapp' | 'web';
+
+export interface PlatformConfig {
+  enabled: boolean;
+  token?: string;
+  signingSecret?: string;
+  webhookUrl?: string;
+  sessionPath?: string;
+  [key: string]: unknown;
+}
 
 export interface Config {
   llmProvider: LLMProvider;
@@ -26,6 +36,7 @@ export interface Config {
   skillsDir: string;
   enablePersistence: boolean;
   persistenceDir: string;
+  platforms: Record<PlatformType, PlatformConfig>;
 }
 
 export const config: Config = {
@@ -48,6 +59,29 @@ export const config: Config = {
   logLevel: process.env.LOG_LEVEL || 'info',
   memoryDir: process.env.MEMORY_DIR || './memory',
   skillsDir: process.env.SKILLS_DIR || './skills',
-  enablePersistence: process.env.ENABLE_PERSISTENCE !== 'false', // Enabled by default
+  enablePersistence: process.env.ENABLE_PERSISTENCE !== 'false',
   persistenceDir: process.env.PERSISTENCE_DIR || './sessions',
+  platforms: {
+    cli: { enabled: true },
+    api: { enabled: true },
+    mcp: { enabled: true },
+    telegram: {
+      enabled: process.env.TELEGRAM_ENABLED === 'true',
+      token: process.env.TELEGRAM_TOKEN || '',
+    },
+    discord: {
+      enabled: process.env.DISCORD_ENABLED === 'true',
+      token: process.env.DISCORD_TOKEN || '',
+    },
+    slack: {
+      enabled: process.env.SLACK_ENABLED === 'true',
+      token: process.env.SLACK_TOKEN || '',
+      signingSecret: process.env.SLACK_SIGNING_SECRET || '',
+    },
+    whatsapp: {
+      enabled: process.env.WHATSAPP_ENABLED === 'true',
+      sessionPath: process.env.WHATSAPP_SESSION_PATH || './sessions/whatsapp',
+    },
+    web: { enabled: false },
+  },
 };

@@ -56,7 +56,7 @@ LocalBot features a powerful OpenClaw-style skills system:
 - **Markdown-Based**: Skills defined in SKILL.md files with metadata
 - **Dynamic Loading**: Skills loaded automatically from workspace/skills directory
 - **Smart Matching**: Automatic skill matching based on user intent
-- **12 Built-in Skills**: Pre-configured skills for common use cases
+- **13 Built-in Skills**: Pre-configured skills for common use cases
 - **Extensible**: Easy to add custom skills
 
 Available Skills:
@@ -73,6 +73,28 @@ Available Skills:
 11. **testing** - Testing and quality assurance
 12. **text-processing** - Text processing and manipulation
 13. **web-development** - Web development assistance
+
+### 🌐 Multi-Platform Support
+
+LocalBot supports multiple communication platforms for seamless integration:
+
+- **CLI**: Command-line interface for local interactions
+- **REST API**: Standardized HTTP API for external integrations
+- **MCP Protocol**: Model Context Protocol for AI assistant integration
+- **Telegram**: Telegram bot for instant messaging
+- **Discord**: Discord bot for community interactions
+- **Slack**: Slack bot for team collaboration
+- **WhatsApp**: WhatsApp bot for personal messaging
+- **Mobile**: Android and HarmonyOS deployment support
+
+Platform Features:
+- **Unified Interface**: Consistent API across all platforms
+- **Independent Sessions**: Separate conversation history per platform
+- **Platform-Specific Data**: Metadata and context preservation
+- **Easy Configuration**: Simple environment variable setup
+- **Extensible**: Easy to add new platforms
+
+For detailed platform configuration, see [Multi-Platform Guide](docs/MULTI_PLATFORM_GUIDE.md) and [Mobile Deployment Guide](docs/MOBILE_DEPLOYMENT.md).
 
 ### 🛠️ Available Tools
 

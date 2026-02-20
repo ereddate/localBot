@@ -10,7 +10,25 @@
 
 ## 概述
 
-LocalBot 配备了全面的技能系统，包含80多种工具，按多个类别组织。这些技能使助手能够执行各种各样的任务，从基本的文件操作到复杂的业务流程自动化。
+LocalBot 配备了全面的技能系统，包含13个内置技能，按多个类别组织。这些技能使助手能够执行各种各样的任务，从基本的文件操作到复杂的业务流程自动化。
+
+## 可用技能
+
+LocalBot 包含以下内置技能：
+
+1. **business-automation** - 业务流程自动化
+2. **code-generation** - 代码生成和协助
+3. **code-review** - 代码审查和分析
+4. **daily-life-assistant** - 日常生活任务和协助
+5. **data-analysis** - 数据分析和处理
+6. **data-visualization** - 数据可视化和图表
+7. **debugging** - 调试和故障排除
+8. **file-operations** - 文件系统操作
+9. **shell-commands** - Shell命令执行
+10. **system-management** - 系统管理和监控
+11. **testing** - 测试和质量保证
+12. **text-processing** - 文本处理和操作
+13. **web-development** - Web开发协助
 
 ## 技能分类
 

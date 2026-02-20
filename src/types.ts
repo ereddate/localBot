@@ -65,10 +65,15 @@ export interface AgentContext {
 export interface SessionData {
   sessionId: string;
   userId?: string;
+  platform?: PlatformType;
+  platformUserId?: string;
+  platformData?: Record<string, unknown>;
   messages: Message[];
   createdAt: Date;
   lastActivity: Date;
 }
+
+export type PlatformType = 'cli' | 'api' | 'mcp' | 'telegram' | 'discord' | 'slack' | 'whatsapp' | 'web';
 
 export interface RetryConfig {
   maxRetries: number;

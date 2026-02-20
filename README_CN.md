@@ -56,7 +56,7 @@ LocalBot拥有强大的OpenClaw风格技能系统：
 - **基于Markdown**: 技能通过SKILL.md文件定义，包含元数据
 - **动态加载**: 从workspace/skills目录自动加载技能
 - **智能匹配**: 基于用户意图自动匹配技能
-- **12个内置技能**: 预配置的常用技能
+- **13个内置技能**: 预配置的常用技能
 - **可扩展**: 易于添加自定义技能
 
 可用技能：
@@ -73,6 +73,28 @@ LocalBot拥有强大的OpenClaw风格技能系统：
 11. **testing** - 测试和质量保证
 12. **text-processing** - 文本处理和操作
 13. **web-development** - Web开发协助
+
+### 🌐 多平台支持
+
+LocalBot支持多个通讯平台，实现无缝集成：
+
+- **CLI**: 命令行界面，用于本地交互
+- **REST API**: 标准化HTTP API，用于外部集成
+- **MCP协议**: Model Context Protocol，用于AI助手集成
+- **Telegram**: Telegram机器人，用于即时通讯
+- **Discord**: Discord机器人，用于社区互动
+- **Slack**: Slack机器人，用于团队协作
+- **WhatsApp**: WhatsApp机器人，用于个人消息
+- **移动端**: Android和鸿蒙系统部署支持
+
+平台特性：
+- **统一接口**: 所有平台使用一致的API
+- **独立会话**: 每个平台有独立的对话历史
+- **平台特定数据**: 保留元数据和上下文
+- **简单配置**: 通过环境变量轻松设置
+- **可扩展**: 易于添加新平台
+
+详细平台配置请参考[多平台集成指南](docs/MULTI_PLATFORM_GUIDE_CN.md)和[移动端部署指南](docs/MOBILE_DEPLOYMENT_CN.md)。
 
 ### 🛠️ 可用工具
 

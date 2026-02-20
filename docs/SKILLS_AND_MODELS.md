@@ -10,7 +10,25 @@
 
 ## Overview
 
-LocalBot features a comprehensive skill system with over 80+ tools organized into multiple categories. These skills enable the assistant to perform a wide variety of tasks, from basic file operations to complex business process automation.
+LocalBot features a comprehensive skill system with 13 built-in skills organized into multiple categories. These skills enable the assistant to perform a wide variety of tasks, from basic file operations to complex business process automation.
+
+## Available Skills
+
+LocalBot includes the following built-in skills:
+
+1. **business-automation** - Business process automation
+2. **code-generation** - Code generation and assistance
+3. **code-review** - Code review and analysis
+4. **daily-life-assistant** - Daily life tasks and assistance
+5. **data-analysis** - Data analysis and processing
+6. **data-visualization** - Data visualization and charting
+7. **debugging** - Debugging and troubleshooting
+8. **file-operations** - File system operations
+9. **shell-commands** - Shell command execution
+10. **system-management** - System management and monitoring
+11. **testing** - Testing and quality assurance
+12. **text-processing** - Text processing and manipulation
+13. **web-development** - Web development assistance
 
 ## Skill Categories
 

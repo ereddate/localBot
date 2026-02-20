@@ -9,11 +9,13 @@
 - **BusinessProcessManager**: Orchestration of complex business processes across multiple domains
 - **WorkflowEngine**: Execution engine for multi-step automation workflows
 - **TaskScheduler**: Scheduling and execution of time-based tasks
+- **PlatformManager**: Unified platform adapter manager supporting 8 communication platforms (CLI, API, MCP, Telegram, Discord, Slack, WhatsApp, Web)
 
 ### Supporting Components
 - **Logger**: Comprehensive logging system for debugging and monitoring
 - **RetryHandler**: Robust retry mechanism for API calls
-- **SessionManager**: Session management for ongoing conversations
+- **SessionManager**: Session management for ongoing conversations with multi-platform support
+- **Platform Adapters**: Individual adapters for each communication platform (Telegram, Discord, Slack, WhatsApp)
 
 ## Technical Architecture
 

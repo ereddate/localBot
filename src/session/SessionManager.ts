@@ -1,12 +1,13 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
-import { SessionData } from '../types';
+import { SessionData, PlatformType } from '../types';
 import { Logger } from '../utils/Logger';
 import { config } from '../config';
 
 export class SessionManager {
   private sessionsDir: string;
   private sessions: Map<string, SessionData> = new Map();
+  private platformSessions: Map<string, Map<string, SessionData>> = new Map();
 
   constructor(sessionsDir?: string) {
     this.sessionsDir = sessionsDir || config.persistenceDir;
@@ -130,5 +131,95 @@ export class SessionManager {
     if (toDelete.length > 0) {
       Logger.info('Cleaned up old sessions', { count: toDelete.length });
     }
+  }
+
+  async createPlatformSession(
+    platform: PlatformType,
+    platformUserId: string,
+    userId?: string
+  ): Promise<SessionData> {
+    const sessionId = `${platform}-${platformUserId}`;
+    const session: SessionData = {
+      sessionId,
+      userId,
+      platform,
+      platformUserId,
+      messages: [],
+      createdAt: new Date(),
+      lastActivity: new Date(),
+    };
+
+    this.sessions.set(sessionId, session);
+
+    if (!this.platformSessions.has(platform)) {
+      this.platformSessions.set(platform, new Map());
+    }
+    this.platformSessions.get(platform)!.set(platformUserId, session);
+
+    await this.saveSession(sessionId);
+
+    Logger.info('Platform session created', { platform, platformUserId, sessionId });
+    return session;
+  }
+
+  async getPlatformSession(
+    platform: PlatformType,
+    platformUserId: string
+  ): Promise<SessionData | undefined> {
+    const platformMap = this.platformSessions.get(platform);
+    if (!platformMap) return undefined;
+
+    return platformMap.get(platformUserId);
+  }
+
+  async getOrCreatePlatformSession(
+    platform: PlatformType,
+    platformUserId: string,
+    userId?: string
+  ): Promise<SessionData> {
+    let session = await this.getPlatformSession(platform, platformUserId);
+    if (!session) {
+      session = await this.createPlatformSession(platform, platformUserId, userId);
+    }
+    return session;
+  }
+
+  async getPlatformSessions(platform: PlatformType): Promise<SessionData[]> {
+    const platformMap = this.platformSessions.get(platform);
+    if (!platformMap) return [];
+
+    return Array.from(platformMap.values()).sort(
+      (a, b) => b.lastActivity.getTime() - a.lastActivity.getTime()
+    );
+  }
+
+  async deletePlatformSession(platform: PlatformType, platformUserId: string): Promise<void> {
+    const platformMap = this.platformSessions.get(platform);
+    if (!platformMap) return;
+
+    const session = platformMap.get(platformUserId);
+    if (session) {
+      await this.deleteSession(session.sessionId);
+      platformMap.delete(platformUserId);
+      Logger.info('Platform session deleted', { platform, platformUserId });
+    }
+  }
+
+  getPlatformSessionCount(platform: PlatformType): number {
+    const platformMap = this.platformSessions.get(platform);
+    return platformMap ? platformMap.size : 0;
+  }
+
+  getAllPlatformSessions(): Map<PlatformType, SessionData[]> {
+    const result = new Map<PlatformType, SessionData[]>();
+    for (const [platform, platformMap] of this.platformSessions.entries()) {
+      result.set(
+        platform,
+        Array.from(platformMap.values()).sort(
+          (a, b) => b.lastActivity.getTime() - a.lastActivity.getTime()
+        )
+      );
+    }
+    return result;
   }
 }
