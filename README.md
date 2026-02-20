@@ -123,6 +123,21 @@ For details, see [Reverse Control Engine Guide](docs/REVERSE_CONTROL.md).
 
 For details, see [Proactive Engine Guide](docs/PROACTIVE_ENGINE.md).
 
+#### Deep Thinking Engine
+- **Multi-Iteration Thinking**: Automatic iterative refinement based on confidence
+- **Progressive Optimization**: Each iteration builds on previous results
+- **Convergence Control**: Stops when minimum confidence or max iterations reached
+- **Analysis Step**: Deep analysis of user queries with complexity assessment
+- **Hypothesis Generation**: Generate multiple hypotheses from different perspectives
+- **Hypothesis Verification**: Logical verification, fact-checking, and contradiction detection
+- **Result Synthesis**: Integrate all thinking steps into comprehensive conclusions
+- **Self-Reflection**: Review and evaluate the thinking process
+- **Critical Thinking**: Challenge own assumptions and consider alternative viewpoints
+- **Smart Triggering**: Automatically detects questions requiring deep thinking
+- **Memory Storage**: Automatically stores thinking processes for future reference
+
+For details, see [Deep Thinking Engine Guide](docs/DEEP_THINKING.md).
+
 ### 🛠️ Available Tools
 
 #### File System Tools (7 tools)

@@ -7,6 +7,7 @@ import { BusinessProcessManager } from './business-processes/BusinessProcessMana
 import { WorkflowEngine } from './tasks/WorkflowEngine';
 import { ReverseControlEngine } from './engine/ReverseControlEngine';
 import { ProactiveEngine } from './engine/ProactiveEngine';
+import { DeepThinkingEngine } from './engine/DeepThinkingEngine';
 import { PlatformManager } from './platforms/PlatformManager';
 import { config } from './config';
 
@@ -50,6 +51,11 @@ const proactiveEngine = new ProactiveEngine(
   businessProcessManager
 );
 
+const deepThinkingEngine = new DeepThinkingEngine(
+  config.deepThinking,
+  memorySystem
+);
+
 // Initialize platform manager
 const platformManager = new PlatformManager();
 
@@ -57,6 +63,7 @@ const platformManager = new PlatformManager();
 async function initialize() {
   await reverseControlEngine.initialize();
   await proactiveEngine.initialize();
+  await deepThinkingEngine.initialize();
   await platformManager.initialize(config.platforms);
   await platformManager.connect();
 }

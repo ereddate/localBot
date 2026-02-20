@@ -12,6 +12,7 @@ import { MemorySystem } from '../memory/MemorySystem';
 import { SkillsHub } from '../skills/SkillsHub';
 import { PluginManager } from '../plugins/PluginManager';
 import { SelfProgrammingTool } from '../plugins/SelfProgrammingTool';
+import { DeepThinkingEngine, ThinkingProcess } from '../engine/DeepThinkingEngine';
 
 export class AgentProcessor {
   private openai: OpenAI;
@@ -21,6 +22,7 @@ export class AgentProcessor {
   private automationController?: AutomationController;
   private skillsHub?: SkillsHub;
   private pluginManager?: PluginManager;
+  private deepThinkingEngine?: DeepThinkingEngine;
 
   constructor(private skillManager?: SkillManager, private memorySystem?: MemorySystem, skillsHub?: SkillsHub) {
     this.router = new MultiAIRouter();
@@ -28,6 +30,7 @@ export class AgentProcessor {
     this.openai = this.createClient(this.router.getCurrentProvider());
     this.ollamaService = new OllamaService();
     this.skillsHub = skillsHub;
+    this.deepThinkingEngine = new DeepThinkingEngine(config.deepThinking, memorySystem);
   }
 
   async initializeAutomation(): Promise<void> {
@@ -147,6 +150,38 @@ export class AgentProcessor {
   }
 
   async process(context: AgentContext): Promise<string> {
+    // Check if deep thinking is required
+    let deepThinkingResult: ThinkingProcess | undefined;
+    if (this.deepThinkingEngine && context.messages.length > 0) {
+      const userQuery = context.messages[context.messages.length - 1]?.content || '';
+      if (this.deepThinkingEngine.isDeepThinkingRequired(userQuery)) {
+        try {
+          Logger.info('Deep thinking triggered for query', { query: userQuery.substring(0, 100) });
+          deepThinkingResult = await this.deepThinkingEngine.thinkDeeply(context, userQuery);
+          
+          // Add deep thinking result to context
+          context.memory = context.memory || [];
+          context.memory.push({
+            id: `thinking_${deepThinkingResult.id}`,
+            content: this.formatThinkingProcess(deepThinkingResult),
+            timestamp: deepThinkingResult.startTime,
+            tags: ['deep-thinking', 'analysis'],
+            importance: 3,
+          });
+          
+          Logger.info('Deep thinking completed', {
+            processId: deepThinkingResult.id,
+            confidence: deepThinkingResult.confidence,
+            iterations: deepThinkingResult.iterations,
+          });
+        } catch (error) {
+          Logger.warn('Deep thinking failed, falling back to normal processing', {
+            error: (error as Error).message,
+          });
+        }
+      }
+    }
+
     // Enhance context with memory search if memory system is available
     if (this.memorySystem) {
       try {
@@ -157,7 +192,7 @@ export class AgentProcessor {
         const relevantMemories = await this.memorySystem.search(query, 5);
         
         // Update context with relevant memories
-        context.memory = relevantMemories;
+        context.memory = [...(context.memory || []), ...relevantMemories];
       } catch (error) {
         Logger.warn('Could not enhance context with memory', { error: (error as Error).message });
       }
@@ -701,5 +736,32 @@ PARAMS: {"key": "value"}
   async clearHistory(sessionId: string): Promise<void> {
     await this.sessionManager.deleteSession(sessionId);
     Logger.info(`Cleared conversation history for session ${sessionId}`);
+  }
+
+  private formatThinkingProcess(process: ThinkingProcess): string {
+    let formatted = `# 深度思考过程\n\n`;
+    formatted += `**问题**: ${process.query}\n\n`;
+    formatted += `**置信度**: ${(process.confidence * 100).toFixed(1)}%\n`;
+    formatted += `**迭代次数**: ${process.iterations}\n\n`;
+    
+    formatted += `## 思考步骤\n\n`;
+    process.steps.forEach((step, index) => {
+      const stepTypeMap: Record<string, string> = {
+        analysis: '分析',
+        hypothesis: '假设',
+        verification: '验证',
+        reflection: '反思',
+        synthesis: '综合',
+        critique: '批判',
+      };
+      
+      formatted += `### 步骤 ${index + 1}: ${stepTypeMap[step.type] || step.type}\n`;
+      formatted += `**置信度**: ${(step.confidence * 100).toFixed(1)}%\n\n`;
+      formatted += `${step.content}\n\n`;
+    });
+    
+    formatted += `## 最终结论\n\n${process.finalConclusion}\n`;
+    
+    return formatted;
   }
 }
