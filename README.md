@@ -41,8 +41,9 @@ Advanced utilities for everyday tasks:
 
 ### 🚀 Core Capabilities
 - **Multi-AI Model Routing**: Support for mainstream AI models (OpenAI, Alibaba Cloud Qwen, Anthropic Claude, Baidu ERNIE Bot, Tencent HunYuan, Zhipu AI, SiliconCloud, Ollama)
-- **Local Skills System**: OpenClaw-style Markdown-based skill definitions with dynamic loading
-- **Memory System**: Persistent memory storage and retrieval for context-aware conversations
+- **Enhanced Memory System**: Three-tier memory architecture (diary, long-term, vector search) inspired by Clawdbot
+- **Advanced Skills System**: Priority-based loading, hot reload, and dependency management inspired by Clawdbot
+- **Enhanced MCP Protocol**: Tool caching, hints, tracking, and filtering capabilities inspired by Clawdbot
 - **Session Management**: Multi-session support with conversation history
 - **RESTful API**: Standardized API endpoints for external integrations
 - **Business Process Automation**: Automated workflow execution with task scheduling
@@ -287,6 +288,7 @@ local-bot/
 │   ├── skills/             # Skills and tools system
 │   │   ├── SkillManager.ts      # Tool and skill management
 │   │   ├── SkillsHub.ts         # OpenClaw-style skills
+│   │   ├── EnhancedSkillsHub.ts # Enhanced skills with priority and hot reload
 │   │   ├── tools/               # Tool implementations
 │   │   │   ├── FileTools.ts
 │   │   │   ├── ShellTools.ts
@@ -295,7 +297,8 @@ local-bot/
 │   │   │   └── UtilityTools.ts
 │   │   └── registerTools.ts     # Tool registration
 │   ├── memory/             # Memory system
-│   │   └── MemorySystem.ts     # Persistent memory storage
+│   │   ├── MemorySystem.ts     # Persistent memory storage
+│   │   └── EnhancedMemorySystem.ts # Three-tier memory architecture
 │   ├── session/            # Session management
 │   │   └── SessionManager.ts    # Session handling
 │   ├── tasks/              # Task scheduling and automation
@@ -326,7 +329,21 @@ local-bot/
 │   │   ├── PluginTypes.ts
 │   │   └── SelfProgrammingTool.ts
 │   ├── services/          # External services
+│   │   ├── AIService.ts
+│   │   ├── OpenAIService.ts
+│   │   ├── QwenService.ts
+│   │   ├── ClaudeService.ts
+│   │   ├── ERNIEBotService.ts
+│   │   ├── HunYuanService.ts
+│   │   ├── ZhipuAIService.ts
+│   │   ├── SiliconCloudService.ts
 │   │   └── OllamaService.ts
+│   ├── mcp/               # Model Context Protocol
+│   │   ├── MCPProtocol.ts         # MCP protocol definitions
+│   │   ├── EnhancedMCPProtocol.ts # Enhanced MCP with caching and tracking
+│   │   ├── MCPServer.ts           # MCP server implementation
+│   │   ├── MCPCLI.ts              # MCP CLI interface
+│   │   └── MCPStdioTransport.ts   # MCP stdio transport
 │   ├── utils/             # Utility functions
 │   │   ├── Logger.ts
 │   │   └── RetryHandler.ts
@@ -887,6 +904,7 @@ For detailed documentation, see:
 - [API Documentation](./docs/API_DOCUMENTATION.md)
 - [API Specification](./docs/API_SPECIFICATION.md)
 - [Architecture Overview](./docs/ARCHITECTURE_OVERVIEW.md)
+- [Architecture Optimization Guide](./docs/ARCHITECTURE_OPTIMIZATION.md)
 - [Skills System](./docs/SKILLS_SYSTEM.md)
 - [Automation Capabilities](./docs/AUTOMATION_CAPABILITIES.md)
 - [Business Processes](./docs/BUSINESS_PROCESSES.md)

@@ -41,8 +41,9 @@ LocalBot为软件开发提供强大的工具：
 
 ### 🚀 核心能力
 - **多AI模型路由**: 支持主流AI模型（OpenAI、阿里云通义千问、Anthropic Claude、百度文心一言、腾讯混元、智谱AI、硅基流动、Ollama）
-- **本地技能系统**: 基于OpenClaw风格的Markdown技能定义，支持动态加载
-- **记忆系统**: 持久化记忆存储和检索，支持上下文感知对话
+- **增强记忆系统**: 参考Clawdbot的三层记忆架构（日记记忆、长期记忆、向量检索）
+- **高级技能系统**: 参考Clawdbot的优先级加载、热更新和依赖管理
+- **增强MCP协议**: 参考Clawdbot的工具缓存、提示、追踪和过滤能力
 - **会话管理**: 多会话支持，带对话历史
 - **RESTful API**: 标准化API端点，用于外部集成
 - **业务流程自动化**: 自动化工作流执行，带任务调度
@@ -287,6 +288,7 @@ local-bot/
 │   ├── skills/             # 技能和工具系统
 │   │   ├── SkillManager.ts      # 工具和技能管理
 │   │   ├── SkillsHub.ts         # OpenClaw风格技能
+│   │   ├── EnhancedSkillsHub.ts # 增强技能（优先级和热更新）
 │   │   ├── tools/               # 工具实现
 │   │   │   ├── FileTools.ts
 │   │   │   ├── ShellTools.ts
@@ -295,7 +297,8 @@ local-bot/
 │   │   │   └── UtilityTools.ts
 │   │   └── registerTools.ts     # 工具注册
 │   ├── memory/             # 记忆系统
-│   │   └── MemorySystem.ts     # 持久化记忆存储
+│   │   ├── MemorySystem.ts     # 持久化记忆存储
+│   │   └── EnhancedMemorySystem.ts # 三层记忆架构
 │   ├── session/            # 会话管理
 │   │   └── SessionManager.ts    # 会话处理
 │   ├── tasks/              # 任务调度和自动化
@@ -326,7 +329,21 @@ local-bot/
 │   │   ├── PluginTypes.ts
 │   │   └── SelfProgrammingTool.ts
 │   ├── services/          # 外部服务
+│   │   ├── AIService.ts
+│   │   ├── OpenAIService.ts
+│   │   ├── QwenService.ts
+│   │   ├── ClaudeService.ts
+│   │   ├── ERNIEBotService.ts
+│   │   ├── HunYuanService.ts
+│   │   ├── ZhipuAIService.ts
+│   │   ├── SiliconCloudService.ts
 │   │   └── OllamaService.ts
+│   ├── mcp/               # 模型上下文协议
+│   │   ├── MCPProtocol.ts         # MCP协议定义
+│   │   ├── EnhancedMCPProtocol.ts # 增强MCP（缓存和追踪）
+│   │   ├── MCPServer.ts           # MCP服务器实现
+│   │   ├── MCPCLI.ts              # MCP CLI接口
+│   │   └── MCPStdioTransport.ts   # MCP stdio传输
 │   ├── utils/             # 实用工具函数
 │   │   ├── Logger.ts
 │   │   └── RetryHandler.ts
@@ -885,6 +902,7 @@ kubectl apply -f k8s-deployment.yaml
 - [API文档](./docs/API_DOCUMENTATION_CN.md)
 - [API规范](./docs/API_SPECIFICATION.md)
 - [架构概览](./docs/ARCHITECTURE_OVERVIEW.md)
+- [架构优化指南](./docs/ARCHITECTURE_OPTIMIZATION.md)
 - [技能系统](./docs/SKILLS_SYSTEM.md)
 - [自动化能力](./docs/AUTOMATION_CAPABILITIES.md)
 - [业务流程](./docs/BUSINESS_PROCESSES.md)

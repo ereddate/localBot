@@ -53,6 +53,7 @@
     "axios": "^1.13.5",
     "chalk": "^5.6.2",
     "cheerio": "^1.0.0",
+    "chokidar": "^5.0.0",
     "csv-parse": "^5.5.6",
     "csv-stringify": "^6.5.1",
     "discord.js": "^14.18.0",

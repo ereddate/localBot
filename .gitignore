@@ -3,8 +3,9 @@ node_modules/
 data/
 # 忽略会话文件
 sessions/
-# 忽略内存文件
-memory/
+# 忽略内存数据文件（但不忽略源代码）
+memory/*.md
+memory/*.json
 dist/
 dist/src/
 .env
