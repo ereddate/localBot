@@ -61,6 +61,7 @@ const platformManager = new PlatformManager();
 
 // Initialize all components
 async function initialize() {
+  console.log('Deep thinking config:', JSON.stringify(config.deepThinking, null, 2));
   await reverseControlEngine.initialize();
   await proactiveEngine.initialize();
   await deepThinkingEngine.initialize();

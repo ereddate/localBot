@@ -43,6 +43,11 @@ export class AgentProcessor {
     }
 
     await this.initializePlugins();
+
+    if (this.deepThinkingEngine) {
+      await this.deepThinkingEngine.initialize();
+      Logger.info('Deep thinking engine initialized');
+    }
   }
 
   private async initializePlugins(): Promise<void> {
