@@ -28,7 +28,7 @@ LocalBot支持多个即时通讯平台，允许用户通过不同的渠道与AI�
 | **Discord** | ✅ 完全支持 | Discord Bot |
 | **Slack** | ✅ 完全支持 | Slack Bot |
 | **WhatsApp** | ✅ 完全支持 | WhatsApp Bot |
-| **Web** | 🚧 开发中 | Web界面 |
+| **Web** | ✅ 完全支持 | Web界面 |
 
 ### 架构
 

@@ -16,11 +16,12 @@ LocalBot 不仅仅是一个AI助手，它还是一个强大的自动化平台，
 - 支持任务优先级和资源管理
 
 ### 3. 多平台自动化 (Multi-Platform Automation)
-- **平台适配器**: 统一接口支持8个通讯平台（CLI、API、MCP、Telegram、Discord、Slack、WhatsApp、Web）
+- **平台适配器**: 统一接口支持9个通讯平台（CLI、API、MCP、Telegram、Discord、Slack、WhatsApp、Web）
 - **独立会话管理**: 每个平台有独立的对话历史和上下文
 - **平台特定数据**: 保留平台特定的元数据和用户信息
 - **跨平台消息路由**: 自动将消息路由到正确的平台
-- **移动端支持**: 支持Android和鸿蒙平台部署
+- **移动端支持**: 支持Android、鸿蒙和iOS平台部署
+- **Web端支持**: 完整的Web界面和API集成
 
 ### 4. 丰富的内置工具
 - **文件系统工具**: 文件读写、目录操作、文件搜索

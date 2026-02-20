@@ -85,7 +85,8 @@ LocalBot supports multiple communication platforms for seamless integration:
 - **Discord**: Discord bot for community interactions
 - **Slack**: Slack bot for team collaboration
 - **WhatsApp**: WhatsApp bot for personal messaging
-- **Mobile**: Android and HarmonyOS deployment support
+- **Web**: Web interface for browser-based interactions
+- **Mobile**: Android, HarmonyOS, and iOS deployment support
 
 Platform Features:
 - **Unified Interface**: Consistent API across all platforms
@@ -94,7 +95,7 @@ Platform Features:
 - **Easy Configuration**: Simple environment variable setup
 - **Extensible**: Easy to add new platforms
 
-For detailed platform configuration, see [Multi-Platform Guide](docs/MULTI_PLATFORM_GUIDE.md) and [Mobile Deployment Guide](docs/MOBILE_DEPLOYMENT.md).
+For detailed platform configuration, see [Multi-Platform Guide](docs/MULTI_PLATFORM_GUIDE.md), [Mobile Deployment Guide](docs/MOBILE_DEPLOYMENT.md), [iOS Deployment Guide](docs/IOS_DEPLOYMENT.md), and [Web Development Guide](docs/WEB_DEVELOPMENT.md).
 
 ### 🛠️ Available Tools
 

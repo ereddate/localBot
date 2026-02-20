@@ -82,6 +82,11 @@ export const config: Config = {
       enabled: process.env.WHATSAPP_ENABLED === 'true',
       sessionPath: process.env.WHATSAPP_SESSION_PATH || './sessions/whatsapp',
     },
-    web: { enabled: false },
+    web: {
+      enabled: process.env.WEB_ENABLED === 'true',
+      apiUrl: process.env.WEB_API_URL || '',
+      apiKey: process.env.WEB_API_KEY || '',
+      corsOrigins: process.env.WEB_CORS_ORIGINS?.split(',') || ['http://localhost:3000'],
+    },
   },
 };

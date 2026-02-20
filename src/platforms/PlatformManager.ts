@@ -4,6 +4,7 @@ import { TelegramAdapter } from './TelegramAdapter';
 import { DiscordAdapter } from './DiscordAdapter';
 import { SlackAdapter } from './SlackAdapter';
 import { WhatsAppAdapter } from './WhatsAppAdapter';
+import { WebAdapter } from './WebAdapter';
 import { Logger } from '../utils/Logger';
 
 export class PlatformManager {
@@ -20,6 +21,7 @@ export class PlatformManager {
     this.adapters.set('discord', new DiscordAdapter());
     this.adapters.set('slack', new SlackAdapter());
     this.adapters.set('whatsapp', new WhatsAppAdapter());
+    this.adapters.set('web', new WebAdapter());
 
     Logger.info('Platform adapters registered', {
       platforms: Array.from(this.adapters.keys()),

@@ -85,7 +85,8 @@ LocalBot支持多个通讯平台，实现无缝集成：
 - **Discord**: Discord机器人，用于社区互动
 - **Slack**: Slack机器人，用于团队协作
 - **WhatsApp**: WhatsApp机器人，用于个人消息
-- **移动端**: Android和鸿蒙系统部署支持
+- **Web**: Web界面，用于浏览器交互
+- **移动端**: Android、鸿蒙和iOS系统部署支持
 
 平台特性：
 - **统一接口**: 所有平台使用一致的API
@@ -94,7 +95,7 @@ LocalBot支持多个通讯平台，实现无缝集成：
 - **简单配置**: 通过环境变量轻松设置
 - **可扩展**: 易于添加新平台
 
-详细平台配置请参考[多平台集成指南](docs/MULTI_PLATFORM_GUIDE_CN.md)和[移动端部署指南](docs/MOBILE_DEPLOYMENT_CN.md)。
+详细平台配置请参考[多平台集成指南](docs/MULTI_PLATFORM_GUIDE_CN.md)、[移动端部署指南](docs/MOBILE_DEPLOYMENT_CN.md)、[iOS部署指南](docs/IOS_DEPLOYMENT.md)和[Web端开发指南](docs/WEB_DEVELOPMENT.md)。
 
 ### 🛠️ 可用工具
 
