@@ -124,15 +124,12 @@ For details, see [Reverse Control Engine Guide](docs/REVERSE_CONTROL.md).
 For details, see [Proactive Engine Guide](docs/PROACTIVE_ENGINE.md).
 
 #### Deep Thinking Engine
-- **Multi-Iteration Thinking**: Automatic iterative refinement based on confidence
-- **Progressive Optimization**: Each iteration builds on previous results
-- **Convergence Control**: Stops when minimum confidence or max iterations reached
-- **Analysis Step**: Deep analysis of user queries with complexity assessment
-- **Hypothesis Generation**: Generate multiple hypotheses from different perspectives
-- **Hypothesis Verification**: Logical verification, fact-checking, and contradiction detection
-- **Result Synthesis**: Integrate all thinking steps into comprehensive conclusions
-- **Self-Reflection**: Review and evaluate the thinking process
-- **Critical Thinking**: Challenge own assumptions and consider alternative viewpoints
+- **Multi-Role Stance Splitting**: Creates multiple characters with different stances to generate conflicts and debates
+- **Logical Progression**: Each round of thinking is deeper than the previous, not simple repetition
+- **Self-Negation**: Later iterations推翻 earlier conclusions, achieving true self-correction
+- **5 Thinking Roles**: Rational Analyst, Critical Questioner, Innovative Explorer, Pragmatist, Humanist
+- **Role Conflict System**: Automatically detects and records conflicts between roles
+- **Depth Progression**: Ensures each round has minimum depth progression
 - **Smart Triggering**: Automatically detects questions requiring deep thinking
 - **Memory Storage**: Automatically stores thinking processes for future reference
 

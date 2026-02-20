@@ -55,12 +55,11 @@ export interface Config {
   weatherApiKey: string;
   deepThinking: {
     enabled: boolean;
-    maxIterations: number;
-    minConfidence: number;
-    enableSelfReflection: boolean;
-    enableCritique: boolean;
-    enableMultiPerspective: boolean;
-    enableLogicalConsistency: boolean;
+    maxRounds: number;
+    roleCount: number;
+    minDepthProgression: number;
+    enableSelfNegation: boolean;
+    enableConflictGeneration: boolean;
     maxThinkingTime: number;
   };
 }
@@ -138,12 +137,11 @@ export const config: Config = {
   weatherApiKey: process.env.WEATHER_API_KEY || '',
   deepThinking: {
     enabled: process.env.DEEP_THINKING_ENABLED === 'true',
-    maxIterations: parseInt(process.env.DEEP_THINKING_MAX_ITERATIONS || '3', 10),
-    minConfidence: parseFloat(process.env.DEEP_THINKING_MIN_CONFIDENCE || '0.85'),
-    enableSelfReflection: process.env.DEEP_THINKING_SELF_REFLECTION !== 'false',
-    enableCritique: process.env.DEEP_THINKING_CRITIQUE !== 'false',
-    enableMultiPerspective: process.env.DEEP_THINKING_MULTI_PERSPECTIVE !== 'false',
-    enableLogicalConsistency: process.env.DEEP_THINKING_LOGICAL_CONSISTENCY !== 'false',
-    maxThinkingTime: parseInt(process.env.DEEP_THINKING_MAX_TIME || '30000', 10),
+    maxRounds: parseInt(process.env.DEEP_THINKING_MAX_ROUNDS || '3', 10),
+    roleCount: parseInt(process.env.DEEP_THINKING_ROLE_COUNT || '5', 10),
+    minDepthProgression: parseFloat(process.env.DEEP_THINKING_MIN_DEPTH_PROGRESSION || '5.0'),
+    enableSelfNegation: process.env.DEEP_THINKING_SELF_NEGATION !== 'false',
+    enableConflictGeneration: process.env.DEEP_THINKING_CONFLICT_GENERATION !== 'false',
+    maxThinkingTime: parseInt(process.env.DEEP_THINKING_MAX_TIME || '60000', 10),
   },
 };
