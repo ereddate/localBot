@@ -1,0 +1,9 @@
+{
+  "name": "hello-world-plugin",
+  "version": "1.0.0",
+  "description": "A simple hello world plugin for LocalBot",
+  "author": "LocalBot Team",
+  "category": "example",
+  "dependencies": [],
+  "permissions": []
+}

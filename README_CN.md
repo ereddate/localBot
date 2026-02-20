@@ -4,169 +4,277 @@
 
 ## 为什么选择LocalBot？
 
-LocalBot作为综合性AI助手平台，具备独特的优势，旨在服务多样化的用户群体：
+LocalBot是一个强大、模块化的AI助手平台，专为需要本地AI能力和广泛工具集成的开发者和高级用户设计。
 
-### 🌐 **普遍适用性**
+### 🎯 目标用户
 
-#### 1. **一般用户的日常需求**
-LocalBot 可以帮助一般用户解决多种日常需求：
+#### 1. **开发者**
+LocalBot为软件开发提供强大的工具：
+- **文件操作**: 以编程方式读取、写入、复制、移动和管理文件
+- **Shell命令**: 执行系统命令、管理进程和控制系统
+- **API操作**: 发起HTTP请求（GET、POST、PUT、DELETE、PATCH）和获取网页内容
+- **数据处理**: 解析和处理CSV/JSON文件，执行文本分析和转换
+- **代码生成**: 生成代码片段和协助开发任务
 
-##### 家庭自动化
-- **智能家居控制**: 通过 `IoTDeviceControlTool` 控制智能设备
-- **日程管理**: 使用 `CalendarSchedulerTool` 和 `CalendarEventTool` 管理日程
-- **健康追踪**: 通过 `HealthTrackerTool` 跟踪家庭成员健康状况
-- **财务跟踪**: 使用 `FinanceTrackerTool` 管理个人和家庭财务
-- **提醒和待办事项**: 通过 `ReminderTodoTool` 管理任务清单
+#### 2. **数据分析师**
+用于数据分析和可视化的综合工具：
+- **CSV/JSON处理**: 读取、写入和操作结构化数据文件
+- **文本分析**: 分析文本内容、搜索和替换模式
+- **数学计算**: 执行复杂的数学运算
+- **数据可视化**: 从数据创建图表和可视化
 
-##### 实用工具
-- **天气查询**: 使用 `WeatherTool` 获取天气信息
-- **新闻聚合**: 通过 `NewsAggregatorTool` 获取最新资讯
-- **翻译服务**: 使用 `TranslationTool` 进行文本翻译
-- **计算器**: 通过 `CalculatorTool` 执行数学计算
-- **密码生成**: 使用 `PasswordGeneratorTool` 生成安全密码
-- **地图定位**: 通过 `MapLocationTool` 和 `AdvancedLocationServiceTool` 获取位置服务
+#### 3. **系统管理员**
+强大的系统管理能力：
+- **系统信息**: 获取详细的系统信息和资源使用情况
+- **进程管理**: 列出、监控和终止进程
+- **环境变量**: 读取和修改环境变量
+- **目录操作**: 导航和管理目录
 
-##### 文件和系统操作
-- **文件管理**: 读写、列出和删除文件
-- **系统监控**: 查看系统信息、进程列表和资源使用情况
-- **通知提醒**: 发送通知和安排提醒
+#### 4. **高级用户**
+用于日常任务的高级实用工具：
+- **安全工具**: 加密/解密数据、生成哈希
+- **压缩**: 压缩和解压文件
+- **编码**: Base64编码/解码操作
+- **随机生成**: 生成UUID和随机字符串
 
-#### 2. **开发人员的编程需求**
-LocalBot 提供了丰富的工具来协助开发人员：
-
-##### 代码开发工具
-- **代码分析**: 使用 `CodeAnalysisTool` 分析代码质量和结构
-- **Shell命令**: 通过 `ShellTool` 执行系统命令
-- **数据库操作**: 连接和操作数据库（`DatabaseConnectTool`, `DatabaseExecuteTool`等）
-- **API操作**: 执行HTTP请求（`ApiGetTool`, `ApiPostTool`, `ApiPutTool`, `ApiDeleteTool`）
-- **文件操作**: 读写代码文件和其他开发相关文件
-
-##### 数据处理工具
-- **数据格式处理**: CSV和JSON文件读写（`CsvReadTool`, `JsonWriteTool`等）
-- **文本处理**: 文本分析、搜索和转换（`TextAnalysisTool`, `TextSearchTool`, `TextTransformTool`）
-- **数据验证**: 使用 `ValidationCheckTool` 进行数据验证
-
-##### 系统工具
-- **日志管理**: 使用 `LogManagementTool` 管理系统日志
-- **配置管理**: 通过 `ConfigManagementTool` 管理配置文件
-- **压缩工具**: ZIP/UNZIP操作（`ZipTool`, `UnzipTool`等）
-- **安全工具**: 加密解密功能（`EncryptTool`, `DecryptTool`, `HashTool`）
-
-##### AI辅助开发
-- **AI模型操作**: 使用 `AiModelTool` 进行AI模型操作
-- **嵌入向量**: 通过 `EmbeddingTool` 生成文本嵌入
-- **图像生成**: 使用 `ImageGenerationTool` 生成图像
-
-#### 3. **专业领域的特定需求**
-LocalBot 在多个专业领域都有针对性的功能：
-
-##### 财务和税务领域
-- **财务计算**: 使用 `FinancialCalculatorTool` 和 `AccountingSystemTool`
-- **税务规划**: 通过 `TaxCalculationTool`, `TaxSoftwareIntegrationTool`, `IRSEfileSystemTool` 提供企业和个人税务规划
-- **支付网关**: 使用 `PaymentGatewayTool` 处理支付事务
-
-##### 人力资源领域
-- **HR系统**: 通过 `HrSystemTool` 管理人力资源
-- **招聘管理**: 使用 `DocumentManagementTool` 管理招聘文档
-
-##### 销售和营销领域
-- **CRM操作**: 使用 `CrmTool` 管理客户关系
-- **销售分析**: 通过 `SalesAnalyticsTool` 进行动态分析
-- **营销自动化**: 使用 `BusinessIntelligenceTool` 进行商业智能分析
-
-##### 项目管理
-- **项目跟踪**: 使用 `ProjectManagementTool` 和 `ProjectManagementToolExtended`
-- **时间跟踪**: 通过 `TimeTrackingTool` 和 `TimeTrackingToolExtended` 跟踪项目时间
-- **工作流审批**: 使用 `WorkflowApprovalTool` 进行工作流审批
-
-##### 数据科学和分析
-- **数据发现**: 使用 `DataDiscoveryTool` 探索数据源
-- **数据集成**: 通过 `DataIntegrationTool` 合并多个数据源
-- **ETL处理**: 使用 `ETLTool` 进行数据管道处理
-- **数据质量**: 通过 `DataQualityTool` 和 `DataCleaningTool` 确保数据质量
-- **机器学习**: 使用 `MachineLearningTool` 进行模型训练
-- **数据可视化**: 通过 `VisualizationTool` 和 `DashboardTool` 创建数据可视化
-
-##### 法律合规
-- **法律研究**: 使用 `LegalResearchTool` 进行法律研究
-- **合规数据库**: 通过 `ComplianceDatabaseTool` 查询合规标准
-- **合规检查**: 使用 `ComplianceCheckerTool` 进行合规检查
-
-##### 战略规划
-- **战略规划**: 使用 `StrategicPlanningTool` 进行战略规划和SWOT分析
-
-## 功能特点
+## 功能特性
 
 ### 🚀 核心能力
-- **多AI模型路由**: 支持国内外主流AI模型（OpenAI、百度文心一言、腾讯混元、智谱AI、硅基流动等）
-- **国产AI大模型支持**: 完整集成国内主流AI服务商模型
-- **业务流程自动化**: 自动分析用户需求并执行相应业务流程
-- **本地技能系统**: 丰富的内置工具和技能
-- **离线处理能力**: 支持离线环境下的部分功能执行
-- **统一API接口**: 标准化的RESTful API端点用于外部集成
-
-有关我们自动化流程和技能的详细信息，请参阅：
-- [自动化流程](./docs/AUTOMATION_PROCESSES_CN.md)
-- [技能系统](./docs/SKILLS_SYSTEM.md)
-- [API文档](./docs/API_DOCUMENTATION_CN.md)
-- [API规范](./docs/API_SPECIFICATION.md)
-- [自动化能力](./docs/AUTOMATION_CAPABILITIES.md)
-- [业务流程](./docs/BUSINESS_PROCESSES.md)
-- [架构概览](./docs/ARCHITECTURE_OVERVIEW.md)
-- [自定义技能和模型指南](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE_CN.md)
-- [GPU加速设置](./docs/GPU_SETUP.md)
-- [Ollama配置与故障排除](./docs/TROUBLESHOOTING_OLLAMA.md)
-
-部署配置请参阅：
-- [Docker部署指南](./DOCKER_DEPLOYMENT.md)
-- [Kubernetes部署](./k8s-deployment.yaml)
-
-### 🏢 企业级功能
-- **综合自动化**: 包括业务流程、家庭自动化、税务规划、项目管理、CRM、营销和合规自动化
-
-### 🏠 家庭自动化
-- **智能家居控制**: 集成各类智能家居设备
-- **家庭财务管理**: 个人和家庭财务规划
-- **日程管理**: 智能日程安排和提醒
-- **生活助手**: 日常生活相关任务自动化
+- **多AI模型路由**: 支持主流AI模型（OpenAI、阿里云通义千问、Anthropic Claude、百度文心一言、腾讯混元、智谱AI、硅基流动、Ollama）
+- **本地技能系统**: 基于OpenClaw风格的Markdown技能定义，支持动态加载
+- **记忆系统**: 持久化记忆存储和检索，支持上下文感知对话
+- **会话管理**: 多会话支持，带对话历史
+- **RESTful API**: 标准化API端点，用于外部集成
+- **业务流程自动化**: 自动化工作流执行，带任务调度
+- **工具执行**: 44+内置工具，涵盖5个类别
+- **插件系统**: 可扩展架构，支持添加自定义工具和技能
 
 ### 🔧 技能系统
-- **综合技能集**: 包含80多种工具，涵盖文件操作、系统监控、数据处理、业务工具、AI工具、安全、网络等多个类别
 
-### 🌐 统一API接口
-- **标准化响应**: 统一的API响应格式
-- **RESTful API**: 标准化的API端点用于外部集成
-- **健康检查**: `/health` 端点监控服务状态
-- **消息处理**: `/api/v1/message` 处理用户消息
-- **会话管理**: `/api/v1/session/*` 管理会话状态
-- **请求追踪**: 内置请求ID追踪系统
-- **错误处理**: 统一的错误响应格式
+LocalBot拥有强大的OpenClaw风格技能系统：
+
+- **基于Markdown**: 技能通过SKILL.md文件定义，包含元数据
+- **动态加载**: 从workspace/skills目录自动加载技能
+- **智能匹配**: 基于用户意图自动匹配技能
+- **12个内置技能**: 预配置的常用技能
+- **可扩展**: 易于添加自定义技能
+
+可用技能：
+1. **business-automation** - 业务流程自动化
+2. **code-generation** - 代码生成和协助
+3. **code-review** - 代码审查和分析
+4. **daily-life-assistant** - 日常生活任务和协助
+5. **data-analysis** - 数据分析和处理
+6. **data-visualization** - 数据可视化和图表
+7. **debugging** - 调试和故障排除
+8. **file-operations** - 文件系统操作
+9. **shell-commands** - Shell命令执行
+10. **system-management** - 系统管理和监控
+11. **testing** - 测试和质量保证
+12. **text-processing** - 文本处理和操作
+13. **web-development** - Web开发协助
+
+### 🛠️ 可用工具
+
+#### 文件系统工具（7个）
+- `file_read` - 读取文件内容
+- `file_write` - 写入内容到文件
+- `file_list` - 列出目录中的文件
+- `file_delete` - 删除文件
+- `file_copy` - 复制文件
+- `file_move` - 移动/重命名文件
+- `file_stat` - 获取文件统计信息
+
+#### Shell和系统工具（8个）
+- `shell_execute` - 执行Shell命令
+- `process_list` - 列出运行中的进程
+- `system_info` - 获取系统信息
+- `environment_variable` - 获取/设置环境变量
+- `environment_list` - 列出所有环境变量
+- `directory_change` - 更改当前目录
+- `directory_get_current` - 获取当前目录
+- `process_kill` - 终止进程
+
+#### API和网络工具（8个）
+- `http_get` - HTTP GET请求
+- `http_post` - HTTP POST请求
+- `http_put` - HTTP PUT请求
+- `http_delete` - HTTP DELETE请求
+- `http_patch` - HTTP PATCH请求
+- `web_fetch` - 获取网页内容
+- `json_parse` - 解析JSON字符串
+- `json_stringify` - 将对象转换为JSON字符串
+
+#### 数据处理工具（12个）
+- `csv_read` - 读取CSV文件
+- `csv_write` - 写入CSV文件
+- `json_read` - 读取JSON文件
+- `json_write` - 写入JSON文件
+- `text_analysis` - 分析文本内容
+- `text_search` - 搜索文本模式
+- `text_replace` - 替换文本模式
+- `math_calculate` - 数学计算
+- `json_list` - 列出JSON数组元素
+- `mean_value` - 计算数值的平均值
+- `bar_chart` - 创建柱状图
+
+#### 实用工具（9个）
+- `encrypt` - 加密数据
+- `decrypt` - 解密数据
+- `hash` - 生成哈希值
+- `compress` - 压缩数据
+- `decompress` - 解压数据
+- `base64_encode` - Base64编码
+- `base64_decode` - Base64解码
+- `uuid_generate` - 生成UUID
+- `random_string` - 生成随机字符串
+
+#### 插件工具（1个）
+- `self_programming` - 动态生成、编译和加载新工具或插件
+
+### 🧠 记忆系统
+
+- **持久化存储**: 存储重要信息以供将来参考
+- **语义搜索**: 通过内容和标签搜索记忆
+- **标签系统**: 使用标签组织记忆以便检索
+- **重要性级别**: 按重要性优先级排序记忆
+- **自动清理**: 自动记忆管理和清理
+
+### 📊 会话管理
+
+- **多会话支持**: 管理多个对话会话
+- **对话历史**: 跟踪会话内的对话历史
+- **会话持久化**: 保存和恢复会话
+- **上下文管理**: 在对话之间维护上下文
+
+### 🔄 业务流程自动化
+
+- **任务调度**: 为特定时间或间隔调度任务
+- **工作流引擎**: 执行多步骤的复杂工作流
+- **监控系统**: 监控系统资源和活动
+- **自动化控制器**: 控制和管理自动化流程
+
+### 🧩 插件系统
+
+- **动态插件加载**: 从 `./plugins` 目录加载插件
+- **自编程工具**: AI可以动态生成、编译和加载新工具
+- **安全验证**: 内置插件安全验证器，确保插件安全执行
+- **可扩展架构**: 易于添加自定义插件和工具
+
+### 🌐 RESTful API
+
+- **消息处理**: `/api/v1/message` - 处理用户消息
+- **会话管理**: `/api/v1/session/*` - 管理会话
+- **健康检查**: `/health` - 服务健康状态
+- **标准化响应**: 一致的API响应格式
+- **请求追踪**: 内置请求ID追踪
 
 ## 技术栈
 
 - **TypeScript** - 主要开发语言
-- **Node.js** - 运行时环境 (v20+)
+- **Node.js** - 运行时环境（v20+）
 - **OpenAI SDK** - LLM集成（支持多个提供商）
-- **pnpm** - 包管理器（推荐）
+- **Express** - RESTful API服务器
+- **Winston** - 日志框架
+- **Ollama** - 本地LLM支持
+- **Playwright** - 浏览器自动化
+- **npm** - 包管理器
 
 ## 支持的LLM提供商
 
 | 提供商 | 模型 |
 |--------|------|
 | **OpenAI** | GPT-4, GPT-3.5-turbo |
-| **阿里云 (通义千问)** | qwen-plus, qwen-turbo, qwen-max |
+| **阿里云（通义千问）** | qwen-plus, qwen-turbo, qwen-max |
 | **Anthropic** | Claude-3-opus, Claude-3-sonnet |
-| **百度 (文心一言)** | ERNIE-Bot系列 |
-| **腾讯 (混元)** | HunYuan系列 |
-| **智谱AI (ChatGLM)** | ChatGLM系列 |
-| **硅基流动 (SiliconCloud)** | 各种开源模型包括Qwen |
+| **百度（文心一言）** | ERNIE-Bot系列 |
+| **腾讯（混元）** | HunYuan系列 |
+| **智谱AI（ChatGLM）** | ChatGLM系列 |
+| **硅基流动** | 各种开源模型包括Qwen |
+| **Ollama** | 本地模型（llama3.2等） |
+
+## 架构
+
+```
+local-bot/
+├── src/
+│   ├── agent/              # AI代理核心逻辑
+│   │   ├── AgentProcessor.ts    # 主AI处理器
+│   │   └── MultiAIRouter.ts     # 多AI路由
+│   ├── skills/             # 技能和工具系统
+│   │   ├── SkillManager.ts      # 工具和技能管理
+│   │   ├── SkillsHub.ts         # OpenClaw风格技能
+│   │   ├── tools/               # 工具实现
+│   │   │   ├── FileTools.ts
+│   │   │   ├── ShellTools.ts
+│   │   │   ├── ApiTools.ts
+│   │   │   ├── DataTools.ts
+│   │   │   └── UtilityTools.ts
+│   │   └── registerTools.ts     # 工具注册
+│   ├── memory/             # 记忆系统
+│   │   └── MemorySystem.ts     # 持久化记忆存储
+│   ├── session/            # 会话管理
+│   │   └── SessionManager.ts    # 会话处理
+│   ├── tasks/              # 任务调度和自动化
+│   │   ├── AutomationController.ts
+│   │   ├── TaskScheduler.ts
+│   │   ├── WorkflowEngine.ts
+│   │   └── MonitoringSystem.ts
+│   ├── business-processes/ # 业务流程模型
+│   │   ├── BusinessProcessManager.ts
+│   │   ├── SalesProcessModel.ts
+│   │   ├── FinanceProcessModel.ts
+│   │   ├── HRProcessModel.ts
+│   │   ├── OperationsProcessModel.ts
+│   │   ├── HomeAutomationModel.ts
+│   │   ├── TaxPlanningModel.ts
+│   │   ├── ProjectManagementModel.ts
+│   │   ├── CRMModel.ts
+│   │   ├── MarketingModel.ts
+│   │   ├── LegalComplianceModel.ts
+│   │   ├── DataAnalyticsReportModel.ts
+│   │   └── PersonalAssistantModel.ts
+│   ├── api/               # API层
+│   │   ├── ApiService.ts
+│   │   └── ApiResponse.ts
+│   ├── plugins/           # 插件系统
+│   │   ├── PluginManager.ts
+│   │   ├── PluginSecurityValidator.ts
+│   │   ├── PluginTypes.ts
+│   │   └── SelfProgrammingTool.ts
+│   ├── services/          # 外部服务
+│   │   └── OllamaService.ts
+│   ├── utils/             # 实用工具函数
+│   │   ├── Logger.ts
+│   │   └── RetryHandler.ts
+│   ├── gateway/           # API网关
+│   │   └── Gateway.ts
+│   ├── interface/          # CLI接口
+│   │   └── CLIInterface.ts
+│   └── index.ts           # 入口点
+├── workspace/
+│   └── skills/            # 技能定义（Markdown）
+│       ├── business-automation/
+│       ├── code-generation/
+│       ├── data-analysis/
+│       ├── data-visualization/
+│       └── ...
+├── plugins/              # 插件目录
+│   ├── examples/
+│   │   ├── hello-world-plugin/
+│   │   └── weather-plugin/
+│   └── ...
+├── memory/                # 记忆存储（自动创建）
+├── sessions/              # 会话数据（自动创建）
+└── logs/                  # 日志文件（自动创建）
+```
 
 ## 安装
 
 1. 克隆仓库：
 ```bash
 git clone <repository-url>
-cd localAgentNew
+cd local-bot
 ```
 
 2. 安装依赖：
@@ -183,30 +291,49 @@ cp .env.example .env
 
 ### 使用OpenAI
 ```env
+LLM_PROVIDER=openai
 OPENAI_API_KEY=your_openai_api_key_here
-DEFAULT_LLM_PROVIDER=openai
-DEFAULT_OPENAI_MODEL=gpt-4o
 ```
 
 ### 使用阿里云通义千问
 ```env
+LLM_PROVIDER=aliyun
 ALIYUN_API_KEY=your_aliyun_api_key_here
-DEFAULT_LLM_PROVIDER=aliyun
-DEFAULT_ALIYUN_MODEL=qwen-plus
+ALIYUN_MODEL=qwen-plus
 ```
 
-### 使用Anthropic Claude
+### 使用Ollama（本地）
 ```env
-ANTHROPIC_API_KEY=your_anthropic_api_key_here
-DEFAULT_LLM_PROVIDER=anthropic
-DEFAULT_ANTHROPIC_MODEL=claude-3-sonnet
+LLM_PROVIDER=ollama
+OLLAMA_API_URL=http://localhost:11434
+OLLAMA_MODEL_NAME=llama3.2
 ```
 
 ## 使用
 
 ### 启动助手
+
+#### CLI模式
 ```bash
 npm start
+```
+
+在CLI模式下，您可以使用以下命令：
+
+- `help` - 显示帮助信息
+- `tools` - 列出所有可用工具
+- `skills` - 列出所有可用技能
+- `memory` - 显示最近的记忆
+- `clear` - 清除会话历史
+- `ai <provider>` - 切换AI提供商
+- `stats` - 显示AI使用统计
+- `process` - 列出所有可用的业务流程
+- `run <process-name>` - 执行指定的业务流程
+- `exit` - 退出助手
+
+#### 服务器模式
+```bash
+npm run start:server
 ```
 
 ### 开发模式
@@ -219,191 +346,412 @@ npm run dev
 npm run build
 ```
 
-## 架构
+## API使用
 
-- `src/agent/` - AI代理核心逻辑
-- `src/memory/` - 记忆系统实现
-- `src/skills/` - 工具和技能系统
-- `src/tasks/` - 任务调度和工作流
-- `src/utils/` - 通用工具函数
-- `sessions/` - 会话数据存储
-- `memory/` - 记忆数据存储
-
-## 可用工具
-
-| 类别 | 工具 | 描述 |
-|------|------|------|
-| **文件系统** | `file_read` | 读取文件内容 |
-| | `file_write` | 写入内容到文件 |
-| | `file_list` | 列出目录中的文件 |
-| | `file_delete` | 删除文件 |
-| **Shell** | `shell_execute` | 执行Shell命令 |
-| **记忆系统** | `memory_add` | 添加条目到记忆 |
-| | `memory_search` | 搜索记忆条目 |
-| **数据库** | `database_connect` | 连接数据库 |
-| | `database_query` | 查询数据库 |
-| | `database_execute` | 执行数据库命令 |
-| | `database_insert` | 向数据库插入数据 |
-| | `database_update` | 更新数据库中的数据 |
-| | `database_delete` | 从数据库删除数据 |
-| **业务工具** | `crm_operations` | 客户关系管理 |
-| | `erp_operations` | 企业资源规划 |
-| | `financial_calculator` | 财务计算 |
-| | `inventory_management` | 库存跟踪和管理 |
-| | `sales_analytics` | 销售数据分析和报告 |
-| | `compliance_checker` | 合规性检查和风险评估 |
-| | `project_management` | 项目跟踪和管理 |
-| | `time_tracking` | 员工时间跟踪 |
-| | `business_intelligence` | 商业智能和分析 |
-| **API和数据处理** | `api_get/post/put/delete` | REST API操作 |
-| | `csv_read/write` | CSV文件处理 |
-| | `json_read/write` | JSON文件处理 |
-| **通知和调度** | `send_notification` | 发送通知 |
-| | `schedule_task` | 调度任务 |
-| | `cancel_task` | 取消已调度的任务 |
-| **系统监控** | `system_info` | 系统信息 |
-| | `process_list` | 运行进程 |
-| | `resource_monitor` | 资源使用情况监控 |
-| **安全** | `encrypt_data` | 数据加密 |
-| | `hash_data` | 数据哈希 |
-| **文本和数据处理** | `text_analysis` | 文本分析 |
-| | `math_calculations` | 数学计算 |
-| | `unit_conversion` | 单位转换 |
-| **AI和机器学习工具** | `ai_model_tool` | AI模型操作 |
-| | `image_generation` | 从文本生成图像 |
-| | `embedding_tool` | 文本嵌入操作 |
-| **图像处理** | `image_resize` | 调整图像大小 |
-| | `image_format_converter` | 图像格式转换 |
-| | `image_metadata` | 提取图像元数据 |
-| **PDF工具** | `pdf_reader` | 读取PDF文档 |
-| | `pdf_writer` | 写入PDF文档 |
-| | `pdf_merge` | 合并PDF文件 |
-| **日志和配置** | `log_management` | 管理日志文件 |
-| | `config_management` | 配置管理 |
-| **通信和代码** | `email_operations` | 邮件操作 |
-| | `code_analysis` | 代码分析工具 |
-| **压缩** | `compress_files` | 压缩文件 |
-| | `decompress_files` | 解压文件 |
-| | `zip/unzip` | ZIP归档操作 |
-| **网络** | `network_operations` | 网络操作 |
-| | `dns_lookup` | DNS查询 |
-| | `whois_lookup` | WHOIS查询 |
-| **日期和时间** | `datetime_operations` | 日期和时间操作 |
-| | `timezone_converter` | 时区转换 |
-| | `calendar_operations` | 日历操作 |
-| **对话** | `conversation_history` | 管理对话历史 |
-| | `context_management` | 上下文管理 |
-| | `summarize_conversation` | 总结对话 |
-| **实用工具** | `workflow_approval` | 工作流审批操作 |
-| | `document_generator` | 文档生成 |
-| | `validation_check` | 验证和合规性检查 |
-| | `notification_send` | 发送通知 |
-| | `document_generation` | 高级文档生成 |
-| | `hr_system` | 人力资源系统操作 |
-| | `analytics_engine` | 分析和策略生成 |
-| | `report_generator` | 报告生成 |
-| **财务和商业** | `spreadsheet_operations` | 电子表格操作 |
-| | `accounting_system` | 会计系统操作 |
-| | `payment_gateway` | 支付处理 |
-| | `tax_calculator` | 税务计算 |
-| | `inventory_management_extended` | 扩展库存管理 |
-| **项目和运营** | `time_tracking_extended` | 扩展时间跟踪 |
-| | `project_management_extended` | 扩展项目管理 |
-| | `quality_management` | 质量管理 |
-| | `workflow_system` | 工作流系统操作 |
-| **家庭自动化** | `iot_device_control` | 物联网设备控制 |
-| | `maintenance_scheduler` | 维护调度 |
-| | `finance_tracker` | 个人财务管理 |
-| | `health_tracker` | 健康跟踪 |
-| | `calendar_scheduler` | 日历调度 |
-| **中文AI工具** | `chinese_ai_local` | 本地中文AI模型 |
-| **通用实用工具** | `weather_tool` | 天气信息 |
-| | `news_aggregator` | 新闻聚合 |
-| | `translation_tool` | 文本翻译 |
-| | `calculator_tool` | 高级计算器 |
-| | `password_generator` | 密码生成 |
-| | `map_location` | 地图和位置服务 |
-| | `calendar_event` | 日历事件管理 |
-| | `reminder_todo` | 提醒和待办事项 |
-| | `image_processing` | 图像处理操作 |
-| | `audio_processing` | 音频处理操作 |
-| **税务工具** | `tax_calculation` | 税务计算和规划 |
-| | `tax_software_integration` | 税务软件集成 |
-| | `irs_efile_system` | IRS电子申报系统 |
-
-## 业务流程模型
-
-系统包含跨七个领域的综合业务流程模型：
-
-### 销售流程
-- **客户开发流程**：从潜在客户到成交客户的端到端流程
-- **商机管理流程**：管理销售机会从创建到关闭的全过程
-- **销售业绩分析流程**：定期分析销售团队和个人的业绩表现
-
-### 财务流程
-- **预算管理流程**：从规划到监控的完整预算工作流程
-- **费用报销流程**：员工费用报销的完整工作流程
-- **财务报告流程**：定期财务报告的生成和发布流程
-- **税务处理流程**：企业税务申报和缴纳的完整流程
-
-### 运营流程
-- **供应链管理流程**：从供应商到交付的完整供应链工作流程
-- **生产计划流程**：从需求预测到生产执行的完整流程
-- **质量管理流程**：完整的质量控制工作流程
-- **库存控制流程**：从库存监控到补货的完整流程
-
-### 人力资源流程
-- **招聘管理流程**：从职位需求到候选人入职的完整招聘流程
-- **员工入职流程**：新员工入职工作流程
-- **绩效评估流程**：员工绩效评估工作流程
-- **培训发展流程**：员工培训需求识别到效果评估的完整流程
-
-### 家庭自动化流程
-- **智能家居控制流程**：自动化控制家庭设备，包括照明、温度和安全
-- **家庭维护流程**：家庭系统和电器的定期维护任务
-- **家庭财务管理流程**：个人和家庭财务管理，包括预算和储蓄
-- **健康与健身流程**：家庭健康监测、健身目标和营养计划
-- **家庭活动流程**：家庭活动策划、假期安排和活动协调
-
-### 税务规划流程
-- **企业税务规划流程**：全面的企业税务规划和优化建议
-- **个人税务规划流程**：个人税务规划和优化策略
-- **自动化税务申报流程**：完整的自动化税务申报和缴款工作流程
-- **税务合规监控流程**：税务合规状态的持续监控和警报
-
-### 其他业务流程
-- **供应链管理流程**：从供应商到交付的完整供应链工作流程
-- **生产计划流程**：从需求预测到生产执行的完整流程
-- **质量管理流程**：完整的质量控制工作流程
-- **库存控制流程**：从库存监控到补货的完整流程
-
-## 架构
-
-```
-localAgentNew/
-├── src/
-│   ├── agent/              # AI代理核心逻辑
-│   ├── business-processes/ # 业务流程模型和管理器
-│   ├── gateway/            # 会话管理网关
-│   ├── interface/          # CLI界面
-│   ├── memory/             # 记忆系统
-│   ├── session/            # 会话管理
-│   ├── skills/             # 工具和技能
-│   ├── tasks/              # 任务调度器和工作流引擎
-│   └── utils/              # 工具函数
-├── memory/                 # 记忆存储（首次运行时创建）
-├── sessions/               # 会话数据存储
-└── reports/                # 生成的报告（首次运行时创建）
+### 发送消息
+```bash
+curl -X POST http://localhost:3000/api/v1/message \
+  -H "Content-Type: application/json" \
+  -d '{
+    "message": "你好，你能帮我做什么？",
+    "sessionId": "session-123"
+  }'
 ```
 
-## 扩展性
+### 健康检查
+```bash
+curl http://localhost:3000/health
+```
 
-系统设计为高度可扩展，您可以轻松添加新的工具和技能：
+### 列出会话
+```bash
+curl http://localhost:3000/api/v1/sessions
+```
 
-1. 创建新的工具类实现`Tool`接口
-2. 在`SkillManager`中注册新工具
-3. 创建相应的技能定义
-4. 工具将自动可用
+## 配置
+
+### 环境变量
+
+| 变量 | 描述 | 默认值 |
+|------|------|--------|
+| `LLM_PROVIDER` | LLM提供商（openai, aliyun, anthropic, baidu, tencent, zhipu, siliconcloud, ollama） | openai |
+| `OPENAI_API_KEY` | OpenAI API密钥 | - |
+| `ALIYUN_API_KEY` | 阿里云API密钥 | - |
+| `ALIYUN_MODEL` | 阿里云模型 | qwen-plus |
+| `OLLAMA_API_URL` | Ollama API URL | http://localhost:11434 |
+| `OLLAMA_MODEL_NAME` | Ollama模型名称 | llama3.2 |
+| `PORT` | 服务器端口 | 3000 |
+| `LOG_LEVEL` | 日志级别（error, warn, info, debug） | info |
+| `MEMORY_DIR` | 记忆存储目录 | ./memory |
+| `SKILLS_DIR` | 技能目录 | ./workspace/skills |
+| `ENABLE_PERSISTENCE` | 启用会话持久化 | true |
+| `PERSISTENCE_DIR` | 持久化目录 | ./sessions |
+
+## 技能系统
+
+### 创建自定义技能
+
+1. 在 `workspace/skills/` 中创建新目录：
+```bash
+mkdir workspace/skills/my-skill
+```
+
+2. 创建 `SKILL.md` 文件：
+```markdown
+---
+name: my-skill
+description: 我的自定义技能
+emoji: 🎯
+category: custom
+version: 1.0.0
+---
+
+# 我的自定义技能
+
+## 何时使用
+- 描述何时使用此技能
+
+## 如何使用
+1. 步骤1
+2. 步骤2
+3. 步骤3
+
+## 示例
+用户请求："示例请求"
+你的响应："示例响应"
+```
+
+3. 重启助手以加载新技能
+
+### 技能元数据
+
+- `name`: 唯一技能标识符
+- `description`: 技能描述
+- `emoji`: 技能表情符号（可选）
+- `category`: 技能类别（可选）
+- `version`: 技能版本（可选）
+- `author`: 技能作者（可选）
+- `requires`: 需要的二进制文件和环境变量（可选）
+
+## 工具开发
+
+### 创建自定义工具
+
+1. 实现 `Tool` 接口：
+```typescript
+import { Tool, ToolResult } from '../types';
+
+export class MyTool implements Tool {
+  name = 'my_tool';
+  description = '我的工具描述';
+  category = 'other' as const;
+
+  async execute(params: Record<string, unknown>): Promise<ToolResult> {
+    try {
+      // 工具逻辑
+      return {
+        success: true,
+        data: { result: 'success' }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: (error as Error).message
+      };
+    }
+  }
+}
+```
+
+2. 在 `registerTools.ts` 中注册工具：
+```typescript
+import { MyTool } from './tools/MyTools';
+
+export function registerDefaultTools(skillManager: SkillManager): void {
+  const myTools = [new MyTool()];
+  myTools.forEach(tool => skillManager.registerTool(tool));
+
+  const mySkill: Skill = {
+    name: 'my-skill',
+    description: '我的自定义技能',
+    tools: myTools,
+    enabled: true,
+    permissions: myTools.map(tool => ({
+      toolName: tool.name,
+      allowed: true,
+      requireConfirmation: false
+    }))
+  };
+
+  skillManager.registerSkill(mySkill);
+}
+```
+
+## 插件开发
+
+### 创建自定义插件
+
+插件系统允许您扩展LocalBot的功能，添加自定义工具和功能。
+
+#### 1. 创建插件目录
+
+在 `plugins/` 目录中创建您的插件：
+```bash
+mkdir plugins/my-plugin
+cd plugins/my-plugin
+```
+
+#### 2. 创建插件配置文件
+
+创建 `plugin.json`：
+```json
+{
+  "name": "my-plugin",
+  "version": "1.0.0",
+  "description": "我的自定义插件",
+  "author": "Your Name",
+  "main": "index.ts",
+  "permissions": ["file_read", "file_write"],
+  "dependencies": []
+}
+```
+
+#### 3. 实现插件
+
+创建 `index.ts`：
+```typescript
+import { Plugin, Tool } from '../../src/plugins/PluginTypes';
+
+export class MyTool implements Tool {
+  name = 'my_custom_tool';
+  description = '我的自定义工具';
+  category = 'custom' as const;
+
+  async execute(params: Record<string, unknown>): Promise<any> {
+    try {
+      // 工具逻辑
+      return {
+        success: true,
+        data: { result: '执行成功' }
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: (error as Error).message
+      };
+    }
+  }
+}
+
+export const plugin: Plugin = {
+  name: 'my-plugin',
+  version: '1.0.0',
+  description: '我的自定义插件',
+  author: 'Your Name',
+  tools: [new MyTool()],
+  onLoad: async () => {
+    console.log('插件加载成功');
+  },
+  onUnload: async () => {
+    console.log('插件卸载');
+  }
+};
+```
+
+#### 4. 使用自编程工具
+
+AI可以使用 `self_programming` 工具动态生成新工具：
+
+```
+用户：帮我创建一个计算斐波那契数列的工具
+
+AI将使用self_programming工具：
+1. 生成工具代码
+2. 编译代码
+3. 加载新工具到系统
+4. 返回工具使用说明
+```
+
+### 插件安全
+
+插件系统包含安全验证机制：
+- 代码沙箱执行
+- 权限检查
+- API调用限制
+- 资源使用监控
+
+## 业务流程系统
+
+### 可用业务域
+
+LocalBot提供11个业务域，包含44个预定义业务流程：
+
+#### 1. 💰 销售（Sales）
+- 客户开发流程
+- 机会管理流程
+- 销售绩效分析流程
+
+#### 2. 💳 财务（Finance）
+- 预算管理流程
+- 费用报销流程
+- 财务报告流程
+- 税务处理流程
+
+#### 3. ⚙️ 运营（Operations）
+- 库存管理流程
+- 供应链优化流程
+- 质量控制流程
+
+#### 4. 👥 人力资源（HR）
+- 招聘流程
+- 员工入职流程
+- 绩效评估流程
+- 培训管理流程
+
+#### 5. 🏠 家庭自动化（Home Automation）
+- 智能照明控制
+- 温度调节流程
+- 安全监控流程
+
+#### 6. 📊 税务规划（Tax Planning）
+- 税务筹划流程
+- 扣除优化流程
+- 合规检查流程
+
+#### 7. 📋 项目管理（Project Management）
+- 项目规划流程
+- 任务分配流程
+- 进度跟踪流程
+
+#### 8. 🤝 CRM（客户关系管理）
+- 客户获取流程
+- 客户保留流程
+- 客户支持流程
+
+#### 9. 📢 营销（Marketing）
+- 活动策划流程
+- 内容营销流程
+- 社交媒体管理流程
+
+#### 10. ⚖️ 法律合规（Legal Compliance）
+- 合规检查流程
+- 文档管理流程
+- 审计准备流程
+
+#### 11. 📈 数据分析（Data Analytics）
+- 数据收集流程
+- 分析报告流程
+- 可视化展示流程
+
+#### 12. 🤖 个人助手（Personal Assistant）
+- 日程管理流程
+- 任务提醒流程
+- 信息汇总流程
+
+### 使用业务流程
+
+#### 列出所有可用流程
+```
+process
+```
+
+#### 执行特定流程
+```
+run <process-name>
+```
+
+例如：
+```
+run budget-management-process
+run recruitment-process
+run project-planning-process
+```
+
+### 创建自定义业务流程
+
+您可以在 `src/business-processes/` 目录中创建自定义业务流程模型：
+
+```typescript
+import { WorkflowDefinition, BusinessDomain } from './BusinessProcessManager';
+
+export const myCustomProcess: WorkflowDefinition = {
+  name: 'my-custom-process',
+  description: '我的自定义业务流程',
+  domain: BusinessDomain.OPERATIONS,
+  steps: [
+    {
+      id: 'step1',
+      name: '第一步',
+      description: '执行第一步',
+      tool: 'tool_name',
+      parameters: { /* 参数 */ }
+    },
+    {
+      id: 'step2',
+      name: '第二步',
+      description: '执行第二步',
+      tool: 'tool_name',
+      parameters: { /* 参数 */ }
+    }
+  ]
+};
+```
+
+## 部署
+
+### Docker
+
+使用Docker构建和运行：
+```bash
+docker build -t localbot .
+docker run -p 3000:3000 localbot
+```
+
+### Docker Compose
+
+```bash
+docker-compose up -d
+```
+
+### Kubernetes
+
+```bash
+kubectl apply -f k8s-deployment.yaml
+```
+
+## 文档
+
+详细文档请参阅：
+- [API文档](./docs/API_DOCUMENTATION_CN.md)
+- [API规范](./docs/API_SPECIFICATION.md)
+- [架构概览](./docs/ARCHITECTURE_OVERVIEW.md)
+- [技能系统](./docs/SKILLS_SYSTEM.md)
+- [自动化能力](./docs/AUTOMATION_CAPABILITIES.md)
+- [业务流程](./docs/BUSINESS_PROCESSES.md)
+- [自定义技能和模型指南](./docs/CUSTOM_SKILLS_AND_MODELS_GUIDE_CN.md)
+- [GPU设置](./docs/GPU_SETUP.md)
+- [Ollama配置与故障排除](./docs/TROUBLESHOOTING_OLLAMA.md)
+- [插件开发指南](./docs/PLUGIN_DEVELOPMENT.md)
+
+## 故障排除
+
+### 常见问题
+
+1. **AI返回空响应**
+   - 检查LLM提供商配置
+   - 验证API密钥是否有效
+   - 检查网络连接
+   - 查看 `logs/combined.log` 中的日志
+
+2. **工具未执行**
+   - 验证工具已在 `registerTools.ts` 中注册
+   - 检查工具权限
+   - 查看错误日志
+
+3. **技能未加载**
+   - 确保SKILL.md文件格式正确
+   - 检查技能目录路径
+   - 验证元数据是否正确
 
 ## 贡献
 

@@ -4,17 +4,20 @@ import { Logger } from '../utils/Logger';
 import { ApiResponseFactory } from '../api/ApiResponse';
 import { SkillManager } from '../skills/SkillManager';
 import { MemorySystem } from '../memory/MemorySystem';
+import { AgentProcessor } from '../agent/AgentProcessor';
 
 export class Gateway {
   private contexts: Map<string, AgentContext> = new Map();
   private sessionManager: SessionManager;
   private skillManager?: SkillManager;
   private memorySystem?: MemorySystem;
+  private agentProcessor?: AgentProcessor;
 
-  constructor(skillManager?: SkillManager, memorySystem?: MemorySystem) {
+  constructor(skillManager?: SkillManager, memorySystem?: MemorySystem, agentProcessor?: AgentProcessor) {
     this.sessionManager = new SessionManager();
     this.skillManager = skillManager;
     this.memorySystem = memorySystem;
+    this.agentProcessor = agentProcessor;
   }
 
   async createContext(sessionId: string, userId?: string): Promise<AgentContext> {
@@ -190,8 +193,11 @@ export class Gateway {
   }
 
   private async generateResponse(context: AgentContext): Promise<string> {
-    const { AgentProcessor } = await import('../agent/AgentProcessor');
-    const processor = new AgentProcessor(this.skillManager);
+    if (this.agentProcessor) {
+      return this.agentProcessor.process(context);
+    }
+    
+    const processor = new AgentProcessor(this.skillManager, this.memorySystem);
     return processor.process(context);
   }
 

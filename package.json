@@ -7,14 +7,18 @@
     "dev": "nodemon --exec ts-node src/index.ts",
     "dev:server": "RUN_MODE=server nodemon --exec ts-node src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
-    "start:server": "RUN_MODE=server node dist/index.js",
-    "server": "node dist/server.js",
+    "start": "node dist/src/index.js",
+    "start:server": "RUN_MODE=server node dist/src/index.js",
+    "server": "node dist/src/server.js",
     "docker:build": "docker build -t localbot .",
     "docker:run": "docker run -p 3000:3000 localbot",
     "compose:up": "docker-compose up -d",
     "compose:down": "docker-compose down",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx ts-node tests/run-all-tests.ts",
+    "test:unit": "npx ts-node tests/test-retry-handler.ts && npx ts-node tests/test-api-response.ts",
+    "test:integration": "npx ts-node tests/test-session-manager.ts && npx ts-node tests/test-memory-system.ts && npx ts-node tests/test-gateway.ts",
+    "test:components": "npx ts-node tests/test-multi-ai-router.ts && npx ts-node tests/test-skill-manager-integration.ts",
+    "test:api": "npx ts-node tests/test-api-integration.ts"
   },
   "keywords": [
     "ai",
@@ -28,6 +32,7 @@
   "devDependencies": {
     "@types/csv-parse": "^1.1.12",
     "@types/csv-stringify": "^1.4.3",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.2.3",
     "@types/tar": "^6.1.13",
     "nodemon": "^3.1.11",
@@ -43,8 +48,10 @@
     "csv-stringify": "^6.5.1",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "js-yaml": "^4.1.1",
     "ollama": "^0.6.3",
     "openai": "^6.22.0",
+    "playwright": "^1.48.0",
     "uuid": "^13.0.0",
     "winston": "^3.19.0"
   }

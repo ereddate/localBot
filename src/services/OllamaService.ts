@@ -156,8 +156,10 @@ export class OllamaService {
         messages: ollamaMessages,
         options: {
           num_gpu: this.gpuEnabled ? -1 : 0, // Use all GPUs if available and enabled
-          temperature: 0.7,
+          temperature: 0.3, // Balanced temperature for tool usage
           top_p: 0.9,
+          num_ctx: 4096, // Increase context window
+          repeat_penalty: 1.1 // Reduce repetition
         }
       });
 

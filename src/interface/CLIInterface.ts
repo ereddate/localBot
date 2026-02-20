@@ -4,24 +4,33 @@ import { v4 as uuidv4 } from 'uuid';
 import { Gateway } from '../gateway/Gateway';
 import { MemorySystem } from '../memory/MemorySystem';
 import { SkillManager } from '../skills/SkillManager';
+import { SkillsHub } from '../skills/SkillsHub';
 import { Logger } from '../utils/Logger';
 import { AgentProcessor } from '../agent/AgentProcessor';
 import { LLMProvider } from '../config';
+import { BusinessProcessManager, BusinessDomain } from '../business-processes/BusinessProcessManager';
 
 export class CLIInterface {
   private gateway: Gateway;
   private memorySystem: MemorySystem;
   private skillManager: SkillManager;
+  private skillsHub: SkillsHub;
   private agentProcessor: AgentProcessor;
+  private businessProcessManager?: BusinessProcessManager;
   private rl: readline.Interface;
   private sessionId: string;
 
   constructor() {
     this.memorySystem = new MemorySystem();
-    this.skillManager = new SkillManager(this.memorySystem);
-    this.gateway = new Gateway(this.skillManager, this.memorySystem);
-    this.agentProcessor = new AgentProcessor(this.skillManager, this.memorySystem);
-    this.sessionId = `cli-${uuidv4()}`; // Generate unique session ID
+    this.skillManager = new SkillManager();
+    this.skillsHub = new SkillsHub({
+      skillsPath: './workspace/skills',
+      autoLoad: true,
+      enableDiscovery: false,
+    });
+    this.agentProcessor = new AgentProcessor(this.skillManager, this.memorySystem, this.skillsHub);
+    this.gateway = new Gateway(this.skillManager, this.memorySystem, this.agentProcessor);
+    this.sessionId = `cli-${uuidv4()}`;
     this.rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -31,11 +40,19 @@ export class CLIInterface {
   async start(): Promise<void> {
     this.printHeader();
 
+    // Initialize skills hub
+    await this.skillsHub.initialize();
+    const skillsStats = this.skillsHub.getStats();
+    Logger.info(`SkillsHub initialized with ${skillsStats.total} skills`);
+
     const context = await this.gateway.createContext(this.sessionId);
-    context.availableTools = this.skillManager.getEnabledTools();
+    context.availableTools = this.skillManager.getAllTools();
 
     // Initialize automation features
     await this.agentProcessor.initializeAutomation();
+
+    // Initialize business process manager
+    await this.initializeBusinessProcessManager();
 
     while (true) {
       const input = await this.prompt(chalk.cyan('You: '));
@@ -80,11 +97,38 @@ export class CLIInterface {
         continue;
       }
 
+      if (input.toLowerCase() === 'process') {
+        this.showBusinessProcesses();
+        continue;
+      }
+
+      if (input.toLowerCase().startsWith('run ')) {
+        await this.handleRunCommand(input.substring(4));
+        continue;
+      }
+
       if (input.trim() === '') {
         continue;
       }
 
       await this.processMessage(input);
+    }
+  }
+
+  private async initializeBusinessProcessManager(): Promise<void> {
+    try {
+      const automationController = this.agentProcessor.getAutomationController();
+      if (automationController) {
+        this.businessProcessManager = new BusinessProcessManager(
+          automationController.getWorkflowEngine(),
+          this.skillManager
+        );
+        Logger.info('Business process manager initialized');
+      } else {
+        Logger.warn('Cannot initialize business process manager: Automation controller not available');
+      }
+    } catch (error) {
+      Logger.warn('Failed to initialize business process manager', { error: (error as Error).message });
     }
   }
 
@@ -102,9 +146,24 @@ export class CLIInterface {
     
     try {
       const response = await this.gateway.processMessage(this.sessionId, input);
-      console.log(chalk.white(response));
+      
+      // Validate response content
+      if (!response || response.trim() === '' || response === 'No response generated') {
+        console.log(chalk.gray('抱歉，我没有收到有效的响应。请重试。'));
+        Logger.warn('Empty or invalid response received', { 
+          sessionId: this.sessionId,
+          input: input.substring(0, 50) 
+        });
+      } else {
+        console.log(chalk.white(response));
+      }
     } catch (error) {
       console.log(chalk.red(`Error: ${(error as Error).message}`));
+      Logger.error('Error processing message', { 
+        error: (error as Error).message,
+        sessionId: this.sessionId,
+        input: input.substring(0, 50)
+      });
     }
     
     console.log();
@@ -162,8 +221,71 @@ export class CLIInterface {
     console.log(chalk.bold.blue('║') + ' ' + chalk.green('clear') + '   - Clear session history' + ' '.repeat(35) + chalk.bold.blue('║'));
     console.log(chalk.bold.blue('║') + ' ' + chalk.green('ai') + '      - AI provider commands' + ' '.repeat(34) + chalk.bold.blue('║'));
     console.log(chalk.bold.blue('║') + ' ' + chalk.green('stats') + '   - Show AI usage statistics' + ' '.repeat(31) + chalk.bold.blue('║'));
+    console.log(chalk.bold.blue('║') + ' ' + chalk.green('process') + ' - List business processes' + ' '.repeat(32) + chalk.bold.blue('║'));
+    console.log(chalk.bold.blue('║') + ' ' + chalk.green('run') + '     - Run a business process' + ' '.repeat(35) + chalk.bold.blue('║'));
     console.log(chalk.bold.blue('║') + ' ' + chalk.red('exit') + '    - Exit the assistant' + ' '.repeat(37) + chalk.bold.blue('║'));
     console.log(chalk.bold.blue('╚════════════════════════════════════════════════════════════╝'));
+    console.log();
+  }
+
+  private showBusinessProcesses(): void {
+    if (!this.businessProcessManager) {
+      console.log(chalk.red('Business process manager not initialized'));
+      console.log();
+      return;
+    }
+
+    console.log();
+    console.log(chalk.bold.blue('╔════════════════════════════════════════════════════════════╗'));
+    console.log(chalk.bold.blue('║') + chalk.bold.yellow(' Available Business Processes') + ' '.repeat(38) + chalk.bold.blue('║'));
+    console.log(chalk.bold.blue('╠════════════════════════════════════════════════════════════╣'));
+
+    const domains = [
+      { domain: BusinessDomain.SALES, name: 'Sales', emoji: '💰' },
+      { domain: BusinessDomain.FINANCE, name: 'Finance', emoji: '💳' },
+      { domain: BusinessDomain.OPERATIONS, name: 'Operations', emoji: '⚙️' },
+      { domain: BusinessDomain.HR, name: 'Human Resources', emoji: '👥' },
+      { domain: BusinessDomain.HOME_AUTOMATION, name: 'Home Automation', emoji: '🏠' },
+      { domain: BusinessDomain.TAX_PLANNING, name: 'Tax Planning', emoji: '📊' },
+      { domain: BusinessDomain.PROJECT_MANAGEMENT, name: 'Project Management', emoji: '📋' },
+      { domain: BusinessDomain.CRM, name: 'CRM', emoji: '🤝' },
+      { domain: BusinessDomain.MARKETING, name: 'Marketing', emoji: '📢' },
+      { domain: BusinessDomain.LEGAL_COMPLIANCE, name: 'Legal Compliance', emoji: '⚖️' },
+      { domain: BusinessDomain.DATA_ANALYTICS, name: 'Data Analytics', emoji: '📈' },
+      { domain: BusinessDomain.PERSONAL_ASSISTANT, name: 'Personal Assistant', emoji: '🤖' },
+    ];
+
+    domains.forEach(({ domain, name, emoji }) => {
+      const processes = this.businessProcessManager!.getProcessesByDomain(domain);
+      console.log(chalk.bold.blue('║') + ` ${emoji} ${chalk.cyan(name)} (${processes.length} processes)`);
+      processes.forEach((process: any) => {
+        console.log(chalk.bold.blue('║') + `   • ${chalk.white(process.name)}`);
+      });
+      console.log(chalk.bold.blue('║'));
+    });
+
+    console.log(chalk.bold.blue('╚════════════════════════════════════════════════════════════╝'));
+    console.log(chalk.gray('Use "run <process-name>" to execute a process'));
+    console.log();
+  }
+
+  private async handleRunCommand(processName: string): Promise<void> {
+    if (!this.businessProcessManager) {
+      console.log(chalk.red('Business process manager not initialized'));
+      console.log();
+      return;
+    }
+
+    try {
+      console.log(chalk.cyan(`🚀 Running business process: ${processName}`));
+      const result = await this.businessProcessManager.executeBusinessProcessByRequirement(processName, {
+        processId: `manual-${Date.now()}`,
+      });
+      console.log(chalk.green('✅ Process completed'));
+      console.log(chalk.gray(JSON.stringify(result, null, 2)));
+    } catch (error) {
+      console.log(chalk.red(`❌ Process failed: ${(error as Error).message}`));
+    }
     console.log();
   }
 

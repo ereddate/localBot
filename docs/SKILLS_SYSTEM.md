@@ -1,117 +1,310 @@
-# LocalBot Skills System
+# OpenClaw-style Skills System
 
-## Overview
+## 概述
 
-LocalBot features a comprehensive skill system with over 80+ tools organized into multiple categories. These skills enable the assistant to perform a wide variety of tasks, from basic file operations to complex business process automation.
+LocalBot现在支持OpenClaw风格的Skills系统,允许通过Markdown文件(SKILL.md)定义AI技能,实现动态加载和按需使用。
 
-## Skill Categories
+## 核心特性
 
-### 1. Core System Skills
-- **File System Tools**: File read, write, list, and delete operations
-- **Shell Tools**: Execute shell commands securely
-- **Memory Tools**: Short-term and long-term memory management
-- **Database Tools**: Database connection, queries, and operations
-- **API Tools**: REST API operations (GET, POST, PUT, DELETE)
+### 1. 基于Markdown的技能定义
+- 每个技能是一个SKILL.md文件
+- 包含YAML元数据和Markdown操作指南
+- 易于编写和维护
 
-### 2. Data Processing Skills
-- **CSV/JSON Tools**: Data file processing capabilities
-- **Text Processing Tools**: Text analysis, search, and transformation
-- **Mathematical Tools**: Calculations, unit conversions, and statistics
-- **Image/PDF Tools**: Media file processing capabilities
+### 2. 动态加载
+- 技能按需加载,不占用上下文
+- 支持热重载
+- 自动发现workspace/skills目录下的技能
 
-### 3. Business Skills
-- **CRM/ERP Tools**: Customer and enterprise resource management
-- **Financial Tools**: Calculations, accounting, and tax operations
-- **Business Intelligence**: Analytics and reporting
-- **Project Management**: Task and time tracking
+### 3. 智能匹配
+- 基于用户查询自动匹配相关技能
+- 考虑技能描述、使用场景等因素
+- 提供匹配度评分
 
-### 4. Utility Skills
-- **Scheduling Tools**: Task scheduling and management
-- **Security Tools**: Encryption and hashing
-- **System Monitoring**: Resource and process monitoring
-- **Notification Tools**: Alert and notification systems
+### 4. 灵活管理
+- 启用/禁用技能
+- 技能分类管理
+- 统计信息查看
 
-### 5. Specialized Skills
-- **AI Tools**: Model operations, image generation, embeddings
-- **Home Automation**: IoT control, maintenance scheduling
-- **Tax Tools**: Tax calculation and filing automation
-- **Communication Tools**: Email and code analysis
+## 目录结构
 
-## Detailed Skill Descriptions
+```
+workspace/
+└── skills/
+    ├── data-analysis/
+    │   └── SKILL.md
+    ├── web-development/
+    │   └── SKILL.md
+    ├── business-automation/
+    │   └── SKILL.md
+    └── daily-life-assistant/
+        └── SKILL.md
+```
 
-### File System Tools
-- **`file_read`**: Reads content from specified files
-- **`file_write`**: Writes content to files with error handling
-- **`file_list`**: Lists files in directories with filtering options
-- **`file_delete`**: Safely deletes files with confirmation
+## SKILL.md格式
 
-### Shell Tools
-- **`shell_execute`**: Executes shell commands with security measures
-- **`process_list`**: Lists running processes on the system
-- **`system_info`**: Retrieves system information and specifications
+### 基本结构
 
-### Memory Tools
-- **`memory_add`**: Adds entries to persistent memory system
-- **`memory_search`**: Searches memory entries with fuzzy matching
-- **`conversation_history`**: Manages conversation history
+```markdown
+---
+name: skill-name
+description: 技能描述
+emoji: 🎯
+category: category-name
+version: 1.0.0
+author: Author Name
+requires:
+  bins: []
+  env: []
+---
 
-### Database Tools
-- **`database_connect`**: Establishes database connections
-- **`database_query`**: Executes SELECT queries safely
-- **`database_execute`**: Executes non-query SQL operations
-- **`database_insert/update/delete`**: Specific CRUD operations
+# 技能名称
 
-### API Tools
-- **`api_get`**: Performs HTTP GET requests
-- **`api_post`**: Performs HTTP POST requests
-- **`api_put`**: Performs HTTP PUT requests
-- **`api_delete`**: Performs HTTP DELETE requests
+## 何时使用
+- 使用场景1
+- 使用场景2
 
-### Data Processing Tools
-- **`csv_read/csv_write`**: Reads and writes CSV files
-- **`json_read/json_write`**: Reads and writes JSON files
-- **`text_analysis`**: Analyzes text content for patterns
-- **`math_calculations`**: Performs mathematical operations
+## 何时不使用
+- 不使用场景1
+- 不使用场景2
 
-### Business Tools
-- **`crm_operations`**: Manages customer relationships and interactions
-- **`erp_operations`**: Handles enterprise resource planning tasks
-- **`financial_calculator`**: Performs financial calculations (NPV, ROI, etc.)
-- **`inventory_management`**: Tracks and manages inventory levels
-- **`sales_analytics`**: Analyzes sales data and generates insights
-- **`compliance_checker`**: Checks for regulatory compliance
+## 输出格式
+- 输出格式说明
 
-### Home Automation Tools
-- **`iot_device_control`**: Controls smart home devices and scenes
-- **`maintenance_scheduler`**: Schedules and tracks maintenance tasks
-- **`finance_tracker`**: Manages personal and family finances
-- **`health_tracker`**: Monitors health metrics and goals
-- **`calendar_scheduler`**: Manages family schedules and events
+## 使用流程
+1. 步骤1
+2. 步骤2
 
-### Tax Tools
-- **`tax_calculation`**: Calculates taxes for individuals and businesses
-- **`tax_software_integration`**: Integrates with tax preparation software
-- **`irs_efile_system`**: Handles electronic tax filing with IRS
-- **`validation_check`**: Performs validation and compliance checks
-- **`analytics_engine`**: Generates tax strategies and optimizations
-- **`document_generation`**: Creates tax documents and reports
+## 示例场景
+### 场景1
+描述和执行步骤
 
-### Utility Tools
-- **`schedule_task`**: Schedules future tasks and reminders
-- **`encrypt_data`**: Encrypts sensitive data
-- **`hash_data`**: Creates secure hashes of data
-- **`compress_files`**: Compresses files and archives
-- **`notification_send`**: Sends notifications via various channels
+## 工具依赖
+- tool1: 工具说明
+- tool2: 工具说明
 
-### Specialized Tools
-- **`weather_query`**: Retrieves current weather information
-- **`news_aggregator`**: Fetches latest news updates
-- **`translation_service`**: Provides multilingual translation
-- **`calculator`**: Performs complex mathematical calculations
-- **`password_generator`**: Generates secure passwords
-- **`map_location_service`**: Provides geographic location services
-- **`calendar_event_manager`**: Manages calendar events and appointments
-- **`reminder_todo_manager`**: Handles reminders and to-do lists
-- **`image_processing`**: Processes and analyzes images
-- **`audio_processing`**: Processes and analyzes audio files
-- **`advanced_location_service`**: Advanced GPS and location tracking
+## 注意事项
+- 注意事项1
+- 注意事项2
+```
+
+### 元数据字段
+
+| 字段 | 必需 | 说明 |
+|------|------|------|
+| name | ✓ | 技能名称(唯一标识) |
+| description | ✓ | 技能描述(用于匹配) |
+| emoji | ✗ | 技能图标 |
+| category | ✗ | 技能分类 |
+| version | ✗ | 版本号 |
+| author | ✗ | 作者 |
+| requires.bins | ✗ | 依赖的可执行文件 |
+| requires.env | ✗ | 依赖的环境变量 |
+
+## 使用方法
+
+### 1. 创建技能
+
+在`workspace/skills`目录下创建新文件夹和SKILL.md文件:
+
+```bash
+mkdir -p workspace/skills/my-skill
+cat > workspace/skills/my-skill/SKILL.md << 'EOF'
+---
+name: my-skill
+description: 我的自定义技能
+category: custom
+---
+
+# 我的技能
+
+## 何时使用
+- 需要执行特定任务时
+
+## 使用流程
+1. 步骤1
+2. 步骤2
+EOF
+```
+
+### 2. 初始化SkillsHub
+
+```typescript
+import { SkillsHub } from './skills/SkillsHub';
+
+const skillsHub = new SkillsHub({
+  skillsPath: './workspace/skills',
+  autoLoad: true,
+  enableDiscovery: false,
+});
+
+await skillsHub.initialize();
+```
+
+### 3. 匹配技能
+
+```typescript
+const matches = skillsHub.matchSkills('帮我分析数据');
+matches.forEach(match => {
+  console.log(`${match.skill.metadata.name}: ${match.confidence}`);
+});
+```
+
+### 4. 获取技能内容
+
+```typescript
+const skillContent = skillsHub.getSkillContent('data-analysis');
+console.log(skillContent);
+```
+
+### 5. 构建技能列表提示
+
+```typescript
+const skillsList = skillsHub.buildSkillsListPrompt({
+  format: 'list',
+  maxSkills: 20,
+});
+```
+
+## 集成到AgentProcessor
+
+SkillsHub可以集成到现有的AgentProcessor中:
+
+```typescript
+import { SkillsHub } from './skills/SkillsHub';
+import { AgentProcessor } from './agent/AgentProcessor';
+
+const skillsHub = new SkillsHub({
+  skillsPath: './workspace/skills',
+  autoLoad: true,
+});
+
+const agentProcessor = new AgentProcessor(
+  skillManager,
+  memorySystem,
+  skillsHub
+);
+```
+
+## 内置技能
+
+### 1. data-analysis 📊
+数据分析技能 - 用于读取、分析和可视化CSV/JSON数据文件
+
+**使用场景:**
+- 分析销售数据
+- 生成统计报告
+- 数据可视化
+
+### 2. web-development 🌐
+Web开发技能 - 用于创建React/Vue组件、生成前端代码
+
+**使用场景:**
+- 创建React组件
+- 搭建项目结构
+- 生成样式文件
+
+### 3. business-automation ⚙️
+业务自动化技能 - 用于自动化业务流程、工作流编排
+
+**使用场景:**
+- 定时任务调度
+- 工作流编排
+- 系统监控
+
+### 4. daily-life-assistant 🏠
+生活助手技能 - 用于叫车、外卖、订票、天气查询
+
+**使用场景:**
+- 叫网约车
+- 订外卖
+- 查天气
+- 管理日程
+
+## 测试
+
+运行测试:
+
+```bash
+npx ts-node tests/test-skills-system.ts
+```
+
+## API参考
+
+### SkillsHub
+
+#### 构造函数
+```typescript
+new SkillsHub(config?: SkillsHubConfig)
+```
+
+#### 主要方法
+- `initialize()`: 初始化并加载所有技能
+- `reloadSkills()`: 重新加载所有技能
+- `matchSkills(query, context?)`: 匹配技能
+- `getBestMatch(query, context?)`: 获取最佳匹配
+- `getSkill(name)`: 获取指定技能
+- `getSkillContent(name)`: 获取技能内容
+- `buildSkillsListPrompt(options?)`: 构建技能列表提示
+- `activateSkill(name)`: 启用技能
+- `deactivateSkill(name)`: 禁用技能
+- `getStats()`: 获取统计信息
+
+## 最佳实践
+
+### 1. 编写清晰的描述
+技能描述是匹配的关键,应该:
+- 明确说明技能用途
+- 包含关键词
+- 避免模糊表述
+
+### 2. 定义明确的使用场景
+"何时使用"和"何时不使用"部分应该:
+- 列出具体场景
+- 提供判断标准
+- 避免重叠
+
+### 3. 提供详细的执行步骤
+使用流程应该:
+- 步骤清晰
+- 逻辑连贯
+- 考虑边界情况
+
+### 4. 包含示例场景
+示例场景应该:
+- 覆盖主要用例
+- 展示完整流程
+- 提供实际价值
+
+## 与传统工具系统的区别
+
+| 特性 | 传统工具系统 | Skills系统 |
+|------|------------|-----------|
+| 定义方式 | TypeScript类 | Markdown文件 |
+| 加载方式 | 启动时全部加载 | 按需动态加载 |
+| 扩展性 | 需要修改代码 | 添加文件即可 |
+| 上下文占用 | 始终占用 | 仅使用时占用 |
+| 维护难度 | 较高 | 较低 |
+| 学习曲线 | 需要编程 | 只需写Markdown |
+
+## 未来计划
+
+- [ ] 技能市场(ClawHub)集成
+- [ ] 技能版本管理
+- [ ] 技能依赖管理
+- [ ] 技能测试框架
+- [ ] 技能性能监控
+- [ ] 技能分享和社区
+
+## 贡献
+
+欢迎贡献新的技能!请遵循以下步骤:
+
+1. 在`workspace/skills`下创建新技能目录
+2. 编写SKILL.md文件
+3. 添加测试用例
+4. 提交Pull Request
+
+## 许可证
+
+ISC

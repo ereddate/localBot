@@ -1,0 +1,9 @@
+{
+  "name": "weather-plugin",
+  "version": "1.0.0",
+  "description": "Weather information plugin using external API",
+  "author": "LocalBot Team",
+  "category": "external",
+  "dependencies": ["axios"],
+  "permissions": ["network:read"]
+}

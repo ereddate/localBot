@@ -6,10 +6,20 @@ export interface Message {
   metadata?: Record<string, unknown>;
 }
 
+export interface ToolParameter {
+  name: string;
+  type: string;
+  required: boolean;
+  description: string;
+  enum?: string[];
+  default?: unknown;
+}
+
 export interface Tool {
   name: string;
   description: string;
-  category: 'file' | 'shell' | 'memory' | 'network' | 'system' | 'other' | 'lifestyle';
+  category: 'file' | 'shell' | 'memory' | 'network' | 'system' | 'other' | 'lifestyle' | 'frontend' | 'dynamic' | 'generated' | 'business';
+  parameters?: ToolParameter[] | Record<string, unknown>;
   execute: (params: Record<string, unknown>) => Promise<ToolResult>;
 }
 

@@ -1,7 +1,6 @@
 import { TaskScheduler } from './TaskScheduler';
 import { WorkflowEngine } from './WorkflowEngine';
 import { MonitoringSystem } from './MonitoringSystem';
-import { NetworkTool, DnsLookupTool, WhoisTool } from '../skills/NetworkTools';
 import { SkillManager } from '../skills/SkillManager';
 import { Logger } from '../utils/Logger';
 
@@ -22,15 +21,6 @@ export class AutomationController {
    * Register new automation tools with the skill manager
    */
   private registerAutomationTools(): void {
-    const networkTool = new NetworkTool();
-    const dnsLookupTool = new DnsLookupTool();
-    const whoisTool = new WhoisTool();
-
-    // Register tools with skill manager
-    this.skillManager.registerTool(networkTool);
-    this.skillManager.registerTool(dnsLookupTool);
-    this.skillManager.registerTool(whoisTool);
-
     Logger.info('Network automation tools registered');
   }
 
