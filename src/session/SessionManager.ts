@@ -7,7 +7,7 @@ import { config } from '../config';
 export class SessionManager {
   private sessionsDir: string;
   private sessions: Map<string, SessionData> = new Map();
-  private platformSessions: Map<string, Map<string, SessionData>> = new Map();
+  private platformSessions: Map<PlatformType, Map<string, SessionData>> = new Map();
 
   constructor(sessionsDir?: string) {
     this.sessionsDir = sessionsDir || config.persistenceDir;

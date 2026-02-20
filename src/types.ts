@@ -73,7 +73,7 @@ export interface SessionData {
   lastActivity: Date;
 }
 
-export type PlatformType = 'cli' | 'api' | 'mcp' | 'telegram' | 'discord' | 'slack' | 'whatsapp' | 'web';
+export type PlatformType = 'cli' | 'api' | 'mcp' | 'telegram' | 'discord' | 'slack' | 'whatsapp' | 'web' | 'wecom';
 
 export interface RetryConfig {
   maxRetries: number;

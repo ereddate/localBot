@@ -85,6 +85,7 @@ LocalBot支持多个通讯平台，实现无缝集成：
 - **Discord**: Discord机器人，用于社区互动
 - **Slack**: Slack机器人，用于团队协作
 - **WhatsApp**: WhatsApp机器人，用于个人消息
+- **WeCom**: 企业微信机器人，用于企业消息
 - **Web**: Web界面，用于浏览器交互
 - **移动端**: Android、鸿蒙和iOS系统部署支持
 
@@ -95,7 +96,32 @@ LocalBot支持多个通讯平台，实现无缝集成：
 - **简单配置**: 通过环境变量轻松设置
 - **可扩展**: 易于添加新平台
 
-详细平台配置请参考[多平台集成指南](docs/MULTI_PLATFORM_GUIDE_CN.md)、[移动端部署指南](docs/MOBILE_DEPLOYMENT_CN.md)、[iOS部署指南](docs/IOS_DEPLOYMENT.md)和[Web端开发指南](docs/WEB_DEVELOPMENT.md)。
+详细平台配置请参考[多平台集成指南](docs/MULTI_PLATFORM_GUIDE_CN.md)、[移动端部署指南](docs/MOBILE_DEPLOYMENT_CN.md)、[iOS部署指南](docs/IOS_DEPLOYMENT.md)、[Web端开发指南](docs/WEB_DEVELOPMENT.md)和[企业微信集成指南](docs/WECOM_INTEGRATION.md)。
+
+### 🚀 高级特性
+
+#### 反向控制系统
+- **系统控制**: 执行系统命令和脚本
+- **浏览器自动化**: 自动化网页浏览和数据提取
+- **文件操作**: 读取、写入和管理文件
+- **网络请求**: 发起HTTP请求和API调用
+- **自定义工具**: 执行自定义技能和工具
+- **权限系统**: 细粒度的访问控制
+- **审批流程**: 可选的用户审批机制
+- **动作日志**: 完整的审计追踪
+
+详细信息请参考[反向控制系统指南](docs/REVERSE_CONTROL.md)。
+
+#### 主动服务引擎
+- **定时任务**: 使用cron表达式调度任务
+- **Webhook触发器**: 通过HTTP Webhook触发任务
+- **监控规则**: 监控GitHub、天气、价格和自定义条件
+- **7×24服务**: 全天候监控和告警
+- **动作类型**: 消息、工作流、通知和自定义动作
+- **事件系统**: 实时事件通知
+- **任务管理**: 添加、删除和查询任务
+
+详细信息请参考[主动服务引擎指南](docs/PROACTIVE_ENGINE.md)。
 
 ### 🛠️ 可用工具
 

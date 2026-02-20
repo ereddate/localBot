@@ -1,5 +1,6 @@
-import { PlatformAdapter, PlatformConfig, PlatformMessage, PlatformType } from './PlatformAdapter';
-import { Logger } from '../utils/logger';
+import { PlatformAdapter, PlatformConfig, PlatformMessage } from './PlatformAdapter';
+import { PlatformType } from '../types';
+import { Logger } from '../utils/Logger';
 
 export interface WebPlatformConfig extends PlatformConfig {
   enabled: boolean;
@@ -80,8 +81,8 @@ export class WebAdapter implements PlatformAdapter {
     return platformUserId.replace('web_', '');
   }
 
-  getConfig(): WebPlatformConfig | null {
-    return this.config;
+  getConfig(): PlatformConfig {
+    return this.config ? { ...this.config } : { enabled: false };
   }
 
   updateConfig(config: Partial<WebPlatformConfig>): void {
@@ -116,7 +117,6 @@ export class WebAdapter implements PlatformAdapter {
       id: `web_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       platform: this.platform,
       platformUserId: this.getPlatformUserId(userId),
-      userId: userId,
       content,
       timestamp: new Date(),
       metadata: metadata || {},

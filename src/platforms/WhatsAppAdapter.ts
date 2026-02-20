@@ -1,4 +1,4 @@
-import { Client as WhatsAppClient, LocalAuth } from 'whatsapp-web.js';
+import { Client as WhatsAppClient, LocalAuth, MessageMedia } from 'whatsapp-web.js';
 import { BasePlatformAdapter } from './BasePlatformAdapter';
 import { PlatformConfig, PlatformMessage } from './PlatformAdapter';
 import { PlatformType } from '../types';
@@ -96,7 +96,7 @@ export class WhatsAppAdapter extends BasePlatformAdapter {
 
     try {
       const chatId = platformUserId.includes('@c.us') ? platformUserId : `${platformUserId}@c.us`;
-      const media = WhatsAppClient.MessageMedia.fromFilePath(filePath);
+      const media = MessageMedia.fromFilePath(filePath);
 
       await this.client.sendMessage(chatId, media, { caption });
 

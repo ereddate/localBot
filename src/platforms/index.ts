@@ -6,3 +6,4 @@ export { DiscordAdapter } from './DiscordAdapter';
 export { SlackAdapter } from './SlackAdapter';
 export { WhatsAppAdapter } from './WhatsAppAdapter';
 export { WebAdapter } from './WebAdapter';
+export { WeComAdapter } from './WeComAdapter';

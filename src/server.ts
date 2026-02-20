@@ -2,6 +2,12 @@ import express, { Request, Response } from 'express';
 import { Gateway } from './gateway/Gateway';
 import { SkillManager } from './skills/SkillManager';
 import { MemorySystem } from './memory/MemorySystem';
+import { SessionManager } from './session/SessionManager';
+import { BusinessProcessManager } from './business-processes/BusinessProcessManager';
+import { WorkflowEngine } from './tasks/WorkflowEngine';
+import { ReverseControlEngine } from './engine/ReverseControlEngine';
+import { ProactiveEngine } from './engine/ProactiveEngine';
+import { PlatformManager } from './platforms/PlatformManager';
 import { config } from './config';
 
 // Create Express app
@@ -26,7 +32,36 @@ app.use((req, res, next) => {
 // Initialize core components
 const memorySystem = new MemorySystem();
 const skillManager = new SkillManager();
+const sessionManager = new SessionManager();
+const workflowEngine = new WorkflowEngine();
+const businessProcessManager = new BusinessProcessManager(workflowEngine, skillManager);
 const gateway = new Gateway(skillManager, memorySystem);
+
+// Initialize engines
+const reverseControlEngine = new ReverseControlEngine(
+  config.reverseControl,
+  skillManager,
+  sessionManager
+);
+
+const proactiveEngine = new ProactiveEngine(
+  config.proactiveEngine,
+  sessionManager,
+  businessProcessManager
+);
+
+// Initialize platform manager
+const platformManager = new PlatformManager();
+
+// Initialize all components
+async function initialize() {
+  await reverseControlEngine.initialize();
+  await proactiveEngine.initialize();
+  await platformManager.initialize(config.platforms);
+  await platformManager.connect();
+}
+
+initialize().catch(console.error);
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {

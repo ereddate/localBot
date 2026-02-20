@@ -1,4 +1,4 @@
-import { App, Message } from '@slack/bolt';
+import { App } from '@slack/bolt';
 import { BasePlatformAdapter } from './BasePlatformAdapter';
 import { PlatformConfig, PlatformMessage } from './PlatformAdapter';
 import { PlatformType } from '../types';
@@ -39,7 +39,6 @@ export class SlackAdapter extends BasePlatformAdapter {
           metadata: {
             channel: message.channel,
             team: message.team,
-            username: message.username,
           },
         };
 

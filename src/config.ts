@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 export type LLMProvider = 'openai' | 'aliyun' | 'anthropic' | 'baidu' | 'tencent' | 'zhipu' | 'siliconcloud' | 'ollama';
-export type PlatformType = 'cli' | 'api' | 'mcp' | 'telegram' | 'discord' | 'slack' | 'whatsapp' | 'web';
+export type PlatformType = 'cli' | 'api' | 'mcp' | 'telegram' | 'discord' | 'slack' | 'whatsapp' | 'web' | 'wecom';
 
 export interface PlatformConfig {
   enabled: boolean;
@@ -37,6 +37,22 @@ export interface Config {
   enablePersistence: boolean;
   persistenceDir: string;
   platforms: Record<PlatformType, PlatformConfig>;
+  reverseControl: {
+    enabled: boolean;
+    requireApproval: boolean;
+    allowedActions: string[];
+    maxConcurrentActions: number;
+    timeout: number;
+    logActions: boolean;
+  };
+  proactiveEngine: {
+    enabled: boolean;
+    maxConcurrentTasks: number;
+    taskTimeout: number;
+    webhookPort: number;
+    logTasks: boolean;
+  };
+  weatherApiKey: string;
 }
 
 export const config: Config = {
@@ -88,5 +104,26 @@ export const config: Config = {
       apiKey: process.env.WEB_API_KEY || '',
       corsOrigins: process.env.WEB_CORS_ORIGINS?.split(',') || ['http://localhost:3000'],
     },
+    wecom: {
+      enabled: process.env.WECOM_ENABLED === 'true',
+      webhookUrl: process.env.WECOM_WEBHOOK_URL || '',
+      secret: process.env.WECOM_SECRET || '',
+    },
   },
+  reverseControl: {
+    enabled: process.env.REVERSE_CONTROL_ENABLED === 'true',
+    requireApproval: process.env.REVERSE_CONTROL_REQUIRE_APPROVAL !== 'false',
+    allowedActions: ['system', 'browser', 'file', 'network', 'custom'],
+    maxConcurrentActions: parseInt(process.env.REVERSE_CONTROL_MAX_CONCURRENT || '5', 10),
+    timeout: parseInt(process.env.REVERSE_CONTROL_TIMEOUT || '30000', 10),
+    logActions: true,
+  },
+  proactiveEngine: {
+    enabled: process.env.PROACTIVE_ENGINE_ENABLED === 'true',
+    maxConcurrentTasks: parseInt(process.env.PROACTIVE_ENGINE_MAX_CONCURRENT || '3', 10),
+    taskTimeout: parseInt(process.env.PROACTIVE_ENGINE_TASK_TIMEOUT || '60000', 10),
+    webhookPort: parseInt(process.env.PROACTIVE_ENGINE_WEBHOOK_PORT || '3001', 10),
+    logTasks: true,
+  },
+  weatherApiKey: process.env.WEATHER_API_KEY || '',
 };

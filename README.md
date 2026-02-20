@@ -85,6 +85,7 @@ LocalBot supports multiple communication platforms for seamless integration:
 - **Discord**: Discord bot for community interactions
 - **Slack**: Slack bot for team collaboration
 - **WhatsApp**: WhatsApp bot for personal messaging
+- **WeCom**: Enterprise WeChat (企业微信) bot for enterprise messaging
 - **Web**: Web interface for browser-based interactions
 - **Mobile**: Android, HarmonyOS, and iOS deployment support
 
@@ -95,7 +96,32 @@ Platform Features:
 - **Easy Configuration**: Simple environment variable setup
 - **Extensible**: Easy to add new platforms
 
-For detailed platform configuration, see [Multi-Platform Guide](docs/MULTI_PLATFORM_GUIDE.md), [Mobile Deployment Guide](docs/MOBILE_DEPLOYMENT.md), [iOS Deployment Guide](docs/IOS_DEPLOYMENT.md), and [Web Development Guide](docs/WEB_DEVELOPMENT.md).
+For detailed platform configuration, see [Multi-Platform Guide](docs/MULTI_PLATFORM_GUIDE.md), [Mobile Deployment Guide](docs/MOBILE_DEPLOYMENT.md), [iOS Deployment Guide](docs/IOS_DEPLOYMENT.md), [Web Development Guide](docs/WEB_DEVELOPMENT.md), and [WeCom Integration Guide](docs/WECOM_INTEGRATION.md).
+
+### 🚀 Advanced Features
+
+#### Reverse Control Engine
+- **System Control**: Execute system commands and scripts
+- **Browser Automation**: Automate web browsing and data extraction
+- **File Operations**: Read, write, and manage files
+- **Network Requests**: Make HTTP requests and API calls
+- **Custom Tools**: Execute custom skills and tools
+- **Permission System**: Fine-grained access control
+- **Approval Workflow**: Optional user approval for actions
+- **Action Logging**: Complete audit trail
+
+For details, see [Reverse Control Engine Guide](docs/REVERSE_CONTROL.md).
+
+#### Proactive Engine
+- **Cron Tasks**: Schedule tasks with cron expressions
+- **Webhook Triggers**: Trigger tasks via HTTP webhooks
+- **Monitoring Rules**: Monitor GitHub, weather, prices, and custom conditions
+- **7×24 Service**: Always-on monitoring and alerting
+- **Action Types**: Messages, workflows, notifications, and custom actions
+- **Event System**: Real-time event notifications
+- **Task Management**: Add, remove, and query tasks
+
+For details, see [Proactive Engine Guide](docs/PROACTIVE_ENGINE.md).
 
 ### 🛠️ Available Tools
 
